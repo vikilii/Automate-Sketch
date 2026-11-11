@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require("sketch")
 
 var onRun = function(context) {
@@ -12,7 +13,7 @@ var onRun = function(context) {
     var document = sketch.getSelectedDocument();
     var documentData = document._getMSDocumentData();
 
-    if (documentData.allArtboards().count() == 0) {
+    if (compatibility.artboards(documentData).count() == 0) {
         sketch.UI.message("No artboards in current document.");
         return;
     }
@@ -112,23 +113,23 @@ var onRun = function(context) {
         var savePath = system.chooseFolder();
         if (savePath) {
             var exportLayers;
-            var artboardsInCurrentPage = document.selectedPage.sketchObject.artboards();
+            var artboardsInCurrentPage = compatibility.artboards(document.selectedPage.sketchObject);
             var typeIndex = typesView.indexOfSelectedItem();
             if (typeIndex == 0) {
-                exportLayers = documentData.allArtboards().mutableCopy();
+                exportLayers = compatibility.artboards(documentData).mutableCopy();
                 exportLayers.removeObjectsInArray(documentData.localSymbols());
             } else if (typeIndex == 1) {
                 exportLayers = documentData.localSymbols();
             } else if (typeIndex == 2) {
-                exportLayers = documentData.allArtboards();
+                exportLayers = compatibility.artboards(documentData);
             } else if (typeIndex == 3) {
                 var predicate = NSPredicate.predicateWithFormat("className == %@", "MSArtboardGroup");
-                exportLayers = artboardsInCurrentPage.filteredArrayUsingPredicate(predicate);
+                exportLayers = NSArray.arrayWithArray(util.toArray(artboardsInCurrentPage).filter(compatibility.isArtboard));
             } else if (typeIndex == 4) {
                 var predicate = NSPredicate.predicateWithFormat("className == %@", "MSSymbolMaster");
                 exportLayers = artboardsInCurrentPage.filteredArrayUsingPredicate(predicate);
             } else if (typeIndex == 5) {
-                exportLayers = document.selectedPage.sketchObject.artboards();
+                exportLayers = compatibility.artboards(document.selectedPage.sketchObject);
             }
             util.toArray(exportLayers).forEach(function(layer) {
                 if (useExportPresets.state() == NSOffState) {
@@ -137,7 +138,7 @@ var onRun = function(context) {
                     var prefix = prefixView.stringValue();
                     var suffix = suffixView.stringValue();
                     var exportFormat = MSExportFormat.alloc().init();
-                    var exportRequest = MSExportRequest.exportRequestFromExportFormat_layer_inRect_useIDForName(
+                    var exportRequest = compatibility.exportRequest(
                         exportFormat, layer, layer.frame().rect(), false
                     );
                     exportRequest.setShouldTrim(false);
@@ -201,14 +202,14 @@ var onRun = function(context) {
                         }
                     }
                     fullPath = savePath + '/' + fullPath + '.' + format.toLowerCase();
-                    document.sketchObject.saveExportRequest_toFile(exportRequest, fullPath);
+                    compatibility.saveExportRequest(document.sketchObject, exportRequest, fullPath);
                 } else {
                     var exportRequests = MSExportRequest.exportRequestsFromLayerAncestry_exportFormats_inRect(
                         layer.ancestry(), layer.exportOptions().exportFormats(), layer.frame().rect()
                     );
                     if (exportRequests.count() == 0) {
                         var exportFormat = MSExportFormat.alloc().init();
-                        var exportRequest = MSExportRequest.exportRequestFromExportFormat_layer_inRect_useIDForName(
+                        var exportRequest = compatibility.exportRequest(
                             exportFormat, layer, layer.frame().rect(), false
                         );
                         exportRequests.addObject(exportRequest);
@@ -271,7 +272,7 @@ var onRun = function(context) {
                             }
                         }
                         fullPath = savePath + '/' + fullPath + '.' + exportRequest.format();
-                        document.sketchObject.saveExportRequest_toFile(exportRequest, fullPath);
+                        compatibility.saveExportRequest(document.sketchObject, exportRequest, fullPath);
                     });
                 }
             });

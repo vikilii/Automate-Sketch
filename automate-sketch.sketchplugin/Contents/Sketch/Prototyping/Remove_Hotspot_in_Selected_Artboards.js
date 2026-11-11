@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -9,9 +10,9 @@ var onRun = function(context) {
     var selectedLayers = document.selectedLayers.layers;
 
     selectedLayers.filter(function(layer) {
-        return layer.type == "Artboard" || layer.type == "SymbolMaster";
+        return compatibility.isArtboard(layer) || layer.type == "SymbolMaster";
     }).forEach(function(layer) {
-        var children = util.toArray(layer.sketchObject.children());
+        var children = util.toArray(compatibility.descendants(layer.sketchObject));
         children.forEach(function(child) {
             if (child.flow()) {
                 if (child.class() == "MSHotspotLayer") {

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -14,7 +15,7 @@ var onRun = function(context) {
     }
 
     var predicate = NSPredicate.predicateWithFormat("sharedStyle.objectID == %@", selectedLayer.sharedStyleID());
-    var childLayers = page.children();
+    var childLayers = compatibility.descendants(page);
     var layersWithSameStyle = childLayers.filteredArrayUsingPredicate(predicate);
 
     page.changeSelectionBySelectingLayers(layersWithSameStyle);

@@ -1,181 +1,61 @@
-var sketch = require("sketch");
-var version = sketch.version.sketch;
+var sketch = require("sketch/dom");
 
-/**
- * @param  {MSSymbolMaster} symbolMaster
- * @param  {Number} size Optional
- * @return  {NSImage}
- */
-module.exports.symbol = function(symbolMaster, size) {
-    // size = size || Math.max(symbolMaster.frame().width(), symbolMaster.frame().height());
-    return artboardPreviewGenerator(symbolMaster, size, size, false);
-};
-
-/**
- * @param  {MSArtboard} artboard
- * @param  {Number} size Optional
- * @return  {NSImage}
- */
-module.exports.artboard = function(artboard, size) {
-    return this.symbol(artboard, size);
-};
-
-/**
- * @param  {MSAssetLibrary} library
- * @return  {NSImage}
- */
+function imageForLayer(layer, width, height, temporary) {
+    layer = layer.sketchObject ? layer : sketch.fromNative(layer);
+    var document = temporary ? new sketch.Document() : null;
+    if (temporary) layer.parent = document.selectedPage;
+    try {
+        var scale = width && height ? Math.min(width / Math.max(1, layer.frame.width), height / Math.max(1, layer.frame.height)) * 2 : 1;
+        var data = sketch.export(layer, {formats:"png",output:false,scales:String(scale)});
+        if (!data) return null;
+        return NSImage.alloc().initWithData(data.toNSData());
+    } finally {
+        if (temporary) { layer.remove(); document.close(); }
+    }
+}
+module.exports.symbol = function(layer, size) { return imageForLayer(layer, Array.isArray(size) ? size[0] : size, Array.isArray(size) ? size[1] : size, false); };
+module.exports.artboard = module.exports.symbol;
 module.exports.library = function(library) {
-    var documentReader = MSDocumentReader.readerForDocumentAtURL(library.locationOnDisk());
-    if (documentReader.containsLibraryPreviewImage()) {
-        return documentReader.libraryPreviewImage();
-    }
-    return NSImage.imageNamed("prefs_remotelibrary_placeholder");
+    var reader = MSDocumentReader.readerForDocumentAtURL(library.locationOnDisk());
+    return reader && reader.containsLibraryPreviewImage() ? reader.libraryPreviewImage() : NSImage.imageNamed("NSFolder");
 };
-
-/**
- * @param  {MSDocument} document
- * @return  {NSImage}
- */
 module.exports.document = function(document) {
-    var documentReader = MSDocumentReader.readerForDocumentAtURL(document.fileURL());
-    if (documentReader.containsPreviewImage()) {
-        return documentReader.previewImage();
-    }
+    if (!document.fileURL()) return null;
+    var reader = MSDocumentReader.readerForDocumentAtURL(document.fileURL());
+    return reader && reader.containsPreviewImage() ? reader.previewImage() : null;
 };
-
-/**
- * @param  {MSShareStyle} textStyle
- * @return  {NSImage}
- */
-module.exports.textStyle = function(textStyle) {
-    var textLayer = MSTextLayer.alloc().init();
-    textLayer.setStringValue(textStyle.name());
-    textLayer.setStyle(textStyle.style());
-    if (textLayer.frame().height() > 32) {
-        textLayer.setFontSize(textLayer.fontSize * (32 / textLayer.frame().height()));
-    }
-    var width = textLayer.frame().width();
-    var height = textLayer.frame().height();
-    var artboard = artboardWithLayer(width, height, textLayer);
-    textLayer.frame().setX(0);
-    textLayer.frame().setY(0);
-    var textColor = MSColor.alloc().initWithImmutableObject(textLayer.textColor());
-    if (textColor.fuzzyIsEqualExcludingAlpha(MSColor.whiteColor())) {
-        artboard.setHasBackgroundColor(true);
-        artboard.setBackgroundColor(MSColor.colorWithRed_green_blue_alpha(0.67, 0.67, 0.67, 1));
-    }
-    return artboardPreviewGenerator(artboard, width, height, true);
-};
-
-/**
- * @param  {MSShareStyle} textStyle
- * @return  {NSImage}
- */
-module.exports.textStyleSmall = function(textStyle) {
-    var textLayer = MSTextLayer.alloc().init();
-    textLayer.setStringValue("Aa");
-    textLayer.setStyle(textStyle.style());
-    var fontSize = textStyle.style().textStyle().encodedAttributes().MSAttributedStringFontAttribute.objectForKey(NSFontSizeAttribute);
-    if (fontSize > 18) {
-        textLayer.setFontSize(18);
-    }
-    var artboard = artboardWithLayer(24, 24, textLayer);
-    textLayer.frame().setX(12 - textLayer.frame().width() / 2);
-    textLayer.frame().setY(12 - textLayer.frame().height() / 2);
-    var textColor = MSColor.alloc().initWithImmutableObject(textLayer.textColor());
-    if (textColor.fuzzyIsEqualExcludingAlpha(MSColor.whiteColor())) {
-        var rectangle = MSRectangleShape.shapeWithRect_fillColor(CGRectMake(0, 0, 24, 24), MSColor.colorWithRed_green_blue_alpha(0.67, 0.67, 0.67, 1));
-        rectangle.points().forEach(function(curvePoint) {
-            curvePoint.setCornerRadius(2);
-        });
-        artboard.insertLayer_beforeLayer(rectangle, textLayer);
-    }
-    return artboardPreviewGenerator(artboard, 24, 24, true);
-};
-
-/**
- * @param  {MSShareStyle} layerStyle
- * @param  {Number} size Optional
- * @return  {NSImage}
- */
-module.exports.layerStyle = function(layerStyle, size) {
+function textPreview(sharedStyle, small) {
+    var style = sharedStyle.sketchObject ? sharedStyle : sketch.fromNative(sharedStyle);
+    var text = new sketch.Text({text:small ? "Aa" : style.name,style:style.style});
+    text.style.fontSize = Math.min(text.style.fontSize, small ? 18 : 32);
+    text.adjustToFit();
+    var frame = new sketch.Artboard({frame:{x:0,y:0,width:small ? 24 : Math.max(1,text.frame.width),height:small ? 24 : Math.max(1,text.frame.height)},background:{enabled:true,color:"#dddddd"},layers:[text]});
+    text.frame.x = small ? (24 - text.frame.width) / 2 : 0;
+    text.frame.y = small ? (24 - text.frame.height) / 2 : 0;
+    return imageForLayer(frame, frame.frame.width, frame.frame.height, true);
+}
+module.exports.textStyle = function(style) { return textPreview(style, false); };
+module.exports.textStyleSmall = function(style) { return textPreview(style, true); };
+module.exports.layerStyle = function(style, size) {
     size = size || 24;
-    var rectangle = MSRectangleShape.alloc().init();
-    rectangle.setRect(CGRectMake(2, 2, size - 4, size - 4));
-    rectangle.setStyle(layerStyle.style());
-    rectangle.points().forEach(function(curvePoint) {
-        curvePoint.setCornerRadius(2);
-    });
-    var artboard = artboardWithLayer(size, size, rectangle);
-    return artboardPreviewGenerator(artboard, size, size, true);
+    var wrapped = style.sketchObject ? style : sketch.fromNative(style);
+    var shape = new sketch.ShapePath({frame:{x:2,y:2,width:size-4,height:size-4},style:wrapped.style});
+    var frame = new sketch.Artboard({frame:{x:0,y:0,width:size,height:size},layers:[shape]});
+    return imageForLayer(frame, size, size, true);
 };
-
-/**
- * @param  {MSColor} color
- * @return  {NSImage}
- */
+function fillPreview(fill) {
+    var shape = new sketch.ShapePath({shapeType:sketch.ShapePath.ShapeType.Oval,frame:{x:0,y:0,width:20,height:20},style:{fills:[fill],borders:[{color:"#00000033",thickness:1,position:"Inside"}]}});
+    return imageForLayer(shape, 20, 20, true);
+}
 module.exports.color = function(color) {
-    return previewFill(0, color);
+    var value = color.sketchObject || color;
+    return fillPreview({fillType:"Color",color:"rgba(" + [value.red()*255,value.green()*255,value.blue()*255,value.alpha()].join(",") + ")"});
 };
-
-/**
- * @param  {MSGradient} gradient
- * @return  {NSImage}
- */
 module.exports.gradient = function(gradient) {
-    return previewFill(1, gradient);
+    var style = MSStyle.alloc().init();
+    var fill = style.addStylePartOfType(0);
+    fill.setFillType(1);
+    fill.setGradient(gradient);
+    var shape = new sketch.ShapePath({shapeType:sketch.ShapePath.ShapeType.Oval,frame:{x:0,y:0,width:20,height:20},style:sketch.fromNative(style)});
+    return imageForLayer(shape, 20, 20, true);
 };
-
-function previewFill(fillType, fillContent) {
-    var oval = MSOvalShape.alloc().init();
-    oval.setRect(CGRectMake(0, 0, 20, 20));
-    var image = oval.style().addStylePartOfType(0);
-    image.setFillType(4);
-    image.setImage(MSImageData.alloc().initWithImage(NSImage.imageNamed("checkerboard")));
-    image.setPatternFillType(0);
-    image.setPatternTileScale(0.35);
-    var fill = oval.style().addStylePartOfType(0);
-    fill.setFillType(fillType);
-    fill.setColor(fillContent);
-    var innerShadow = oval.style().addStylePartOfType(3);
-    innerShadow.setColor(MSColor.colorWithRed_green_blue_alpha(0, 0, 0, 0.2));
-    innerShadow.setOffsetX(0);
-    innerShadow.setOffsetY(0);
-    innerShadow.setBlurRadius(0);
-    innerShadow.setSpread(1);
-    var artboard = artboardWithLayer(20, 20, oval);
-    return artboardPreviewGenerator(artboard, 40, 40, true);
-}
-
-function artboardWithLayer(width, height, layer) {
-    var artboard = MSArtboardGroup.alloc().initWithFrame(CGRectMake(0, 0, width, height));
-    artboard.addLayer(layer);
-    return artboard;
-}
-
-function artboardPreviewGenerator(artboard, width, height, remove) {
-    var document = sketch.getSelectedDocument();
-    if (remove) {
-        document.selectedPage.sketchObject.addLayer(artboard);
-    }
-    var exportRequest = MSExportRequest.exportRequestsFromLayerAncestry(artboard.ancestry()).firstObject();
-    // var scale = Math.min(width / artboard.frame().width(), height / artboard.frame().height());
-    // exportRequest.setScale(scale * 2);
-    var colorSpace;
-    if (version >= 86) {
-        colorSpace = document.sketchObject.colorSpace().CGColorSpace();
-    } else {
-        colorSpace = document.sketchObject.colorSpace();
-    }
-    var exporter = MSExporter.exporterForRequest_colorSpace(exportRequest, colorSpace);
-    var image;
-    if (version >= 96) {
-        image = NSImage.alloc().initWithData(exporter.data());
-    } else {
-        image = exporter.image();
-    }
-    if (remove) {
-        artboard.removeFromParent();
-    }
-    return image;
-}

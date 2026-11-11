@@ -41,9 +41,9 @@ var onRun = function(context) {
 
 function selectReverse(layer) {
     if (layer.isSelected()) {
-        layer.select_byExpandingSelection(false, true);
+        layer.select_byExtendingSelection(false, true);
     }
     else {
-        layer.select_byExpandingSelection(true, true);
+        layer.select_byExtendingSelection(true, true);
     }
 }

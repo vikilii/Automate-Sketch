@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
     var ga = require("../modules/Google_Analytics");
     ga("Layer");
@@ -6,7 +7,7 @@ var onRun = function(context) {
     var preferences = require("../modules/Preferences");
     var pasteboard = require("../modules/Pasteboard");
     var type = require("../modules/Type");
-    var appVersion = sketch.version.sketch;
+    var appVersion = compatibility.version;
     var document = context.document;
     var selection = context.selection;
     var page = document.currentPage();
@@ -32,32 +33,18 @@ var onRun = function(context) {
     var loopSelection = selection.objectEnumerator();
     while (oldLayer = loopSelection.nextObject()) {
 
-        var pasteboardLayers = pasteboard.getPasteboardLayers();
+        var pasteboardLayers = pasteboard.getPasteboardLayers(document);
         var parentGroup = oldLayer.parentGroup();
 
-        if (appVersion >= 50) {
-            pasteboardLayers.insertInGroup_atPosition_afterLayer_viewport_fitToParent(
-                parentGroup,
-                oldLayer.frame().rect().origin,
-                oldLayer,
-                document.contentDrawView().viewPort(),
-                false
-            );
-        } else {
-            pasteboardLayers.insertInGroup_atPosition_afterLayer(
-                parentGroup,
-                oldLayer.frame().rect().origin,
-                oldLayer
-            );
-        }
+        pasteboard.insertLayers(pasteboardLayers, parentGroup, oldLayer.frame().rect().origin, oldLayer);
 
         var group;
         if (appVersion >= 84) {
-            group = MSLayerGroup.groupWithLayers(pasteboardLayers.layers());
+            group = compatibility.groupWithLayers(pasteboardLayers.layers());
         } else if (appVersion >= 83) {
-            group = MSLayerGroup.groupWithLayers(pasteboardLayers.layers().layers());
+            group = compatibility.groupWithLayers(pasteboardLayers.layers().layers());
         } else if (appVersion >= 52) {
-            group = MSLayerGroup.groupWithLayers(pasteboardLayers.layers());
+            group = compatibility.groupWithLayers(pasteboardLayers.layers());
         } else {
             group = MSLayerGroup.groupFromLayers(pasteboardLayers.layers());
         }
@@ -139,14 +126,14 @@ var onRun = function(context) {
 
         // Replace symbol master
         if (oldLayer.class() == "MSSymbolMaster") {
-            var newSymbolMaster = pasteboardLayers.layers().firstLayer();
+            var newSymbolMaster = pasteboardLayers.layers().firstObject();
             var oldSymbolMaster = oldLayer;
             // Replace with another symbol master
             var doChangeAllInstancesToSymbol;
             if (appVersion >= 84) {
                 doChangeAllInstancesToSymbol = pasteboardLayers.layers().count() == 1 && pasteboardLayers.layers().firstObject().class() == "MSSymbolMaster";
             } else {
-                doChangeAllInstancesToSymbol = pasteboardLayers.layers().layers().count() == 1 && pasteboardLayers.layers().firstLayer().class() == "MSSymbolMaster";
+                doChangeAllInstancesToSymbol = pasteboardLayers.layers().layers().count() == 1 && pasteboardLayers.layers().firstObject().class() == "MSSymbolMaster";
             }
             if (doChangeAllInstancesToSymbol) {
                 changeAllInstancesToSymbol(context, oldSymbolMaster, newSymbolMaster);
@@ -164,11 +151,11 @@ var onRun = function(context) {
             newLayers.addObjectsFromArray(pasteboardLayers.layers().layers());
         }
 
-        if (parentGroup.class() == "MSLayerGroup") {
+        if (compatibility.isGroup(parentGroup)) {
             if (appVersion >= 53) {
-                parentGroup.fixGeometryWithOptions(1);
+                compatibility.fitGroup(parentGroup);
             } else {
-                parentGroup.resizeToFitChildrenWithOption(1);
+                compatibility.fitGroup(parentGroup);
             }
         }
 
@@ -189,7 +176,7 @@ function changeAllInstancesToSymbol(context, oldSymbolMaster, newSymbolMaster) {
     var loopPages = context.document.pages().objectEnumerator();
     var page;
     while (page = loopPages.nextObject()) {
-        var instances = page.allSymbolInstancesInChildren().allObjects();
+        var instances = compatibility.symbolInstances(page);
         var loopInstances = instances.objectEnumerator();
         var instance;
         while (instance = loopInstances.nextObject()) {
@@ -204,11 +191,11 @@ function changeAllInstancesToSymbol(context, oldSymbolMaster, newSymbolMaster) {
 
 function changeAllInstancesToGroup(context, symbolMaster) {
     var sketch = require('sketch');
-    var version = sketch.version.sketch;
+    var version = compatibility.version;
     var loopPages = context.document.pages().objectEnumerator();
     var page;
     while (page = loopPages.nextObject()) {
-        var instances = page.allSymbolInstancesInChildren().allObjects();
+        var instances = compatibility.symbolInstances(page);
         var loopInstances = instances.objectEnumerator();
         var instance;
         while (instance = loopInstances.nextObject()) {

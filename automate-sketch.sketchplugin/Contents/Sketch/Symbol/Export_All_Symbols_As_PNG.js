@@ -26,7 +26,8 @@ var onRun = function(context) {
                     .trim();
             });
             fileName = fileNameParts.join("/") + ".png";
-            document.saveArtboardOrSlice_toFile(symbol, path + "/" + fileName);
+            var data = require("sketch/dom").export(require("sketch/dom").fromNative(symbol), {formats:"png",output:false});
+            data.toNSData().writeToFile_atomically(path + "/" + fileName, true);
         }
 
         // Show in Finder

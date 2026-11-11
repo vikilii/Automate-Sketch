@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -8,7 +9,7 @@ var onRun = function(context) {
 
     var util = require("util");
     var sketch = require("sketch/dom");
-    var version = sketch.version.sketch;
+    var version = compatibility.version;
     var message = require("sketch/ui").message;
     var Artboard = sketch.Artboard;
     var SymbolMaster = sketch.SymbolMaster;
@@ -17,8 +18,8 @@ var onRun = function(context) {
     var page = document.selectedPage;
     var identifier = __command.identifier();
 
-    var layersFromPasteboard = pasteboard.getLayers(context);
-    if (!layersFromPasteboard) {
+    var layersFromPasteboard = pasteboard.getLayers(document,true);
+    if (!layersFromPasteboard || !layersFromPasteboard.count()) {
         message("Pasteboard is empty.");
         return;
     }
@@ -26,15 +27,9 @@ var onRun = function(context) {
     document.selectedLayers.clear();
 
     util.toArray(layersFromPasteboard).forEach(function(layer) {
-        var layerInfluenceRect;
-        if (version >= 96) {
-            var relativeInfluenceRect = layer.immutableModelObject().influenceRectForBoundsInDocument(layer.documentData());
-            layerInfluenceRect = layer.convertRect_toLayer(relativeInfluenceRect, null);
-        } else {
-            layerInfluenceRect = layer.absoluteInfluenceRect();
-        }
+        var layerInfluenceRect = layer.rect();
         var layerRect = layer.rect();
-        var originForNewArtboard = page.sketchObject.originForNewArtboardWithSize(layerInfluenceRect.size);
+        var originForNewArtboard = compatibility.originForNewArtboard(page.sketchObject, layerInfluenceRect.size);
         layer.frame().setX(Math.round(layerRect.origin.x) - layerInfluenceRect.origin.x);
         layer.frame().setY(Math.round(layerRect.origin.y) - layerInfluenceRect.origin.y);
         var properties = {
@@ -48,7 +43,7 @@ var onRun = function(context) {
             ),
             selected: true
         };
-        if (layer.className() == "MSArtboardGroup" || layer.className() == "MSSymbolMaster") {
+        if (compatibility.isArtboard(layer) || layer.className() == "MSSymbolMaster") {
             properties.layers = util.toArray(layer.layers()).map(function(item) {
                 return sketch.fromNative(item);
             })
@@ -61,7 +56,7 @@ var onRun = function(context) {
         } else {
             artboard = new SymbolMaster(properties);
         }
-        artboard.sketchObject.ungroupSingleChildDescendentGroups();
+
     });
 
     zoom.toSelection();

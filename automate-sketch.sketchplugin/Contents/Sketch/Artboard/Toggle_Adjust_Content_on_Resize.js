@@ -1,43 +1,33 @@
-var onRun = function(context) {
-
-    var ga = require("../modules/Google_Analytics");
-    ga("Artboard");
-
-    var sketch = require("sketch");
-    var document = sketch.getSelectedDocument();
-    var selectedLayers = document.selectedLayers.layers;
-
-    var selectedArtboards = selectedLayers.filter(function(layer) {
-        return layer.type == "Artboard" || layer.type == "SymbolMaster";
+var onRun = function() {
+    var sketch = require("sketch/dom");
+    var compatibility = require("../modules/Compatibility");
+    var settings = require("sketch/settings");
+    var frames = sketch.getSelectedDocument().selectedLayers.layers.filter(function(layer) {
+        return compatibility.isArtboard(layer) || layer.type === "SymbolMaster";
     });
-
-    if (selectedArtboards.length == 0) {
-        sketch.UI.message("Please select at least 1 artboard or symbol master.");
-        return;
-    }
-
-    var isEveryArtboardIsUnchecked = selectedArtboards.every(function(artboard) {
-        return artboard.sketchObject.resizesContent() == false;
-    });
-
-    selectedArtboards.forEach(function(artboard) {
-        // ON
-        if (isEveryArtboardIsUnchecked) {
-            artboard.sketchObject.setResizesContent(true);
+    if (!frames.length) { require("sketch/ui").message("Please select at least 1 frame or symbol master."); return; }
+    var key = "automate.contentSizingBeforeResize";
+    var enable = frames.every(function(frame) { return !settings.layerSettingForKey(frame, key); });
+    frames.forEach(function(frame) {
+        if (enable) {
+            var previous = {};
+            frame.layers.forEach(function(child) {
+                previous[child.id] = {horizontalSizing:child.horizontalSizing,verticalSizing:child.verticalSizing,horizontalPins:child.horizontalPins,verticalPins:child.verticalPins};
+                child.horizontalPins = sketch.Pin.None;
+                child.verticalPins = sketch.Pin.None;
+                child.horizontalSizing = sketch.FlexSizing.Relative;
+                child.verticalSizing = sketch.FlexSizing.Relative;
+            });
+            settings.setLayerSettingForKey(frame, key, previous);
+        } else {
+            var previous = settings.layerSettingForKey(frame, key) || {};
+            frame.layers.forEach(function(child) {
+                var sizing = previous[child.id];
+                if (!sizing) return;
+                Object.keys(sizing).forEach(function(property) { child[property] = sizing[property]; });
+            });
+            settings.setLayerSettingForKey(frame, key, undefined);
         }
-        // OFF
-        else {
-            artboard.sketchObject.setResizesContent(false);
-        }
     });
-
-    // ON
-    if (isEveryArtboardIsUnchecked) {
-        sketch.UI.message('Turn on "Adjust content on resize" for all selected artboard.');
-    }
-    // OFF
-    else {
-        sketch.UI.message('Turn off "Adjust content on resize" for all selected artboard.');
-    }
-
+    require("sketch/ui").message(enable ? "Relative content sizing enabled." : "Previous content sizing restored.");
 };

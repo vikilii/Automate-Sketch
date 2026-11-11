@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
     var ga = require("../modules/Google_Analytics");
     ga("Layer");
@@ -25,7 +26,7 @@ var onRun = function(context) {
     var loopChild = parent.layers().objectEnumerator();
     var child;
     while (child = loopChild.nextObject()) {
-        if (sketch.version.sketch < 45) {
+        if (compatibility.version < 45) {
             child.select_byExpendingSelection(true, true);
         } else {
             child.select_byExtendingSelection(true, true);

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -56,8 +57,8 @@ var onRun = function(context) {
         }
         preferences.set("paletteSize", userInputString.toString());
 
-        if (sketch.version.sketch >= 49) {
-            point = page.originForNewArtboardWithSize(CGSizeMake(paletteWidth, paletteHeight));
+        if (compatibility.version >= 49) {
+            point = compatibility.originForNewArtboard(page, CGSizeMake(paletteWidth, paletteHeight));
         } else {
             point = page.originForNewArtboard();
         }
@@ -81,13 +82,13 @@ var onRun = function(context) {
             var rectangle = MSRectangleShape.alloc().init();
             rectangle.setRect(CGRectMake(0, 0, paletteWidth, paletteHeight));
             var palette;
-            if (sketch.version.sketch >= 52) {
+            if (compatibility.version >= 52) {
                 palette = rectangle;
             } else {
                 palette = MSShapeGroup.shapeWithPath(rectangle);
             }
             palette.setStyle(style.style());
-            if (sketch.version.sketch >= 52) {
+            if (compatibility.version >= 52) {
                 palette.setSharedStyleID(style.objectID());
             } else {
                 palette.style().setSharedObjectID(style.objectID());

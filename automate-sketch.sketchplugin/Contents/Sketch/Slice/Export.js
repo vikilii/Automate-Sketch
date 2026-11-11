@@ -1,6 +1,7 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require("sketch");
 var document = sketch.getSelectedDocument();
-var version = sketch.version.sketch;
+var version = compatibility.version;
 
 var onRun = function(context) {
 
@@ -16,7 +17,7 @@ var onRun = function(context) {
     if (identifier == "export") {
         var format = supportFormats[preferences.get("exportFormat") || 0];
         var quality = preferences.get("exportJpgQuality") || 100;
-        var defaultScale = preferences.get("exportScale") || 1;
+        var defaultScale = String(preferences.get("exportScale") || "1");
         if (document.selectedLayers.length == 1) {
             var layer = document.selectedLayers.layers[0];
             var path = system.savePanel(layer.name);
@@ -84,17 +85,18 @@ var onRun = function(context) {
 };
 
 function getScale(defaultScale, layer) {
+    defaultScale = String(defaultScale);
     var scale = 1;
     if (defaultScale.endsWith("x")) {
-        scale = parseInt(defaultScale, 10);
+        scale = parseFloat(defaultScale);
     } else if (defaultScale.endsWith("w")) {
-        scale = parseInt(defaultScale, 10) / layer.frame.width;
+        scale = parseFloat(defaultScale) / layer.frame.width;
     } else if (defaultScale.endsWith("h")) {
-        scale = parseInt(defaultScale, 10) / layer.frame.height;
+        scale = parseFloat(defaultScale) / layer.frame.height;
     } else {
-        scale = parseInt(defaultScale, 10) || 1;
+        scale = parseFloat(defaultScale) || 1;
     }
-    scale = scale || 1;
+    scale = isFinite(scale) && scale > 0 ? scale : 1;
     return scale;
 }
 
@@ -111,6 +113,6 @@ function exportLayer(layer, option) {
     } else {
         colorSpace = document.sketchObject.colorSpace();
     }
-    var exporter = MSExporter.exporterForRequest_colorSpace(exportRequest, colorSpace);
+    var exporter = compatibility.exporter(exportRequest, colorSpace);
     exporter.exportToFileURL(NSURL.fileURLWithPath(option.output));
 }

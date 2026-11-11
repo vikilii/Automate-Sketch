@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -7,7 +8,7 @@ var onRun = function(context) {
     var document = sketch.getSelectedDocument();
 
     var selectedArtboards = document.selectedLayers.layers.filter(function(layer) {
-        return layer.type == "Artboard" || layer.type == "SymbolMaster";
+        return compatibility.isArtboard(layer) || layer.type == "SymbolMaster";
     });
 
     if (selectedArtboards.length == 0) {

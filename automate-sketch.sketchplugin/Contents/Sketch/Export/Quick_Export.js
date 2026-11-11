@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -130,20 +131,9 @@ var onRun = function(context) {
 
 function exportLayer(document, layer, destFolder, nameFormat, preset) {
     var sketch = require("sketch");
-    var version = sketch.version.sketch;
+    var version = compatibility.version;
     preset.exportFormats().forEach(function(exportFormat) {
-        var absoluteInfluenceRect;
-        if (version >= 96) {
-            var relativeInfluenceRect = layer.immutableModelObject().influenceRectForBoundsInDocument(layer.documentData());
-            absoluteInfluenceRect = layer.convertRect_toLayer(relativeInfluenceRect, null);
-        } else {
-            absoluteInfluenceRect = layer.absoluteInfluenceRect();
-        }
-        var exportRequest = MSExportRequest.exportRequestFromLayerAncestry_exportFormat_inRect(
-            layer.ancestry(),
-            exportFormat,
-            absoluteInfluenceRect
-        );
+        var exportRequest = compatibility.exportRequest(exportFormat, layer, null, false);
         var filePath = "";
         if (nameFormat == 1) {
             filePath += nameParts(layer.name()).map(formatNameUnderLine).join("_");
@@ -162,7 +152,7 @@ function exportLayer(document, layer, destFolder, nameFormat, preset) {
             filePath = exportFormat.name() + filePath;
         }
         filePath = destFolder + "/" + filePath + "." + exportRequest.format();
-        document.saveExportRequest_toFile(exportRequest, filePath);
+        compatibility.saveExportRequest(document, exportRequest, filePath);
     });
 }
 

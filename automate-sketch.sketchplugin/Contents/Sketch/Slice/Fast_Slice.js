@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var runFastSlice = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -6,7 +7,7 @@ var runFastSlice = function(context) {
     var sketch = require("sketch");
     var preferences = require("../modules/Preferences");
     var document = context.document;
-    var version = sketch.version.sketch;
+    var version = compatibility.version;
     var exportPresets = MSExportPreset.allExportPresets();
 
     // Checking if need to run setting first.
@@ -67,11 +68,11 @@ var runFastSlice = function(context) {
             preferences.get("sliceLayerOrder") == "1"
         ) {
             if (
-                layer.class() == "MSLayerGroup" ||
-                layer.class() == "MSArtboardGroup" ||
+                compatibility.isGroup(layer) ||
+                compatibility.isArtboard(layer) ||
                 layer.class() == "MSSymbolMaster"
             ) {
-                if (layer.class() == "MSLayerGroup") {
+                if (compatibility.isGroup(layer)) {
                     slice.exportOptions().setLayerOptions(2);
                 }
                 if (preferences.get("sliceLayerOrder") == "1") {
@@ -83,13 +84,13 @@ var runFastSlice = function(context) {
                 if (preferences.get("sliceLayerOrder") == "0") {
                     var newGroup;
                     if (version >= 84) {
-                        newGroup = MSLayerGroup.groupWithLayers([slice, layer]);
+                        newGroup = compatibility.groupWithLayers([slice, layer]);
                     } else if (version >= 83) {
                         var layerArray = MSLayerArray.arrayWithLayers([slice, layer]);
-                        newGroup = MSLayerGroup.groupWithLayers(layerArray.layers());
+                        newGroup = compatibility.groupWithLayers(layerArray.layers());
                     } else {
                         var layerArray = MSLayerArray.arrayWithLayers([slice, layer]);
-                        newGroup = MSLayerGroup.groupWithLayers(layerArray);
+                        newGroup = compatibility.groupWithLayers(layerArray);
                     }
                     newGroup.setName(layer.name());
                     slice.exportOptions().setLayerOptions(2);
@@ -97,13 +98,13 @@ var runFastSlice = function(context) {
                     
                     var newGroup;
                     if (version >= 84) {
-                        newGroup = MSLayerGroup.groupWithLayers([layer, slice]);
+                        newGroup = compatibility.groupWithLayers([layer, slice]);
                     } else if (version >= 83) {
                         var layerArray = MSLayerArray.arrayWithLayers([layer, slice]);
-                        newGroup = MSLayerGroup.groupWithLayers(layerArray.layers());
+                        newGroup = compatibility.groupWithLayers(layerArray.layers());
                     } else {
                         var layerArray = MSLayerArray.arrayWithLayers([layer, slice]);
-                        newGroup = MSLayerGroup.groupWithLayers(layerArray);
+                        newGroup = compatibility.groupWithLayers(layerArray);
                     }
                     newGroup.setName(layer.name());
                     slice.exportOptions().setLayerOptions(2);
@@ -113,7 +114,7 @@ var runFastSlice = function(context) {
             }
         }
 
-        if (slice.parentGroup().class() == "MSLayerGroup") {
+        if (compatibility.isGroup(slice.parentGroup())) {
             slice.exportOptions().setLayerOptions(2);
         }
 
@@ -152,7 +153,7 @@ var runFastSlice = function(context) {
 
     }
 
-    document.reloadInspector();
+    compatibility.refreshInspector(document);
 
     document.currentPage().changeSelectionBySelectingLayers(allSlices);
 
@@ -327,3 +328,5 @@ function cropLayerName(name, space) {
     });
     return newNameArray[newNameArray.length - 1];
 }
+
+module.exports = {formatLayerName: formatLayerName, cropLayerName: cropLayerName};

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var copyLayout = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -10,7 +11,7 @@ var copyLayout = function(context) {
     if (selection.count() > 0) {
         // Get layout setting of first layer
         var layer = selection.firstObject();
-        if (layer.class() == "MSArtboardGroup" || layer.class() == "MSSymbolMaster") {
+        if (compatibility.isArtboard(layer) || layer.class() == "MSSymbolMaster") {
             if (layer.layout()) {
                 copyLayoutToPasteboard(context, layer);
             } else {
@@ -23,7 +24,7 @@ var copyLayout = function(context) {
         }
     } else {
         // Get layout setting of page
-        if (page.layout() && page.artboards().count() == 0) {
+        if (page.layout() && compatibility.artboards(page).count() == 0) {
             copyLayoutToPasteboard(context, page);
         } else {
             document.showMessage("No layout setting in \"" + page.name() + "\".");
@@ -50,13 +51,13 @@ var pasteLayout = function(context) {
                 // Set layout for artboards
                 var loopSelection = selection.objectEnumerator();
                 while (layer = loopSelection.nextObject()) {
-                    if (layer.class() == "MSArtboardGroup" || layer.class() == "MSSymbolMaster") {
+                    if (compatibility.isArtboard(layer) || layer.class() == "MSSymbolMaster") {
                         applyLayoutToLayer(layoutSetting, layer);
                     }
                 }
             } else {
                 // Set layout for page
-                if (page.artboards().count() == 0) {
+                if (compatibility.artboards(page).count() == 0) {
                     applyLayoutToLayer(layoutSetting, page);
                 }
             }

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -12,6 +13,7 @@ var onRun = function(context) {
     if (selection.count() > 0) {
 
         var loop = selection.objectEnumerator();
+        var layer;
         while (layer = loop.nextObject()) {
             deleteEmptyGroups(layer, function(_count) {
                 count += _count;
@@ -41,28 +43,15 @@ function deleteEmptyGroups(layer, callback) {
 
     var count = 0;
 
-    if (layer.class() == "MSLayerGroup" && !layer.containsLayers()) {
-        layer.removeFromParent();
-        count ++;
-    } else {
-        if (
-            layer.containsLayers() && 
-            (
-                layer.class() != "MSShapeGroup" ||
-                layer.class() != "MSRectangleShape" ||
-                layer.class() != "MSOvalShape" ||
-                layer.class() != "MSShapePathLayer"
-            )
-        ) {
-            var loopChildren = layer.children().objectEnumerator();
-            while (childLayer = loopChildren.nextObject()) {
-                if (childLayer.class() == "MSLayerGroup" && !childLayer.containsLayers()) {
-                    childLayer.removeFromParent();
-                    count ++;
-                }
-            }
+    // Visit deepest groups first so a parent emptied by cleanup is removed too.
+    var descendants = require("util").toArray(compatibility.descendants(layer)).reverse();
+    descendants.push(layer);
+    descendants.forEach(function(child) {
+        if (compatibility.isGroup(child) && !child.containsLayers()) {
+            child.removeFromParent();
+            count++;
         }
-    }
+    });
 
     callback(count);
 }

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -60,7 +61,7 @@ var onRun = function(context) {
         count ++;
     }
 
-    document.reloadInspector();
+    compatibility.refreshInspector(document);
 
     if (count == 1) {
         document.showMessage(`Import 1 ${name}.`);

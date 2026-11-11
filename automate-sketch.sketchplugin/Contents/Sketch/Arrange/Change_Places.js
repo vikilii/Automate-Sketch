@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
     var ga = require("../modules/Google_Analytics");
     ga("Arrange");
@@ -72,11 +73,11 @@ var onRun = function(context) {
     var loopSelection = selection.objectEnumerator();
     var selectedLayer;
     while (selectedLayer = loopSelection.nextObject()) {
-        if (selectedLayer.parentGroup().class() == "MSLayerGroup") {
-            if (sketch.version.sketch >= 53) {
-                selectedLayer.parentGroup().fixGeometryWithOptions(1);
+        if (compatibility.isGroup(selectedLayer.parentGroup())) {
+            if (compatibility.version >= 53) {
+                compatibility.fitGroup(selectedLayer.parentGroup());
             } else {
-                selectedLayer.parentGroup().resizeToFitChildrenWithOption(1);
+                compatibility.fitGroup(selectedLayer.parentGroup());
             }
         }
     }

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var copyGuide = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -10,7 +11,7 @@ var copyGuide = function(context) {
     if (selection.count() > 0) {
         // Get guide setting of first layer
         var layer = selection.firstObject();
-        if (layer.class() == "MSArtboardGroup" || layer.class() == "MSSymbolMaster") {
+        if (compatibility.isArtboard(layer) || layer.class() == "MSSymbolMaster") {
             copyGuideToPasteboard(context, layer);
         } else {
             document.showMessage("The layer \"" + layer.name() + "\" is not a artboard.");
@@ -18,7 +19,7 @@ var copyGuide = function(context) {
         }
     } else {
         // Get guide setting of page
-        if (page.artboards().count() == 0) {
+        if (compatibility.artboards(page).count() == 0) {
             copyGuideToPasteboard(context, page);
         } else {
             document.showMessage("No guide setting in \"" + page.name() + "\".");
@@ -45,20 +46,20 @@ var pasteGuide = function(context) {
                 // Set guide for artboards
                 var loopSelection = selection.objectEnumerator();
                 while (layer = loopSelection.nextObject()) {
-                    if (layer.class() == "MSArtboardGroup" || layer.class() == "MSSymbolMaster") {
+                    if (compatibility.isArtboard(layer) || layer.class() == "MSSymbolMaster") {
                         applyGuideToLayer(guideSetting, layer);
                     }
                 }
             } else {
                 // Set guide for page
-                if (page.artboards().count() == 0) {
+                if (compatibility.artboards(page).count() == 0) {
                     applyGuideToLayer(guideSetting, page);
                 }
             }
 
             // Show guide
             if (!document.isRulersVisible()) {
-                var toggleRulersAction = document.actionsController().actionForID("MSToggleRulersAction");
+                var toggleRulersAction = compatibility.action(document,"MSToggleRulersAction");
                 if(toggleRulersAction.validate()) {
                     toggleRulersAction.performAction(nil);
                 }
@@ -75,14 +76,14 @@ function copyGuideToPasteboard(context, layer) {
     var document = context.document;
 
     if (
-        layer.horizontalRulerData().guides().count() == 0 &&
-        layer.verticalRulerData().guides().count() == 0
+        compatibility.rulerData(layer, "horizontal").guides().count() == 0 &&
+        compatibility.rulerData(layer, "vertical").guides().count() == 0
     ) {
         document.showMessage("No guide setting in \"" + layer.name() + "\".");
         return;
     } else {
-        var horizontalRulerData = layer.horizontalRulerData().guides().componentsJoinedByString(",");
-        var verticalRulerData = layer.verticalRulerData().guides().componentsJoinedByString(",");
+        var horizontalRulerData = compatibility.rulerData(layer, "horizontal").guides().componentsJoinedByString(",");
+        var verticalRulerData = compatibility.rulerData(layer, "vertical").guides().componentsJoinedByString(",");
         var guideSetting = '{' +
             '"horizontalRulerData":[' + horizontalRulerData + '],' +
             '"verticalRulerData":[' + verticalRulerData + ']}';
@@ -92,10 +93,10 @@ function copyGuideToPasteboard(context, layer) {
 
 function applyGuideToLayer(guideSetting, layer) {
     if (guideSetting.horizontalRulerData) {
-        layer.horizontalRulerData().setGuides(guideSetting.horizontalRulerData);
+        compatibility.rulerData(layer, "horizontal").setGuides(guideSetting.horizontalRulerData);
     }
     if (guideSetting.verticalRulerData) {
-        layer.verticalRulerData().setGuides(guideSetting.verticalRulerData);
+        compatibility.rulerData(layer, "vertical").setGuides(guideSetting.verticalRulerData);
     }
 }
 

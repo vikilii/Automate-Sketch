@@ -1,52 +1,41 @@
 var preferences = require("../modules/Preferences");
-var userDefaults = NSUserDefaults.standardUserDefaults();
-var sketchLanguage = String(userDefaults.objectForKey("AppleLanguages").firstObject()).replace(/-\w*/g, "");
-var pluginLanguage = preferences.get("pluginLanguage");
+
+function currentLanguage() {
+    var languages = NSUserDefaults.standardUserDefaults().objectForKey("AppleLanguages");
+    return languages && languages.count() && /^zh/i.test(String(languages.firstObject())) ? "zh" : "en";
+}
 
 var onRun = function(context) {
     var Dialog = require("../modules/Dialog").dialog;
     var ui = require("../modules/Dialog").ui;
-    var dialog = new Dialog(
-        "Change Plugin Menu Language"
-    );
-    var supportedLanguages = {
-        'auto': 'Auto',
-        'zh': '简体中文',
-        'en': 'English',
-    };
-    var titles = Object.values(supportedLanguages);
-    var changeLanguage = ui.popupButton(titles, 300);
-    if (pluginLanguage) {
-        changeLanguage.selectItemAtIndex(titles.indexOf(supportedLanguages[pluginLanguage]));
+    var codes = ["auto", "zh", "en"];
+    var dialog = new Dialog("Change Plugin Menu Language");
+    var popup = ui.popupButton(["Auto", "简体中文", "English"], 300);
+    var index = codes.indexOf(String(preferences.get("pluginLanguage") || "auto"));
+    popup.selectItemAtIndex(Math.max(0,index));
+    dialog.addView(popup);
+    if (dialog.run() == 1000) {
+        var language = codes[popup.indexOfSelectedItem()];
+        reloadManifest(context, language === "auto" ? currentLanguage() : language);
+        preferences.set("pluginLanguage", language);
     }
-    dialog.addView(changeLanguage);
-    
-    var responseCode = dialog.run();
-    if (responseCode == 1000) {
-        var selectedLanguage = Object.keys(supportedLanguages)[changeLanguage.indexOfSelectedItem()];
-        var lang = selectedLanguage == "auto" ? sketchLanguage : selectedLanguage;
-        reloadManifest(context, lang);
-        preferences.set("pluginLanguage", selectedLanguage);
-    }
-
 };
 
 var onOpenDocument = function(context) {
-    if (!pluginLanguage || pluginLanguage == "auto") {
-        reloadManifest(context, sketchLanguage);
-    }
+    var language = preferences.get("pluginLanguage");
+    if (!language || language === "auto") reloadManifest(context,currentLanguage());
 };
 
-function reloadManifest(context, lang) {
-    var languageFileURL = context.plugin.urlForResourceNamed("manifest_" + lang + ".json");
-    if (languageFileURL) {
-        var manifestFilePath = context.plugin.url().path() + "/Contents/Sketch/manifest.json";
-        var languageFilePath = languageFileURL.path();
-        // Remove manifest.json
-        NSFileManager.defaultManager().removeItemAtPath_error(manifestFilePath, nil);
-        // Replace manifest.json
-        NSFileManager.defaultManager().copyItemAtPath_toPath_error(languageFilePath, manifestFilePath, nil);
-        // Reload Plugin
-        AppController.sharedInstance().pluginManager().reloadPlugins();
+function reloadManifest(context, language) {
+    var source = context.plugin.urlForResourceNamed("manifest_" + (language === "zh" ? "zh" : "en") + ".json");
+    if (!source) return;
+    var target = context.plugin.url().path() + "/Contents/Sketch/manifest.json";
+    var text = NSString.stringWithContentsOfURL_encoding_error(source,NSUTF8StringEncoding,null);
+    var previous = NSString.stringWithContentsOfFile_encoding_error(target,NSUTF8StringEncoding,null);
+    if (!text || (previous && String(previous) === String(text))) return;
+    var error = MOPointer.alloc().init();
+    if (!text.writeToFile_atomically_encoding_error(target,true,NSUTF8StringEncoding,error)) {
+        throw new Error("Unable to update plugin language: " + error.value());
     }
+    AppController.sharedInstance().pluginManager().reloadPlugins();
 }

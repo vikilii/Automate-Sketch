@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require('sketch')
 
 var tileLayersByPositionY = function(context) {
@@ -220,7 +221,7 @@ function tileLayer(context, orientation) {
 
         var defaultGap = preferences.get("gap") || "0";
         var gap;
-        if (sketch.version.sketch >= 53) {
+        if (compatibility.version >= 53) {
             UI.getInputFromUser(
                 "Tile Objects",
                 {
@@ -305,11 +306,11 @@ function tileLayer(context, orientation) {
         var loopSelection = selection.objectEnumerator();
         var selectedLayer;
         while (selectedLayer = loopSelection.nextObject()) {
-            if (selectedLayer.parentGroup().class() == "MSLayerGroup") {
-                if (sketch.version.sketch >= 53) {
-                    selectedLayer.parentGroup().fixGeometryWithOptions(1);
+            if (compatibility.isGroup(selectedLayer.parentGroup())) {
+                if (compatibility.version >= 53) {
+                    compatibility.fitGroup(selectedLayer.parentGroup());
                 } else {
-                    selectedLayer.parentGroup().resizeToFitChildrenWithOption(1);
+                    compatibility.fitGroup(selectedLayer.parentGroup());
                 }
             }
         }

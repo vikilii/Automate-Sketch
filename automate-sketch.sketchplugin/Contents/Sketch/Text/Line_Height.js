@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -14,7 +15,7 @@ var onRun = function(context) {
     }
 
     var userDefaults = NSUserDefaults.standardUserDefaults();
-    var stepSize = userDefaults.floatForKey("nudgeDistanceBig") / 2;
+    var stepSize = (userDefaults.floatForKey("nudgeDistanceBig") || 10) / 2;
 
     selectedTextLayers.forEach(function(layer) {
 
@@ -36,6 +37,6 @@ var onRun = function(context) {
 
     });
 
-    document.reloadInspector();
+    compatibility.refreshInspector(document);
 
-});
+};

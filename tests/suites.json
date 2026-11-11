@@ -1,0 +1,551 @@
+[
+  {
+    "name": "text",
+    "selection": "text",
+    "flags": [],
+    "commands": [
+      "capitalize",
+      "change_typeface_for_the_latin_character_set",
+      "add_space_between_cjk_and_western_character",
+      "fixed_layer_name",
+      "unfixed_layer_name",
+      "replace_fonts",
+      "resize_fit_text_height",
+      "change_text_orientation",
+      "split_text_layer",
+      "increase_line_height",
+      "decrease_line_height",
+      "increase_letter_spacing",
+      "decrease_letter_spacing",
+      "increase_horizontally_scale",
+      "decrease_horizontally_scale",
+      "reset_horizontally_scale",
+      "toggle_text_auto_and_fixed",
+      "character_count",
+      "change_texts",
+      "truncate_text_not",
+      "truncate_text_at_start",
+      "truncate_text_at_middle",
+      "truncate_text_at_end",
+      "increase_font_weight",
+      "decrease_font_weight"
+    ]
+  },
+  {
+    "name": "layer",
+    "selection": "group",
+    "flags": [],
+    "commands": [
+      "select_layers_by_type_locked",
+      "select_layers_by_name",
+      "select_all_hidden_layers",
+      "select_parent_groups",
+      "clear_layer_name",
+      "remove_redundant_groups",
+      "remove_empty_groups",
+      "remove_hidden_layers",
+      "change_layer_places",
+      "change_layer_places_center",
+      "tile_layers",
+      "tile_layers_by_position_x",
+      "tile_layers_by_position_y",
+      "tile_layers_horizontally_by_index",
+      "tile_layers_vertically_by_index",
+      "order_layers_by_x",
+      "order_layers_by_y",
+      "reverse_layer_order",
+      "order_layers_by_name",
+      "order_layers_by_kind",
+      "arrange_objects",
+      "select_all_siblings_layers",
+      "toggle_layer_constrain_proportions",
+      "toggle_select_groups_content_on_click",
+      "small_increase_width_from_right",
+      "small_decrease_height_from_center",
+      "rename_layers",
+      "select_layers_below",
+      "find_and_replace_layer_name",
+      "resize_with_ratio",
+      "distribute_layers_horizontally_and_fit_width",
+      "distribute_layers_vertically_and_fit_height",
+      "adjust_width_to_max",
+      "adjust_width_to_min",
+      "adjust_height_to_max",
+      "adjust_height_to_min"
+    ]
+  },
+  {
+    "name": "frame",
+    "selection": "frame",
+    "flags": [],
+    "commands": [
+      "select_layers_by_type_group",
+      "remove_redundant_groups",
+      "remove_empty_groups",
+      "clear_slices",
+      "clear_exportables",
+      "artboard_from_selection",
+      "artboard_from_group",
+      "artboard_to_group",
+      "resize_to_fit_height",
+      "resize_to_fit_width",
+      "move_artboards_to_bottom_of_another",
+      "auto_slice",
+      "bring_all_hotspot_to_front",
+      "fast_slice",
+      "slice_setting",
+      "select_parent_artboard",
+      "remove_all_hotspot",
+      "toggle_adjust_content_on_resize",
+      "remove_hotspot_in_selected_artboards",
+      "move_to_page",
+      "group_selected_layers_in_each_artboard",
+      "convert_artboards_to_symbols",
+      "remove_all_groups"
+    ]
+  },
+  {
+    "name": "symbol",
+    "selection": "instance",
+    "flags": [],
+    "commands": [
+      "select_all_instances_of_symbol",
+      "rename_instances",
+      "set_to_original_width",
+      "set_to_original_height",
+      "set_to_original_size",
+      "reset_overrides",
+      "rename_instances_use_text_override",
+      "disable_or_enable_all_overrides",
+      "disable_selected_overrides",
+      "detach_all_symbols",
+      "shrink_instance_to_fit_content",
+      "select_same_instances_in_current_page",
+      "find_and_replace_symbol",
+      "selected_symbol_overrides_to_none"
+    ]
+  },
+  {
+    "name": "style",
+    "selection": "pair",
+    "flags": [],
+    "commands": [
+      "add_solid_fill_from_css_color",
+      "remove_all_disabled_styles",
+      "create_color_guide",
+      "create_typography_guide",
+      "swap_fill_and_border",
+      "select_layers_with_same_shared_style",
+      "create_style_guide",
+      "add_colors_or_gradients_from_selected_layers_to_document",
+      "change_layer_blend_mode",
+      "toggle_mask_for_selected_layers",
+      "reset_style",
+      "reset_all_layer_styles",
+      "reset_all_text_styles",
+      "merge_layer_styles_with_same_name",
+      "merge_text_styles_with_same_name",
+      "add_styles_from_selected_layers",
+      "union_layer",
+      "convert_to_outlines",
+      "convert_to_color_variable",
+      "fill_rule_to_non_zero"
+    ]
+  },
+  {
+    "name": "shared-style",
+    "selection": "pair",
+    "flags": [
+      "--shared-styles"
+    ],
+    "commands": [
+      "create_color_guide",
+      "create_typography_guide",
+      "remove_unused_layer_styles",
+      "remove_unused_text_styles",
+      "select_layers_by_layer_style",
+      "select_layers_by_text_style",
+      "select_layers_with_same_shared_style",
+      "create_style_guide",
+      "update_style",
+      "reset_style",
+      "reset_all_layer_styles",
+      "reset_all_text_styles",
+      "find_and_replace_layer_style",
+      "find_and_replace_text_style",
+      "merge_layer_styles_with_same_name",
+      "merge_text_styles_with_same_name",
+      "convert_to_color_variable"
+    ]
+  },
+  {
+    "name": "guide",
+    "selection": "frame",
+    "flags": [],
+    "commands": [
+      "clear_guides",
+      "grid_setting",
+      "copy_grid_setting",
+      "paste_grid_setting",
+      "copy_layout_setting",
+      "paste_layout_setting",
+      "copy_guide_setting",
+      "paste_guide_setting",
+      "artboard_navigator",
+      "hide_or_show_all_grid",
+      "hide_or_show_all_layout",
+      "new_guides_from_layer",
+      "new_guide",
+      "new_guide_layout",
+      "remove_layouts"
+    ]
+  },
+  {
+    "name": "group",
+    "selection": "group",
+    "flags": [],
+    "commands": [
+      "fit_to_parent_width_with_margin",
+      "fit_to_parent_height_with_margin",
+      "fit_to_parent_with_margin",
+      "bounds_layer_for_every_selection",
+      "divide_layer",
+      "remove_redundant_groups",
+      "artboard_from_selection",
+      "artboard_from_group",
+      "selection_to_symbol_master",
+      "remove_transparency_layers",
+      "select_transparency_layers",
+      "create_symbols_from_selected_layers",
+      "reset_bounding_box",
+      "fit_to_artboard_with_margin"
+    ]
+  },
+  {
+    "name": "export",
+    "selection": "group",
+    "flags": [
+      "--export-files"
+    ],
+    "commands": [
+      "export_all_artboards",
+      "export_all_artboards_to_html",
+      "export_all_symbols_as_png",
+      "save_export_presets",
+      "export_data_from_text_layers",
+      "export_image_from_layers",
+      "export_data_from_symbol_instances",
+      "quick_export_default",
+      "quick_export_1",
+      "quick_export_2",
+      "quick_export_setting",
+      "export",
+      "export_setting",
+      "export_json_data",
+      "export_selected_layers"
+    ]
+  },
+  {
+    "name": "paste",
+    "selection": "frame",
+    "flags": [
+      "--seed-clipboard"
+    ],
+    "commands": [
+      "paste_and_replace",
+      "paste_as_artboards",
+      "paste_as_symbol_masters",
+      "paste_into_artboard"
+    ]
+  },
+  {
+    "name": "image",
+    "selection": "image",
+    "flags": [
+      "--export-files"
+    ],
+    "commands": [
+      "nine_slice_from_bitmap_layer",
+      "export_image_from_layers",
+      "copy_as_png",
+      "copy_as_png_2x",
+      "copy_as_svg",
+      "copy_as_svg_url_encoded",
+      "copy_as_path_data",
+      "copy_as_base64",
+      "export_json_data",
+      "bitmap_to_pattern_fill",
+      "pattern_fill_to_bitmap"
+    ]
+  },
+  {
+    "name": "library",
+    "selection": "pair",
+    "flags": [
+      "--shared-styles",
+      "--library"
+    ],
+    "commands": [
+      "change_symbols_to_library_symbol",
+      "replace_symbol_with_library_symbol",
+      "import_document_assets_from_library",
+      "import_styles_from_library",
+      "change_local_text_style_to_library_text_style",
+      "change_local_layer_style_to_library_layer_style",
+      "insert_symbols_from_library",
+      "insert_artboard_from_library"
+    ]
+  },
+  {
+    "name": "library-symbol",
+    "selection": "symbol",
+    "flags": [
+      "--library"
+    ],
+    "commands": [
+      "selection_to_symbol_master",
+      "change_symbols_to_library_symbol",
+      "replace_symbol_with_library_symbol",
+      "change_local_text_style_to_library_text_style",
+      "change_local_layer_style_to_library_layer_style",
+      "create_symbols_from_selected_layers",
+      "insert_symbols_from_library",
+      "insert_artboard_from_library",
+      "insert_instance_of_selected_symbol"
+    ]
+  },
+  {
+    "name": "imported",
+    "selection": "instance",
+    "flags": [
+      "--library",
+      "--seed-imported",
+      "--shared-styles"
+    ],
+    "commands": [
+      "imported_symbols_link_manage",
+      "replace_library",
+      "update_selected_library_symbol",
+      "update_selected_symbol_overrides",
+      "update_imported_objects_from_library",
+      "change_library_symbols_to_local",
+      "fix_broken_library_symbols_by_name",
+      "change_library_layer_style_to_local_layer_style",
+      "change_library_text_style_to_local_text_style"
+    ]
+  },
+  {
+    "name": "library-final",
+    "selection": "symbol",
+    "flags": [
+      "--library",
+      "--shared-styles"
+    ],
+    "commands": [
+      "change_symbols_to_library_symbol",
+      "add_library_preview",
+      "change_local_text_style_to_library_text_style",
+      "change_local_layer_style_to_library_layer_style",
+      "insert_symbols_from_library",
+      "insert_artboard_from_library",
+      "swap_color_variables_from_library",
+      "theme_switcher"
+    ]
+  },
+  {
+    "name": "file-import",
+    "selection": "symbol",
+    "flags": [
+      "--input-fixture"
+    ],
+    "commands": [
+      "sync_symbol_master_from_sketch_file",
+      "replace_pages_from_sketch_file",
+      "import_document_assets_from_sketch_file",
+      "import_text_styles_from_sketch_file",
+      "import_layer_styles_from_sketch_file"
+    ]
+  },
+  {
+    "name": "extra-0",
+    "selection": "pair",
+    "flags": [
+      "--shared-styles"
+    ],
+    "commands": [
+      "unlock_all_layers",
+      "select_layers_by_type_shape",
+      "select_layers_by_type_image",
+      "select_layers_by_type_symbol_instance",
+      "select_layers_by_type_slice",
+      "select_layers_by_type_exportable",
+      "order_layers_by_x_t2b",
+      "order_layers_by_y_t2b",
+      "detach_unused_symbol_master",
+      "remove_unused_symbols",
+      "sync_symbol_master_from_sketch_file",
+      "replace_pages_from_sketch_file",
+      "import_document_assets_from_sketch_file",
+      "import_text_styles_from_sketch_file",
+      "import_layer_styles_from_sketch_file",
+      "copy_selected_layer_name",
+      "copy_objectid_or_symbolid",
+      "paste_style_fills",
+      "paste_style_borders",
+      "paste_style_shadows",
+      "paste_style_innershadows",
+      "paste_style_blur",
+      "paste_text_style",
+      "paste_text_color",
+      "paste_text_font"
+    ]
+  },
+  {
+    "name": "extra-1",
+    "selection": "pair",
+    "flags": [
+      "--shared-styles"
+    ],
+    "commands": [
+      "load_export_presets",
+      "show_layer_info",
+      "export_clean_code_svg",
+      "combine_text_layer",
+      "select_layers_outside_of_artboard_bounds",
+      "select_reverse",
+      "large_increase_width_from_right",
+      "small_increase_width_from_center",
+      "large_increase_width_from_center",
+      "small_increase_height_from_bottom",
+      "large_increase_height_from_bottom",
+      "small_increase_height_from_center",
+      "large_increase_height_from_center",
+      "small_decrease_width_from_right",
+      "large_decrease_width_from_right",
+      "small_decrease_width_from_center",
+      "large_decrease_width_from_center",
+      "small_decrease_height_from_bottom",
+      "large_decrease_height_from_bottom",
+      "large_decrease_height_from_center",
+      "paste_and_replace_setting",
+      "reset_flow",
+      "select_none",
+      "collapse_all_groups_and_fit_canvas",
+      "insert_layer_from_svg_path_data"
+    ]
+  },
+  {
+    "name": "extra-2",
+    "selection": "pair",
+    "flags": [
+      "--shared-styles"
+    ],
+    "commands": [
+      "paste_as_alphabetical_order_text",
+      "move_to_page",
+      "insert_symbols",
+      "export_artboard_to_icns_file",
+      "change_document_id",
+      "copy_document_url",
+      "copy_text_from_layer",
+      "copy_text_from_override",
+      "divide_slice",
+      "copy_layer_position_and_size",
+      "paste_layer_position_and_size",
+      "paste_layer_position",
+      "paste_layer_size",
+      "show_layers",
+      "copy_color_as_css_hex",
+      "copy_color_as_css_hex8",
+      "copy_color_as_css_rgb",
+      "copy_color_as_css_hsl",
+      "copy_color_as_nscolor_objective_c",
+      "copy_color_as_uicolor_objective_c",
+      "copy_color_as_nscolor_swift",
+      "copy_color_as_uicolor_swift",
+      "copy_color_as_android_xml"
+    ]
+  },
+  {
+    "name": "clipboard-style",
+    "selection": "text",
+    "flags": [
+      "--seed-clipboard"
+    ],
+    "commands": [
+      "paste_style_fills",
+      "paste_style_borders",
+      "paste_style_shadows",
+      "paste_style_innershadows",
+      "paste_style_blur",
+      "paste_text_style",
+      "paste_text_color",
+      "paste_text_font"
+    ]
+  },
+  {
+    "name": "svg",
+    "selection": "group",
+    "flags": [
+      "--export-files"
+    ],
+    "commands": [
+      "export_clean_code_svg"
+    ]
+  },
+  {
+    "name": "library-replace",
+    "selection": "symbol",
+    "flags": [
+      "--library",
+      "--click-button",
+      "Replace"
+    ],
+    "commands": [
+      "replace_symbol_with_library_symbol"
+    ]
+  },
+  {
+    "name": "fixed-text",
+    "selection": "fixedText",
+    "flags": [],
+    "commands": [
+      "resize_fit_text_height",
+      "toggle_text_auto_and_fixed"
+    ]
+  },
+  {
+    "name": "slice",
+    "selection": "slice",
+    "flags": [],
+    "commands": [
+      "divide_slice"
+    ]
+  },
+  {
+    "name": "semantics",
+    "selection": "icon",
+    "flags": [
+      "--semantic",
+      "--export-files"
+    ],
+    "commands": [
+      "export_artboard_to_icns_file"
+    ]
+  },
+  {
+    "name": "remaining-local",
+    "selection": "group",
+    "flags": [],
+    "commands": [
+      "create_link_layer",
+      "sync_link_layers",
+      "select_all_child_layers",
+      "select_layers_by_type_text",
+      "swap_width_and_height",
+      "save_cloud_document_to_local",
+      "fix_library_id_conflict",
+      "disable_google_analytics"
+    ]
+  }
+]

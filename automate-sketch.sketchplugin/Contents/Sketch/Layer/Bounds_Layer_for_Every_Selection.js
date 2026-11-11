@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require("sketch");
 
 var onRun = function(context) {
@@ -15,7 +16,7 @@ var onRun = function(context) {
 
         // \d+, \d+x\d+
         var userInputString;
-        var version = require("sketch").version.sketch;
+        var version = compatibility.version;
         var UI = require("sketch/ui");
         if (version >= 53) {
             UI.getInputFromUser(
@@ -79,7 +80,7 @@ var onRun = function(context) {
                     boundsLayerHeight = userCustomHeight;
                 }
 
-                if (layer.class() == "MSLayerGroup" || layer.class() == "MSArtboardGroup" || layer.class() == "MSSymbolMaster") {
+                if (compatibility.isGroup(layer) || compatibility.isArtboard(layer) || layer.class() == "MSSymbolMaster") {
                     parent = layer;
                     beforeLayer = layer.firstLayer();
                     boundsLayerX = 0 - layer.frame().x() + Math.floor(layer.frame().x()) - boundsOffsetLeft;
@@ -92,7 +93,7 @@ var onRun = function(context) {
                 rectangle.setRect(newBounds);
 
                 var boundsLayer;
-                if (sketch.version.sketch >= 52) {
+                if (compatibility.version >= 52) {
                     boundsLayer = rectangle;
                 } else {
                     boundsLayer = MSShapeGroup.shapeWithPath(rectangle);
@@ -103,7 +104,7 @@ var onRun = function(context) {
                 // Select boundsLayer
                 if (boundsLayer.parentGroup() != layer){
                     // Fix Sketch 45
-                    if (sketch.version.sketch < 45) {
+                    if (compatibility.version < 45) {
                         boundsLayer.select_byExpandingSelection(true, false);
                     } else {
                         boundsLayer.select_byExtendingSelection(true, false);
@@ -111,7 +112,7 @@ var onRun = function(context) {
                 }
 
                 // Artboard
-                if (layer.class() == "MSArtboardGroup" || layer.class() == "MSSymbolMaster") {
+                if (compatibility.isArtboard(layer) || layer.class() == "MSSymbolMaster") {
                     layer.frame().setX(layer.frame().x() - boundsOffsetLeft);
                     layer.frame().setY(layer.frame().y() - boundsOffsetTop);
                     layer.frame().setWidth(boundsLayerWidth);
@@ -124,12 +125,12 @@ var onRun = function(context) {
                 }
 
                 // Fix layer group bounds
-                if (layer.class() == "MSLayerGroup") {
+                if (compatibility.isGroup(layer)) {
                     // reset bounds
-                    if (sketch.version.sketch >= 53) {
-                        layer.fixGeometryWithOptions(1);
+                    if (compatibility.version >= 53) {
+                        compatibility.fitGroup(layer);
                     } else {
-                        layer.resizeToFitChildrenWithOption(1);
+                        compatibility.fitGroup(layer);
                     }
                     // Round to pixel
                     if (
@@ -142,26 +143,26 @@ var onRun = function(context) {
                         var name = layer.name();
                         layer.ungroup();
                         var newGroup;
-                        if (sketch.version.sketch >= 84) {
-                            newGroup = MSLayerGroup.groupWithLayers(layer.containedLayers());
+                        if (compatibility.version >= 84) {
+                            newGroup = compatibility.groupWithLayers(layer.containedLayers());
                         } else {
                             children = MSLayerArray.arrayWithLayers(layer.containedLayers())
                         }
-                        if (sketch.version.sketch >= 83) {
-                            newGroup = MSLayerGroup.groupWithLayers(children.layers());
-                        } else if (sketch.version.sketch >= 52) {
-                            newGroup = MSLayerGroup.groupWithLayers(children);
+                        if (compatibility.version >= 83) {
+                            newGroup = compatibility.groupWithLayers(children.layers());
+                        } else if (compatibility.version >= 52) {
+                            newGroup = compatibility.groupWithLayers(children);
                         } else {
                             newGroup = MSLayerGroup.groupFromLayers(children);
                         }
                         newGroup.setName(name);
                     }
                 }
-                if (layer.parentGroup().class() == "MSLayerGroup") {
-                    if (sketch.version.sketch >= 53) {
-                        layer.parentGroup().fixGeometryWithOptions(1);
+                if (compatibility.isGroup(layer.parentGroup())) {
+                    if (compatibility.version >= 53) {
+                        compatibility.fitGroup(layer.parentGroup());
                     } else {
-                        layer.parentGroup().resizeToFitChildrenWithOption(1);
+                        compatibility.fitGroup(layer.parentGroup());
                     }
                 }
 

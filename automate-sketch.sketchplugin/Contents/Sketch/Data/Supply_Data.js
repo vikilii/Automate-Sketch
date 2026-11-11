@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var DataSupplier = require("sketch/data-supplier");
 var System = require("../modules/System");
 
@@ -185,14 +186,14 @@ var onSupplyCalendar = function(context) {
             formatter.setDateFormat(dateFormat);
             let newNsDate = calendar.dateByAddingComponents_toDate_options(dateComponents, datePicker.dateValue(), nil);
             let text = String(formatter.stringFromDate(newNsDate));
-            if (insertType == 18 || insertType == 19) {
-                if (insertType == 19 && text == 1) {
+            if (insertType == 17 || insertType == 18) {
+                if (insertType == 18 && text == 1) {
                     formatter.setDateFormat("MMMM");
                     text = String(formatter.stringFromDate(newNsDate));
                 } else {
                     text = [
                         "初一","初二","初三","初四","初五","初六","初七","初八","初九","初十",
-                        "十一","十二","十三","十四","十五","十六","十七","十八","十九","廿十",
+                        "十一","十二","十三","十四","十五","十六","十七","十八","十九","二十",
                         "廿一","廿二","廿三","廿四","廿五","廿六","廿七","廿八","廿九","三十"
                     ][text - 1];
                 }
@@ -207,7 +208,7 @@ var onSupplyCalendar = function(context) {
 
 function supplyOrderedData(context, data) {
     var sketch = require("sketch");
-    var version = sketch.version.sketch;
+    var version = compatibility.version;
     for (var i = 0; i < context.data.requestedCount; i++) {
         var dataIndex;
         if (context.data.isSymbolInstanceOverride == 1) {
@@ -218,6 +219,7 @@ function supplyOrderedData(context, data) {
                 selection = NSDocumentController.sharedDocumentController().currentDocument().selectedLayers().layers();
             }
             dataIndex = selection.indexOfObject(context.data.items.objectAtIndex(i).symbolInstance());
+            if (dataIndex < 0 || dataIndex >= selection.count()) dataIndex = i;
         } else {
             dataIndex = i;
         }

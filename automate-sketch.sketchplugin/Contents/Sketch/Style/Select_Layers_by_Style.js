@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require("sketch");
 
 var selectLayersByLayerStyle = function(context) {
@@ -8,7 +9,7 @@ var selectLayersByLayerStyle = function(context) {
     var documentData = document.documentData();
     var layerStyles = NSMutableArray.alloc().init();
     layerStyles.addObjectsFromArray(documentData.layerStyles().sharedStyles());
-    if (sketch.version.sketch >= 51) {
+    if (compatibility.version >= 51) {
         layerStyles.addObjectsFromArray(documentData.foreignLayerStyles());
     }
     if (layerStyles.count() > 0) {
@@ -26,7 +27,7 @@ var selectLayersByTextStyle = function(context) {
     var documentData = document.documentData();
     var textStyles = NSMutableArray.alloc().init();
     textStyles.addObjectsFromArray(documentData.layerTextStyles().sharedStyles());
-    if (sketch.version.sketch >= 51) {
+    if (compatibility.version >= 51) {
         textStyles.addObjectsFromArray(documentData.foreignTextStyles());
     }
     if (textStyles.count() > 0) {
@@ -105,25 +106,25 @@ function main(context, styles, title, message) {
             var loopSelection = selection.objectEnumerator();
             var layer;
             while (layer = loopSelection.nextObject()) {
-                childLayers.addObjectsFromArray(layer.children());
+                childLayers.addObjectsFromArray(compatibility.descendants(layer));
             }
             var messageAddon = " in selected layers";
         }
         else {
-            var childLayers = page.children();
+            var childLayers = compatibility.descendants(page);
             var messageAddon = " in current page";
         }
 
         var predicate;
         if (selectedStyle.class() == "MSSharedStyle") {
-            if (sketch.version.sketch >= 52) {
+            if (compatibility.version >= 52) {
                 predicate = NSPredicate.predicateWithFormat("sharedStyle.objectID == %@", selectedStyle.objectID());
             } else {
                 predicate = NSPredicate.predicateWithFormat("style.sharedObjectID == %@", selectedStyle.objectID());
             }
         }
         if (selectedStyle.class() == "MSForeignTextStyle" || selectedStyle.class() == "MSForeignLayerStyle") {
-            if (sketch.version.sketch >= 52) {
+            if (compatibility.version >= 52) {
                 predicate = NSPredicate.predicateWithFormat("sharedStyleID == %@", selectedStyle.localShareID());
             } else {
                 predicate = NSPredicate.predicateWithFormat("style.sharedObjectID == %@", selectedStyle.localShareID());
@@ -145,7 +146,7 @@ function main(context, styles, title, message) {
             document.showMessage(`No layers with ${styleType} "${selectedStyleName}"${messageAddon}.`);
         }
 
-        NSApp.sendAction_to_from("zoomToSelection:", nil, document);
+        compatibility.performAction(document,"MSZoomToSelectionAction");
 
     }
 }

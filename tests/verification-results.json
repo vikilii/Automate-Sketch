@@ -1,0 +1,4033 @@
+{
+  "pluginVersion": "2026.3.1",
+  "date": "2026-11-11",
+  "sketchVersion": "2026.3.1",
+  "suites": 26,
+  "executions": 376,
+  "failures": [],
+  "commandCount": 278,
+  "commands": [
+    "add_colors_or_gradients_from_selected_layers_to_document",
+    "add_library_preview",
+    "add_solid_fill_from_css_color",
+    "add_space_between_cjk_and_western_character",
+    "add_styles_from_selected_layers",
+    "adjust_height_to_max",
+    "adjust_height_to_min",
+    "adjust_width_to_max",
+    "adjust_width_to_min",
+    "arrange_objects",
+    "artboard_from_group",
+    "artboard_from_selection",
+    "artboard_navigator",
+    "artboard_to_group",
+    "auto_slice",
+    "bitmap_to_pattern_fill",
+    "bounds_layer_for_every_selection",
+    "bring_all_hotspot_to_front",
+    "capitalize",
+    "change_document_id",
+    "change_layer_blend_mode",
+    "change_layer_places",
+    "change_layer_places_center",
+    "change_library_layer_style_to_local_layer_style",
+    "change_library_symbols_to_local",
+    "change_library_text_style_to_local_text_style",
+    "change_local_layer_style_to_library_layer_style",
+    "change_local_text_style_to_library_text_style",
+    "change_symbols_to_library_symbol",
+    "change_text_orientation",
+    "change_texts",
+    "change_typeface_for_the_latin_character_set",
+    "character_count",
+    "clear_exportables",
+    "clear_guides",
+    "clear_layer_name",
+    "clear_slices",
+    "collapse_all_groups_and_fit_canvas",
+    "combine_text_layer",
+    "convert_artboards_to_symbols",
+    "convert_to_color_variable",
+    "convert_to_outlines",
+    "copy_as_base64",
+    "copy_as_path_data",
+    "copy_as_png",
+    "copy_as_png_2x",
+    "copy_as_svg",
+    "copy_as_svg_url_encoded",
+    "copy_color_as_android_xml",
+    "copy_color_as_css_hex",
+    "copy_color_as_css_hex8",
+    "copy_color_as_css_hsl",
+    "copy_color_as_css_rgb",
+    "copy_color_as_nscolor_objective_c",
+    "copy_color_as_nscolor_swift",
+    "copy_color_as_uicolor_objective_c",
+    "copy_color_as_uicolor_swift",
+    "copy_document_url",
+    "copy_grid_setting",
+    "copy_guide_setting",
+    "copy_layer_position_and_size",
+    "copy_layout_setting",
+    "copy_objectid_or_symbolid",
+    "copy_selected_layer_name",
+    "copy_text_from_layer",
+    "copy_text_from_override",
+    "create_color_guide",
+    "create_link_layer",
+    "create_style_guide",
+    "create_symbols_from_selected_layers",
+    "create_typography_guide",
+    "decrease_font_weight",
+    "decrease_horizontally_scale",
+    "decrease_letter_spacing",
+    "decrease_line_height",
+    "detach_all_symbols",
+    "detach_unused_symbol_master",
+    "disable_google_analytics",
+    "disable_or_enable_all_overrides",
+    "disable_selected_overrides",
+    "distribute_layers_horizontally_and_fit_width",
+    "distribute_layers_vertically_and_fit_height",
+    "divide_layer",
+    "divide_slice",
+    "export",
+    "export_all_artboards",
+    "export_all_artboards_to_html",
+    "export_all_symbols_as_png",
+    "export_artboard_to_icns_file",
+    "export_clean_code_svg",
+    "export_data_from_symbol_instances",
+    "export_data_from_text_layers",
+    "export_image_from_layers",
+    "export_json_data",
+    "export_selected_layers",
+    "export_setting",
+    "fast_slice",
+    "fill_rule_to_non_zero",
+    "find_and_replace_layer_name",
+    "find_and_replace_layer_style",
+    "find_and_replace_symbol",
+    "find_and_replace_text_style",
+    "fit_to_artboard_with_margin",
+    "fit_to_parent_height_with_margin",
+    "fit_to_parent_width_with_margin",
+    "fit_to_parent_with_margin",
+    "fix_broken_library_symbols_by_name",
+    "fix_library_id_conflict",
+    "fixed_layer_name",
+    "grid_setting",
+    "group_selected_layers_in_each_artboard",
+    "hide_or_show_all_grid",
+    "hide_or_show_all_layout",
+    "import_document_assets_from_library",
+    "import_document_assets_from_sketch_file",
+    "import_layer_styles_from_sketch_file",
+    "import_styles_from_library",
+    "import_text_styles_from_sketch_file",
+    "imported_symbols_link_manage",
+    "increase_font_weight",
+    "increase_horizontally_scale",
+    "increase_letter_spacing",
+    "increase_line_height",
+    "insert_artboard_from_library",
+    "insert_instance_of_selected_symbol",
+    "insert_layer_from_svg_path_data",
+    "insert_symbols",
+    "insert_symbols_from_library",
+    "large_decrease_height_from_bottom",
+    "large_decrease_height_from_center",
+    "large_decrease_width_from_center",
+    "large_decrease_width_from_right",
+    "large_increase_height_from_bottom",
+    "large_increase_height_from_center",
+    "large_increase_width_from_center",
+    "large_increase_width_from_right",
+    "load_export_presets",
+    "merge_layer_styles_with_same_name",
+    "merge_text_styles_with_same_name",
+    "move_artboards_to_bottom_of_another",
+    "move_to_page",
+    "new_guide",
+    "new_guide_layout",
+    "new_guides_from_layer",
+    "nine_slice_from_bitmap_layer",
+    "order_layers_by_kind",
+    "order_layers_by_name",
+    "order_layers_by_x",
+    "order_layers_by_x_t2b",
+    "order_layers_by_y",
+    "order_layers_by_y_t2b",
+    "paste_and_replace",
+    "paste_and_replace_setting",
+    "paste_as_alphabetical_order_text",
+    "paste_as_artboards",
+    "paste_as_symbol_masters",
+    "paste_grid_setting",
+    "paste_guide_setting",
+    "paste_into_artboard",
+    "paste_layer_position",
+    "paste_layer_position_and_size",
+    "paste_layer_size",
+    "paste_layout_setting",
+    "paste_style_blur",
+    "paste_style_borders",
+    "paste_style_fills",
+    "paste_style_innershadows",
+    "paste_style_shadows",
+    "paste_text_color",
+    "paste_text_font",
+    "paste_text_style",
+    "pattern_fill_to_bitmap",
+    "quick_export_1",
+    "quick_export_2",
+    "quick_export_default",
+    "quick_export_setting",
+    "remove_all_disabled_styles",
+    "remove_all_groups",
+    "remove_all_hotspot",
+    "remove_empty_groups",
+    "remove_hidden_layers",
+    "remove_hotspot_in_selected_artboards",
+    "remove_layouts",
+    "remove_redundant_groups",
+    "remove_transparency_layers",
+    "remove_unused_layer_styles",
+    "remove_unused_symbols",
+    "remove_unused_text_styles",
+    "rename_instances",
+    "rename_instances_use_text_override",
+    "rename_layers",
+    "replace_fonts",
+    "replace_library",
+    "replace_pages_from_sketch_file",
+    "replace_symbol_with_library_symbol",
+    "reset_all_layer_styles",
+    "reset_all_text_styles",
+    "reset_bounding_box",
+    "reset_flow",
+    "reset_horizontally_scale",
+    "reset_overrides",
+    "reset_style",
+    "resize_fit_text_height",
+    "resize_to_fit_height",
+    "resize_to_fit_width",
+    "resize_with_ratio",
+    "reverse_layer_order",
+    "save_cloud_document_to_local",
+    "save_export_presets",
+    "select_all_child_layers",
+    "select_all_hidden_layers",
+    "select_all_instances_of_symbol",
+    "select_all_siblings_layers",
+    "select_layers_below",
+    "select_layers_by_layer_style",
+    "select_layers_by_name",
+    "select_layers_by_text_style",
+    "select_layers_by_type_exportable",
+    "select_layers_by_type_group",
+    "select_layers_by_type_image",
+    "select_layers_by_type_locked",
+    "select_layers_by_type_shape",
+    "select_layers_by_type_slice",
+    "select_layers_by_type_symbol_instance",
+    "select_layers_by_type_text",
+    "select_layers_outside_of_artboard_bounds",
+    "select_layers_with_same_shared_style",
+    "select_none",
+    "select_parent_artboard",
+    "select_parent_groups",
+    "select_reverse",
+    "select_same_instances_in_current_page",
+    "select_transparency_layers",
+    "selected_symbol_overrides_to_none",
+    "selection_to_symbol_master",
+    "set_to_original_height",
+    "set_to_original_size",
+    "set_to_original_width",
+    "show_layer_info",
+    "show_layers",
+    "shrink_instance_to_fit_content",
+    "slice_setting",
+    "small_decrease_height_from_bottom",
+    "small_decrease_height_from_center",
+    "small_decrease_width_from_center",
+    "small_decrease_width_from_right",
+    "small_increase_height_from_bottom",
+    "small_increase_height_from_center",
+    "small_increase_width_from_center",
+    "small_increase_width_from_right",
+    "split_text_layer",
+    "swap_color_variables_from_library",
+    "swap_fill_and_border",
+    "swap_width_and_height",
+    "sync_link_layers",
+    "sync_symbol_master_from_sketch_file",
+    "theme_switcher",
+    "tile_layers",
+    "tile_layers_by_position_x",
+    "tile_layers_by_position_y",
+    "tile_layers_horizontally_by_index",
+    "tile_layers_vertically_by_index",
+    "toggle_adjust_content_on_resize",
+    "toggle_layer_constrain_proportions",
+    "toggle_mask_for_selected_layers",
+    "toggle_select_groups_content_on_click",
+    "toggle_text_auto_and_fixed",
+    "truncate_text_at_end",
+    "truncate_text_at_middle",
+    "truncate_text_at_start",
+    "truncate_text_not",
+    "unfixed_layer_name",
+    "union_layer",
+    "unlock_all_layers",
+    "update_imported_objects_from_library",
+    "update_selected_library_symbol",
+    "update_selected_symbol_overrides",
+    "update_style"
+  ],
+  "notExecuted": [
+    "change_language",
+    "change_log",
+    "check_for_library_updates",
+    "donate",
+    "open_terminal_at_file_folder",
+    "pick_color_and_copy",
+    "plugin_dev_setting",
+    "reload_plugins",
+    "report_issue",
+    "shortcuts_manager",
+    "svg_export_setting",
+    "switch_language",
+    "web_site"
+  ],
+  "results": [
+    {
+      "suite": "text",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "capitalize",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "change_typeface_for_the_latin_character_set",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "add_space_between_cjk_and_western_character",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "fixed_layer_name",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "unfixed_layer_name",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Hello 世界"
+            ]
+          }
+        },
+        {
+          "name": "replace_fonts",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "resize_fit_text_height",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "change_text_orientation",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "split_text_layer",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Hello 世界"
+            ]
+          }
+        },
+        {
+          "name": "increase_line_height",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "decrease_line_height",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "increase_letter_spacing",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "decrease_letter_spacing",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "increase_horizontally_scale",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "decrease_horizontally_scale",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "reset_horizontally_scale",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "toggle_text_auto_and_fixed",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "character_count",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "change_texts",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "truncate_text_not",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "truncate_text_at_start",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "truncate_text_at_middle",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "truncate_text_at_end",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "increase_font_weight",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "decrease_font_weight",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "layer",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "select_layers_by_type_locked",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Hidden"
+            ]
+          }
+        },
+        {
+          "name": "select_layers_by_name",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame",
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "select_all_hidden_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Hidden"
+            ]
+          }
+        },
+        {
+          "name": "select_parent_groups",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "clear_layer_name",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "remove_redundant_groups",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "remove_empty_groups",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "remove_hidden_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "change_layer_places",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "change_layer_places_center",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "tile_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "tile_layers_by_position_x",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "tile_layers_by_position_y",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "tile_layers_horizontally_by_index",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "tile_layers_vertically_by_index",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "order_layers_by_x",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "order_layers_by_y",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "reverse_layer_order",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "order_layers_by_name",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "order_layers_by_kind",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "arrange_objects",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "select_all_siblings_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group",
+              "Component",
+              "Slice"
+            ]
+          }
+        },
+        {
+          "name": "toggle_layer_constrain_proportions",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "toggle_select_groups_content_on_click",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "small_increase_width_from_right",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "small_decrease_height_from_center",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "rename_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              " "
+            ]
+          }
+        },
+        {
+          "name": "select_layers_below",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group",
+              "Slice"
+            ]
+          }
+        },
+        {
+          "name": "find_and_replace_layer_name",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "resize_with_ratio",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "distribute_layers_horizontally_and_fit_width",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "distribute_layers_vertically_and_fit_height",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "adjust_width_to_max",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "adjust_width_to_min",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "adjust_height_to_max",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "adjust_height_to_min",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "frame",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "select_layers_by_type_group",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "remove_redundant_groups",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "remove_empty_groups",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "clear_slices",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "clear_exportables",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "artboard_from_selection",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "artboard_from_group",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "artboard_to_group",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "resize_to_fit_height",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "resize_to_fit_width",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "move_artboards_to_bottom_of_another",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "auto_slice",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "bring_all_hotspot_to_front",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "fast_slice",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "frame"
+            ]
+          }
+        },
+        {
+          "name": "slice_setting",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "select_parent_artboard",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "remove_all_hotspot",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "toggle_adjust_content_on_resize",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "remove_hotspot_in_selected_artboards",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "move_to_page",
+          "status": "pass",
+          "detail": {
+            "layers": 1,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "group_selected_layers_in_each_artboard",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "convert_artboards_to_symbols",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "remove_all_groups",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "symbol",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "select_all_instances_of_symbol",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "rename_instances",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "set_to_original_width",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "set_to_original_height",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "set_to_original_size",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "reset_overrides",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "rename_instances_use_text_override",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Symbol text"
+            ]
+          }
+        },
+        {
+          "name": "disable_or_enable_all_overrides",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "disable_selected_overrides",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "detach_all_symbols",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "shrink_instance_to_fit_content",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "select_same_instances_in_current_page",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "find_and_replace_symbol",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "selected_symbol_overrides_to_none",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "style",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "add_solid_fill_from_css_color",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "remove_all_disabled_styles",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "create_color_guide",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "create_typography_guide",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "swap_fill_and_border",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "select_layers_with_same_shared_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "create_style_guide",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "add_colors_or_gradients_from_selected_layers_to_document",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "change_layer_blend_mode",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "toggle_mask_for_selected_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "reset_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "reset_all_layer_styles",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "reset_all_text_styles",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "merge_layer_styles_with_same_name",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "merge_text_styles_with_same_name",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "add_styles_from_selected_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "union_layer",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "convert_to_outlines",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "convert_to_color_variable",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "fill_rule_to_non_zero",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "shared-style",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "create_color_guide",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "create_typography_guide",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "remove_unused_layer_styles",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "remove_unused_text_styles",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "select_layers_by_layer_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": []
+          }
+        },
+        {
+          "name": "select_layers_by_text_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": []
+          }
+        },
+        {
+          "name": "select_layers_with_same_shared_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "create_style_guide",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "update_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "reset_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "reset_all_layer_styles",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "reset_all_text_styles",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "find_and_replace_layer_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "find_and_replace_text_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "merge_layer_styles_with_same_name",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "merge_text_styles_with_same_name",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "convert_to_color_variable",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "guide",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "clear_guides",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "grid_setting",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "copy_grid_setting",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "paste_grid_setting",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "copy_layout_setting",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "paste_layout_setting",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "copy_guide_setting",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "paste_guide_setting",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "artboard_navigator",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "hide_or_show_all_grid",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "hide_or_show_all_layout",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "new_guides_from_layer",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "new_guide",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "new_guide_layout",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "remove_layouts",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "group",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "fit_to_parent_width_with_margin",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "fit_to_parent_height_with_margin",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "fit_to_parent_with_margin",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "bounds_layer_for_every_selection",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "divide_layer",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "remove_redundant_groups",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "artboard_from_selection",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "artboard_from_group",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "selection_to_symbol_master",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "remove_transparency_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "select_transparency_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": []
+          }
+        },
+        {
+          "name": "create_symbols_from_selected_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "reset_bounding_box",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "fit_to_artboard_with_margin",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "export",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "export_all_artboards",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "export_all_artboards_to_html",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "export_all_symbols_as_png",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "save_export_presets",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "export_data_from_text_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "export_image_from_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "export_data_from_symbol_instances",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "quick_export_default",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "quick_export_1",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "quick_export_2",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "quick_export_setting",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "export",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "export_setting",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "export_json_data",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "export_selected_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "paste",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "paste_and_replace",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "位图"
+            ]
+          }
+        },
+        {
+          "name": "paste_as_artboards",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "位图"
+            ]
+          }
+        },
+        {
+          "name": "paste_as_symbol_masters",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "位图"
+            ]
+          }
+        },
+        {
+          "name": "paste_into_artboard",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "image",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "nine_slice_from_bitmap_layer",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Bitmap (9-slice)"
+            ]
+          }
+        },
+        {
+          "name": "export_image_from_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Bitmap"
+            ]
+          }
+        },
+        {
+          "name": "copy_as_png",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Bitmap"
+            ]
+          }
+        },
+        {
+          "name": "copy_as_png_2x",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Bitmap"
+            ]
+          }
+        },
+        {
+          "name": "copy_as_svg",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Bitmap"
+            ]
+          }
+        },
+        {
+          "name": "copy_as_svg_url_encoded",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Bitmap"
+            ]
+          }
+        },
+        {
+          "name": "copy_as_path_data",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Bitmap"
+            ]
+          }
+        },
+        {
+          "name": "copy_as_base64",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Bitmap"
+            ]
+          }
+        },
+        {
+          "name": "export_json_data",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Bitmap"
+            ]
+          }
+        },
+        {
+          "name": "bitmap_to_pattern_fill",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Bitmap"
+            ]
+          }
+        },
+        {
+          "name": "pattern_fill_to_bitmap",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Bitmap"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "library",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "change_symbols_to_library_symbol",
+          "status": "pass",
+          "detail": {
+            "layers": 1,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "replace_symbol_with_library_symbol",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "import_document_assets_from_library",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "import_styles_from_library",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "change_local_text_style_to_library_text_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "change_local_layer_style_to_library_layer_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "insert_symbols_from_library",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Title",
+              "Rectangle",
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "insert_artboard_from_library",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Library Frame"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "library-symbol",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "selection_to_symbol_master",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "change_symbols_to_library_symbol",
+          "status": "pass",
+          "detail": {
+            "layers": 1,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "replace_symbol_with_library_symbol",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "change_local_text_style_to_library_text_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "change_local_layer_style_to_library_layer_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "create_symbols_from_selected_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "insert_symbols_from_library",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Component",
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "insert_artboard_from_library",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Library Frame"
+            ]
+          }
+        },
+        {
+          "name": "insert_instance_of_selected_symbol",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Component"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "imported",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "imported_symbols_link_manage",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "replace_library",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "update_selected_library_symbol",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "update_selected_symbol_overrides",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "update_imported_objects_from_library",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "change_library_symbols_to_local",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "fix_broken_library_symbols_by_name",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "change_library_layer_style_to_local_layer_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "change_library_text_style_to_local_text_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "library-final",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "change_symbols_to_library_symbol",
+          "status": "pass",
+          "detail": {
+            "layers": 1,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "add_library_preview",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": []
+          }
+        },
+        {
+          "name": "change_local_text_style_to_library_text_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "change_local_layer_style_to_library_layer_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "insert_symbols_from_library",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Component",
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "insert_artboard_from_library",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Library Frame"
+            ]
+          }
+        },
+        {
+          "name": "swap_color_variables_from_library",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "theme_switcher",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "file-import",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "sync_symbol_master_from_sketch_file",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "replace_pages_from_sketch_file",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "import_document_assets_from_sketch_file",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "import_text_styles_from_sketch_file",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "import_layer_styles_from_sketch_file",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Component"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "extra-0",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "unlock_all_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "select_layers_by_type_shape",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": []
+          }
+        },
+        {
+          "name": "select_layers_by_type_image",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": []
+          }
+        },
+        {
+          "name": "select_layers_by_type_symbol_instance",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": []
+          }
+        },
+        {
+          "name": "select_layers_by_type_slice",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": []
+          }
+        },
+        {
+          "name": "select_layers_by_type_exportable",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": []
+          }
+        },
+        {
+          "name": "order_layers_by_x_t2b",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "order_layers_by_y_t2b",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Rectangle",
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "detach_unused_symbol_master",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "remove_unused_symbols",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "sync_symbol_master_from_sketch_file",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "replace_pages_from_sketch_file",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "import_document_assets_from_sketch_file",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "import_text_styles_from_sketch_file",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "import_layer_styles_from_sketch_file",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_selected_layer_name",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_objectid_or_symbolid",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "paste_style_fills",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "paste_style_borders",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "paste_style_shadows",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "paste_style_innershadows",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "paste_style_blur",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "paste_text_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "paste_text_color",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "paste_text_font",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "extra-1",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "load_export_presets",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "show_layer_info",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "export_clean_code_svg",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "combine_text_layer",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Rectangle",
+              "Hello 世界"
+            ]
+          }
+        },
+        {
+          "name": "select_layers_outside_of_artboard_bounds",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "select_reverse",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Bitmap",
+              "Hidden",
+              "Empty"
+            ]
+          }
+        },
+        {
+          "name": "large_increase_width_from_right",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "small_increase_width_from_center",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "large_increase_width_from_center",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "small_increase_height_from_bottom",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "large_increase_height_from_bottom",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "small_increase_height_from_center",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "large_increase_height_from_center",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "small_decrease_width_from_right",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "large_decrease_width_from_right",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "small_decrease_width_from_center",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "large_decrease_width_from_center",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "small_decrease_height_from_bottom",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "large_decrease_height_from_bottom",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "large_decrease_height_from_center",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "paste_and_replace_setting",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "reset_flow",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "select_none",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": []
+          }
+        },
+        {
+          "name": "collapse_all_groups_and_fit_canvas",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "insert_layer_from_svg_path_data",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "SVG"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "extra-2",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "paste_as_alphabetical_order_text",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "move_to_page",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "insert_symbols",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "Title",
+              "Rectangle",
+              "Component"
+            ]
+          }
+        },
+        {
+          "name": "export_artboard_to_icns_file",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "change_document_id",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_document_url",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_text_from_layer",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_text_from_override",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "divide_slice",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_layer_position_and_size",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "paste_layer_position_and_size",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "paste_layer_position",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "paste_layer_size",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "show_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_color_as_css_hex",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_color_as_css_hex8",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_color_as_css_rgb",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_color_as_css_hsl",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_color_as_nscolor_objective_c",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_color_as_uicolor_objective_c",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_color_as_nscolor_swift",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_color_as_uicolor_swift",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        },
+        {
+          "name": "copy_color_as_android_xml",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "clipboard-style",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "paste_style_fills",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "paste_style_borders",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "paste_style_shadows",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "paste_style_innershadows",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "paste_style_blur",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "paste_text_style",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "paste_text_color",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "paste_text_font",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "svg",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "export_clean_code_svg",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "library-replace",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "replace_symbol_with_library_symbol",
+          "status": "pass",
+          "detail": {
+            "layers": 1,
+            "selection": [
+              "Component"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "fixed-text",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "resize_fit_text_height",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "toggle_text_auto_and_fixed",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "slice",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "divide_slice",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Slice"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "suite": "semantics",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "export_artboard_to_icns_file",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Frame"
+            ]
+          }
+        },
+        {
+          "name": "semantic/frame-group-roundtrip",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/empty-frame-to-group",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/empty-cleanup-preserves-frames",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/ungroup-all-preserves-frames-and-position",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/relative-sizing-restores-pins",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/reset-bounds-preserves-transformed-anchors",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/guides-relative-to-frame",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/insert-symbol-instance",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/reset-overrides",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/linked-layer-create-and-sync",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/graphic-toggle-roundtrip",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/fractional-png-export",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/text-to-outlines",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/theme-replaces-symbol-style-color",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/nine-slice-produces-nine-images",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/fixed-text-retains-width",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/remove-disabled-styles-includes-selected-layer",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/paste-style-from-layer-clipboard",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/union-shapes-in-frame",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/calendar-lunar-days-and-cycle-years",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/cross-document-symbol-clipboard",
+          "status": "pass"
+        },
+        {
+          "name": "semantic/language-manifest-atomic-and-idempotent",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "suite": "remaining-local",
+      "version": "2026.3.1",
+      "results": [
+        {
+          "name": "compatibility/frame-detection",
+          "status": "pass"
+        },
+        {
+          "name": "select_layers_by_type_text",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title"
+            ]
+          }
+        },
+        {
+          "name": "select_all_child_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Title",
+              "Rectangle",
+              "Bitmap",
+              "Hidden",
+              "Empty"
+            ]
+          }
+        },
+        {
+          "name": "fix_library_id_conflict",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "create_link_layer",
+          "status": "pass",
+          "detail": {
+            "layers": 3,
+            "selection": [
+              "_linked/Group"
+            ]
+          }
+        },
+        {
+          "name": "sync_link_layers",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "disable_google_analytics",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "swap_width_and_height",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        },
+        {
+          "name": "save_cloud_document_to_local",
+          "status": "pass",
+          "detail": {
+            "layers": 2,
+            "selection": [
+              "Group"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

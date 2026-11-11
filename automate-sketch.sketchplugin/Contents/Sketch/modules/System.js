@@ -34,6 +34,7 @@ System.savePanel = function(defaultName) {
 
 System.textsFromFile = function(path) {
     var contents = NSString.stringWithContentsOfFile_encoding_error(path, NSUTF8StringEncoding, nil);
+    if (!contents) return [];
     var data = contents.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet());
     var texts = [];
     var loopData = data.objectEnumerator();
@@ -51,6 +52,7 @@ System.imagesFromFolder = function(path) {
     var supportFormats = ["png", "jpg", "jpeg", "tif", "tiff", "gif", "webp", "bmp"];
     var fileManager = NSFileManager.defaultManager();
     var fileList = fileManager.contentsOfDirectoryAtPath_error(path, nil);
+    if (!fileList) return [];
     fileList = fileList.sortedArrayUsingSelector("localizedStandardCompare:");
     fileList.forEach(function(file) {
         if (supportFormats.indexOf(String(file.pathExtension().lowercaseString())) != -1) {
@@ -95,14 +97,8 @@ System.writeStringToFile = function(content, filePath) {
 };
 
 System.showInFinder = function(filePath) {
-    var err = MOPointer.alloc().init();
-    var fileManager = NSFileManager.defaultManager();
-    var result = fileManager.attributesOfItemAtPath_error(filePath, err);
-    if (result.isDirectory()) {
-        NSWorkspace.sharedWorkspace().openFile_withApplication(filePath, "Finder");
-    } else {
-        NSWorkspace.sharedWorkspace().selectFile_inFileViewerRootedAtPath(filePath, nil);
-    }
+    if (!NSFileManager.defaultManager().fileExistsAtPath(filePath)) return;
+    NSWorkspace.sharedWorkspace().activateFileViewerSelectingURLs([NSURL.fileURLWithPath(filePath)]);
 };
 
 System.mkdir = function(filePath) {

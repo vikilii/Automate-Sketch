@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -67,7 +68,7 @@ var onRun = function(context) {
                 layer.style().addStyleBorders(newBorders);
                 layer.style().addStyleFills(newFills);
 
-                document.reloadInspector();
+                compatibility.refreshInspector(document);
 
             }
         }

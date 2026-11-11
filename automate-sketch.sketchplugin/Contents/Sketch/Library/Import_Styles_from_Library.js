@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -8,13 +9,13 @@ var onRun = function(context) {
     var ui = require("../modules/Dialog").ui;
     var util = require("util");
     var document = context.document;
-    if (sketch.version.sketch < 47) {
+    if (compatibility.version < 47) {
         document.showMessage("😮 You have to update to Sketch 47+ to use thie feature.");
         return;
     }
 
     var assetLibraryController = AppController.sharedInstance().librariesController();
-    var availableLibraries = assetLibraryController.availableLibraries();
+    var availableLibraries = compatibility.libraries();
     var sortDescriptor = NSSortDescriptor.sortDescriptorWithKey_ascending_selector("name", true, "localizedStandardCompare:");
     availableLibraries = availableLibraries.sortedArrayUsingDescriptors([sortDescriptor]);
 
@@ -98,7 +99,7 @@ var onRun = function(context) {
             importedLayerStyleCount = libraryLayerStyles.numberOfSharedStyles();
         }
 
-        document.reloadInspector();
+        compatibility.refreshInspector(document);
 
         if (importedTextStyleCount > 0 && importedLayerStyleCount > 0) {
             var msg = 'Imported ' +

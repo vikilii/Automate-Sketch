@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -130,11 +131,7 @@ var onRun = function(context) {
 
 function exportLayer(document, layer, destFolder, nameFormat, preset) {
     preset.exportFormats().forEach(function(exportFormat) {
-        var exportRequest = MSExportRequest.exportRequestFromLayerAncestry_exportFormat_inRect(
-            layer.ancestry(),
-            exportFormat,
-            layer.absoluteInfluenceRect()
-        );
+        var exportRequest = compatibility.exportRequest(exportFormat, layer, null, false);
         var filePath = "";
         if (nameFormat == 1) {
             filePath += nameParts(layer.name()).map(formatNameUnderLine).join("_");
@@ -153,7 +150,7 @@ function exportLayer(document, layer, destFolder, nameFormat, preset) {
             filePath = exportFormat.name() + filePath;
         }
         filePath = destFolder + "/" + filePath + "." + exportRequest.format();
-        document.saveExportRequest_toFile(exportRequest, filePath);
+        compatibility.saveExportRequest(document, exportRequest, filePath);
     });
 }
 

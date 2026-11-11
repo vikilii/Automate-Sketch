@@ -1,29 +1,14 @@
-var onRun = function(context) {
-
-    var ga = require("../modules/Google_Analytics");
-    ga("Utilities");
-
-    var sketch = require("sketch");
-    var document = sketch.getSelectedDocument();
-    var system = require("../modules/System");
-
-    if (!document.sketchObject.isCloudDoc()) {
-        sketch.UI.message('Not cloud document.');
-        return;
-    }
-
-    var shortID = document.sketchObject.cloudShare().shortID();
-    var name = document.sketchObject.cloudShare().name();
-    var path = NSString.alloc().initWithString(AppController.templateLibraryURL().path());
-    path = path.stringByDeletingLastPathComponent();
-    path = path.stringByAppendingPathComponent("CloudDocuments");
-    path = path.stringByAppendingPathComponent(shortID);
-    path = path.stringByAppendingPathComponent(name);
-    path = path.stringByAppendingPathExtension("sketchcloud");
-
-    var toPath = system.savePanel(name + '.sketch');
-    if (toPath) {
-        system.cp(path, toPath);
-    }
-
+var onRun = function() {
+    var sketch=require("sketch/dom"),UI=require("sketch/ui");
+    var document=sketch.getSelectedDocument();
+    if(!document || !document.sketchObject.isCloudDoc()) {UI.message("Not a cloud document.");return;}
+    var share=document.sketchObject.cloudShare();
+    var name=share ? String(share.name()) : "Document";
+    var path=require("../modules/System").savePanel(name+".sketch");
+    if(!path) return;
+    // Save a copy through Sketch, rather than depending on its private cache path.
+    document.save(String(path),{saveMode:sketch.Document.SaveMode.SaveTo},function(error){
+        if(error) UI.alert("Unable to save local copy",String(error.message || error));
+        else UI.message("Local copy saved.");
+    });
 };

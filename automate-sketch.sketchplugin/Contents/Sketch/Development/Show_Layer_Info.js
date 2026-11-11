@@ -161,7 +161,7 @@ var onRun = function(context) {
 };
 
 function labelView(text) {
-    var textView = NSTextField.alloc().initWithFrame(NSMakeRect(0, 0, 400, 16)));
+    var textView = NSTextField.alloc().initWithFrame(NSMakeRect(0, 0, 400, 16));
     textView.setStringValue(text);
     textView.setFont(NSFont.boldSystemFontOfSize(12));
     textView.setTextColor(NSColor.blackColor());
@@ -173,7 +173,7 @@ function labelView(text) {
 }
 
 function textFieldView(text, editable) {
-    var textView = NSTextField.alloc().initWithFrame(NSMakeRect(0, 0, 270, 25)));
+    var textView = NSTextField.alloc().initWithFrame(NSMakeRect(0, 0, 270, 25));
     textView.setStringValue(text);
     textView.setFont(NSFont.fontWithName_size("Monaco", 12));
     if (editable == false) {

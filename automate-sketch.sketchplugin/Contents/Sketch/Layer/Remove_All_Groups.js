@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function (context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -12,6 +13,7 @@ var onRun = function (context) {
     if (selection.count() > 0) {
 
         var loop = selection.objectEnumerator();
+        var layer;
         while (layer = loop.nextObject()) {
             deleteGroups(layer, function (_count) {
                 count += _count;
@@ -41,29 +43,11 @@ function deleteGroups(layer, callback) {
 
     var count = 0;
 
-    if (layer.class() == "MSLayerGroup") {
-        layer.ungroup();
-        count++;
-    } else {
-        if (
-            layer.containsLayers() &&
-            (
-                layer.class() != "MSShapeGroup" ||
-                layer.class() != "MSRectangleShape" ||
-                layer.class() != "MSOvalShape" ||
-                layer.class() != "MSShapePathLayer"
-            )
-        ) {
-            var loopChildren = layer.children().objectEnumerator();
-            while (childLayer = loopChildren.nextObject()) {
-
-                if (childLayer.class() == "MSLayerGroup") {
-                    childLayer.ungroup();
-                    count++;
-                }
-            }
-        }
-    }
+    var descendants = require("util").toArray(compatibility.descendants(layer)).reverse();
+    descendants.push(layer);
+    descendants.forEach(function(child) {
+        if (compatibility.isGroup(child)) { child.ungroup(); count++; }
+    });
 
     callback(count);
 }

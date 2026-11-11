@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -14,15 +15,15 @@ var onRun = function(context) {
             if (layer.class() == "MSTextLayer") {
 
                 if (
-                    layer.attributeForKey(NSVerticalGlyphFormAttributeName) == null ||
-                    layer.attributeForKey(NSVerticalGlyphFormAttributeName) == 0
+                    compatibility.textAttribute(layer, NSVerticalGlyphFormAttributeName) == null ||
+                    compatibility.textAttribute(layer, NSVerticalGlyphFormAttributeName) == 0
                 ) {
-                    layer.addAttribute_value(NSVerticalGlyphFormAttributeName, 1);
+                    compatibility.setTextAttribute(layer, NSVerticalGlyphFormAttributeName, 1);
                     if (layer.rotation() == 0) {
                         layer.setRotation(-90)
                     }
                 } else {
-                    layer.addAttribute_value(NSVerticalGlyphFormAttributeName, 0);
+                    compatibility.setTextAttribute(layer, NSVerticalGlyphFormAttributeName, 0);
                     if (layer.rotation() == -90) {
                         layer.setRotation(0)
                     }

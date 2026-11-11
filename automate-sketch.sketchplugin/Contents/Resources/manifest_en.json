@@ -4,13 +4,12 @@
   "author": "Ashung Hung",
   "email": "Ashung.hung@gmail.com",
   "homepage": "https://github.com/Ashung/Automate-Sketch",
-  "appcast": "https://ashung.github.io/Automate-Sketch/appcast.xml",
-  "version": "96.3.20230530",
+  "version": "2026.3.1",
   "identifier": "com.ashung.hung.automate_sketch",
   "icon": "icon.png",
   "suppliesData": true,
-  "compatibleVersion": "3",
-  "bundleVersion": "1",
+  "compatibleVersion": "2026.3.1",
+  "bundleVersion": "2026030101",
   "scope": "application",
   "commands": [
     {
@@ -484,28 +483,28 @@
       "name": "Web Site",
       "identifier": "web_site",
       "handler": "website",
-      "script": "Help/help.js",
+      "script": "Help/Help.js",
       "icon": "icon_runner.png"
     },
     {
       "name": "Change Log and Old Versions",
       "identifier": "change_log",
       "handler": "changelog",
-      "script": "Help/help.js",
+      "script": "Help/Help.js",
       "icon": "icon_runner.png"
     },
     {
       "name": "Report Issue",
       "identifier": "report_issue",
       "handler": "reportIssue",
-      "script": "Help/help.js",
+      "script": "Help/Help.js",
       "icon": "icon_runner.png"
     },
     {
       "name": "Donate",
       "identifier": "donate",
       "handler": "donate",
-      "script": "Help/help.js",
+      "script": "Help/Help.js",
       "icon": "icon_runner.png"
     },
     {
@@ -939,7 +938,7 @@
       "icon": "icon_runner.png"
     },
     {
-      "name": "Toggle Select Group’s Content on Click",
+      "name": "Toggle Group / Graphic Container",
       "identifier": "toggle_select_groups_content_on_click",
       "script": "Layer/Toggle_Select_Groups_Content_On_Click.js",
       "icon": "icon_runner.png"
@@ -1281,7 +1280,7 @@
       "icon": "icon_runner.png"
     },
     {
-      "name": "Toggle Adjust Content on Resize",
+      "name": "Toggle Relative Content Sizing",
       "identifier": "toggle_adjust_content_on_resize",
       "script": "Artboard/Toggle_Adjust_Content_on_Resize.js",
       "icon": "icon_runner.png"
@@ -1619,7 +1618,7 @@
     {
       "name": "Show All Layers",
       "identifier": "show_layers",
-      "script": "Layer/show_Layers.js",
+      "script": "Layer/Show_Layers.js",
       "icon": "icon_runner.png"
     },
     {

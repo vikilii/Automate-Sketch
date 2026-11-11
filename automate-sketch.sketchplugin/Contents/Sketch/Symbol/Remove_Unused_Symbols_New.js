@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require("sketch");
 
 var onRun = function(context) {
@@ -7,11 +8,11 @@ var onRun = function(context) {
 
     var Dialog = require("../modules/Dialog").dialog;
     var ui = require("../modules/Dialog").ui;
-    var preview = require("../modules/preview");
+    var preview = require("../modules/Preview");
     var document = context.document;
     var documentData = document.documentData();
 
-    if (sketch.version.sketch < 48) {
+    if (compatibility.version < 48) {
         document.showMessage("😮 You have to update to Sketch 48+ to use thie feature.");
         return;
     }
@@ -138,7 +139,7 @@ var onRun = function(context) {
             var state = unusedSymbolView.subviews().firstObject().state();
             if (state) {
                 var unusedSymbolsWillRemoved = unusedSymbols.objectAtIndex(unusedSymbolIndex);
-                if (sketch.version.sketch >= 49) {
+                if (compatibility.version >= 49) {
                     unusedSymbolsWillRemoved.removeFromParent();
                 } else {
                     if (unusedSymbolsWillRemoved.isForeign()) {
@@ -166,7 +167,7 @@ function getAllUnusedSymbols(context) {
     var document = context.document;
     var documentData = document.documentData();
     // In Sketch 49, unused Symbols imported from Libraries are now cleared when saving a document
-    if (sketch.version.sketch >= 49) {
+    if (compatibility.version >= 49) {
         var allSymbols = documentData.localSymbols();
     } else {
         var allSymbols = documentData.allSymbols();
@@ -176,7 +177,7 @@ function getAllUnusedSymbols(context) {
     var loopPages = document.pages().objectEnumerator();
     var page;
     while (page = loopPages.nextObject()) {
-        var symbolInstancesInPage = page.allSymbolInstancesInChildren().allObjects();
+        var symbolInstancesInPage = compatibility.symbolInstances(page);
         var loopSymbolInstancesInPage = symbolInstancesInPage.objectEnumerator();
         var symbolInstance;
         while (symbolInstance = loopSymbolInstancesInPage.nextObject()) {

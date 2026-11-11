@@ -47,7 +47,7 @@ var onRun = function(context) {
 
     // Style use in override
     var stylesInOverride = {};
-    sketch.find("SymbolInstance").forEach(function(instance) {
+    sketch.find("SymbolInstance",document).forEach(function(instance) {
         instance.overrides.filter(function(override) {
             if (identifier == "find_and_replace_layer_style") {
                 return override.property == "layerStyle";
@@ -113,8 +113,9 @@ var onRun = function(context) {
     // Init
     var selectedLibrary;
     var styleReferences;
-    if (enabledLibraries.length == 0) {
+    if (localStyles.length === 0 && enabledLibraries.length > 0) {
         selectedLibrary = enabledLibraries[0];
+        libraryView.selectItemAtIndex(1);
         if (identifier == "find_and_replace_layer_style") {
             styleReferences = selectedLibrary.getImportableLayerStyleReferencesForDocument(document);
         } else {
@@ -155,9 +156,10 @@ var onRun = function(context) {
             targetStyle = localStyles[targetStyleView.indexOfSelectedItem()];
         }
 
+        if (!targetStyle) { sketch.UI.message("Choose an available target style."); return; }
         var allInstancesLayers = findStyle.getAllInstancesLayers();
         var allSymbolInstances = [];
-        sketch.find("SymbolInstance").forEach(function(instance) {
+        sketch.find("SymbolInstance",document).forEach(function(instance) {
             instance.overrides.filter(function(override) {
                 if (identifier == "find_and_replace_layer_style") {
                     return override.property == "layerStyle";

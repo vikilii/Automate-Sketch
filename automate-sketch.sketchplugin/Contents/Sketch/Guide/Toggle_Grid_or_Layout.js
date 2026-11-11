@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -7,7 +8,7 @@ var onRun = function(context) {
     var identifier = context.command.identifier();
     var document = context.document;
     var page = document.currentPage();
-    var artboards = util.toArray(page.artboards());
+    var artboards = util.toArray(compatibility.artboards(page));
 
     if (identifier == "hide_or_show_all_grid") {
         var artboardGridIsEnabled = artboards.find(function(artboard) {

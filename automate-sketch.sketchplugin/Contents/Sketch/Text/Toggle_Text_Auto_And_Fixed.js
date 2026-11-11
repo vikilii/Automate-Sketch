@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -14,9 +15,9 @@ var onRun = function(context) {
 
     selectedTextLayers.forEach(function(layer) {
         if (layer.textBehaviour() == 0) {
-            layer.setTextBehaviour(1);
+            compatibility.setTextBehavior(layer, 1);
         } else {
-            layer.setTextBehaviour(0);
+            compatibility.setTextBehavior(layer, 0);
         }
     });
 

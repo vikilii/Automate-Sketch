@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require("sketch");
 
 var selectAllGroupsInSelection = function(context) {
@@ -32,7 +33,7 @@ var selectAllExportableInSelection = function(context) {
     var doc = context.document;
     var page = doc.currentPage();
     var selection = context.selection;
-    var appVersion = sketch.version.sketch;
+    var appVersion = compatibility.version;
 
     var totalCount = 0;
 
@@ -46,7 +47,7 @@ var selectAllExportableInSelection = function(context) {
     if (selection.count() > 0) {
         var loopSelection = selection.objectEnumerator();
         while (layer = loopSelection.nextObject()) {
-            var loopChildren = layer.children().objectEnumerator();
+            var loopChildren = compatibility.descendants(layer).objectEnumerator();
             var child;
             while (child = loopChildren.nextObject()) {
                 if (child.exportOptions().exportFormats().count() > 0 && child.class() != "MSSliceLayer") {
@@ -62,7 +63,7 @@ var selectAllExportableInSelection = function(context) {
             }
         }
     } else {
-        var loopChildren = page.children().objectEnumerator();
+        var loopChildren = compatibility.descendants(page).objectEnumerator();
         var child;
         while (child = loopChildren.nextObject()) {
             if (child.exportOptions().exportFormats().count() > 0 && child.class() != "MSSliceLayer") {
@@ -100,7 +101,7 @@ var selectAllLockedLayerInSelection = function(context) {
     var count = 0;
     if (selection.count() > 0) {
         selection.forEach(function(layer) {
-            layer.children().forEach(function(child) {
+            compatibility.descendants(layer).forEach(function(child) {
                 if (child.isLocked()) {
                     child.select_byExtendingSelection(true, true);
                     count ++;
@@ -108,7 +109,7 @@ var selectAllLockedLayerInSelection = function(context) {
             });
         });
     } else {
-        page.children().forEach(function(child) {
+        compatibility.descendants(page).forEach(function(child) {
             if (child.isLocked()) {
                 child.select_byExtendingSelection(true, true);
                 count ++;
@@ -119,7 +120,7 @@ var selectAllLockedLayerInSelection = function(context) {
     if (count == 0) {
         doc.showMessage("No locked layer found.");
     } else {
-        doc.showMessage("Select " + totalCount + " locked layer" + (count > 1 ? "s" : "") + ".");
+        doc.showMessage("Select " + count + " locked layer" + (count > 1 ? "s" : "") + ".");
     }
 
 };
@@ -167,7 +168,7 @@ function selectLayersInSelectionByType(context, type) {
 function selectLayersInParent_byType(parent, type, callback) {
     
     var layerType = require("../modules/Type");
-    var appVersion = sketch.version.sketch;
+    var appVersion = compatibility.version;
     var count = 0;
     
     if (
@@ -178,7 +179,7 @@ function selectLayersInParent_byType(parent, type, callback) {
             var loopLayers = parent.layers().objectEnumerator();
             var layer;
             while (layer = loopLayers.nextObject()) {
-                if (layer.class() == "MSLayerGroup") {
+                if (compatibility.isGroup(layer)) {
                     // Fix Sketch 45
                     if (appVersion < 45) {
                         layer.select_byExpandingSelection(true, true);
@@ -187,11 +188,11 @@ function selectLayersInParent_byType(parent, type, callback) {
                     }
                     count ++;
                 }
-                if (layer.class() == "MSArtboardGroup" || layer.class() == "MSSymbolMaster") {
+                if (compatibility.isArtboard(layer) || layer.class() == "MSSymbolMaster") {
                     var loopLayersInArtboard = layer.layers().objectEnumerator();
                     var layerInArtboard;
                     while (layerInArtboard = loopLayersInArtboard.nextObject()) {
-                        if (layerInArtboard.class() == "MSLayerGroup") {
+                        if (compatibility.isGroup(layerInArtboard)) {
                             // Fix Sketch 45
                             if (appVersion < 45) {
                                 layerInArtboard.select_byExpandingSelection(true, true);
@@ -204,7 +205,7 @@ function selectLayersInParent_byType(parent, type, callback) {
                 }
             }
         } else {
-            var loopChildren = parent.children().objectEnumerator();
+            var loopChildren = compatibility.descendants(parent).objectEnumerator();
             var layer;
             while (layer = loopChildren.nextObject()) {
                 if (

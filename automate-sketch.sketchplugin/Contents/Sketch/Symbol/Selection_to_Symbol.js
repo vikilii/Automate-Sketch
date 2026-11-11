@@ -1,79 +1,23 @@
-var onRun = function(context) {
-
-    var ga = require("../modules/Google_Analytics");
-    ga("Symbol");
-
-    var sketch = require("sketch");
-    var selection = context.selection;
-    var version = sketch.version.sketch;
-
-    var loopSelection = selection.objectEnumerator();
-    var layer;
-    while (layer = loopSelection.nextObject()) {
-
-        var symbolProperties = {
-            x: layer.frame().x(),
-            y: layer.frame().y(),
-            width: layer.frame().width(),
-            height: layer.frame().height()
-        };
-        var layers;
-        if (version >= 84) {
-            layers = [layer];
-        } else {
-            layers = MSLayerArray.arrayWithLayers([layer]);
+var onRun = function() {
+    var sketch = require("sketch/dom");
+    var compatibility = require("../modules/Compatibility");
+    var document = sketch.getSelectedDocument();
+    var symbols = [];
+    document.selectedLayers.layers.forEach(function(layer) {
+        if (layer.type === "SymbolMaster" || layer.type === "Slice") return;
+        var frame = layer;
+        if (!compatibility.isArtboard(layer)) {
+            if (compatibility.isGroup(layer)) layer.convertToFrame();
+            else {
+                var parent = layer.parent, index = layer.index;
+                frame = new sketch.Artboard({name:layer.name,parent:parent,frame:layer.frame,background:{enabled:false}});
+                frame.index = index;
+                layer.parent = frame;
+                layer.frame.x = 0;
+                layer.frame.y = 0;
+            }
         }
-        if (layer.class() == "MSArtboardGroup") {
-            symbolProperties.hasBackgroundColor = layer.hasBackgroundColor();
-            symbolProperties.backgroundColor = layer.backgroundColor();
-            symbolProperties.includeInExport = layer.includeBackgroundColorInExport();
-            symbolProperties.adjustContentOnResize = layer.resizesContent();
-
-            // Add a temp layer
-            var rectangle = MSRectangleShape.alloc().init();
-            rectangle.setRect(CGRectMake(0, 0, symbolProperties.width, symbolProperties.height));
-            var tempLayer;
-            if (sketch.version.sketch >= 52) {
-                tempLayer = rectangle;
-            } else {
-                tempLayer = MSShapeGroup.shapeWithPath(rectangle);
-            }
-            layer.addLayer(tempLayer);
-
-            if (version >= 84) {
-                layers = layer.layers();
-            } else {
-                layers = MSLayerArray.arrayWithLayers(layer.layers());
-            }
-            layer.ungroup();
-        }
-
-        if (MSSymbolCreator.canCreateSymbolFromLayers(layers)) {
-            var symbolName = layer.name();
-            var symbolInstance = MSSymbolCreator.createSymbolFromLayers_withName_onSymbolsPage(layers, symbolName, false);
-            var symbolMaster = symbolInstance.symbolMaster();
-
-            if (layer.class() == "MSLayerGroup") {
-                var layerGroup = symbolMaster.layers().firstObject();
-                if (layerGroup.class() == "MSLayerGroup") {
-                    layerGroup.ungroup();
-                }
-            }
-
-            if (layer.class() == "MSArtboardGroup") {
-                symbolMaster.layers().lastObject().removeFromParent();
-                symbolMaster.setHasBackgroundColor(symbolProperties.hasBackgroundColor);
-                symbolMaster.setBackgroundColor(symbolProperties.backgroundColor);
-                symbolMaster.setIncludeBackgroundColorInExport(symbolProperties.includeInExport);
-                symbolMaster.setResizesContent(symbolProperties.adjustContentOnResize);
-                symbolMaster.setIncludeBackgroundColorInInstance(true);
-            }
-
-            symbolMaster.setRect(CGRectMake(symbolProperties.x, symbolProperties.y, symbolProperties.width, symbolProperties.height));
-            symbolMaster.setLayerListExpandedType(1);
-            symbolInstance.removeFromParent();
-        }
-
-    }
-
+        symbols.push(sketch.SymbolMaster.fromFrame(frame));
+    });
+    if (symbols.length) document.selectedLayers = symbols;
 };

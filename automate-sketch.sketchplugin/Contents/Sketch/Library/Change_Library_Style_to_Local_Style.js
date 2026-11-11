@@ -83,7 +83,7 @@ var onRun = function(context) {
     var responseCode = dialog.run();
     if (responseCode == 1000) {
         stylesWillMakeLocal.forEach(function(style) {
-            style.unlinkFromLibrary();
+            require("../modules/Compatibility").unlinkFromLibrary(style);
         });
         toast(`${stylesWillMakeLocal.length} style${stylesWillMakeLocal.length > 1 ? 's': ''} have been change to local style.`)
     }

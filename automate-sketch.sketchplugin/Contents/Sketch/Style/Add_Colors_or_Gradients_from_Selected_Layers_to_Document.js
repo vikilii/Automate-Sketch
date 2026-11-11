@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -22,7 +23,7 @@ var onRun = function(context) {
     var Swatch;
     var swatches;
     var swatchNames;
-    if (sketch.version.sketch >= 69) {
+    if (compatibility.version >= 69) {
         Swatch = require("sketch/dom").Swatch;
         swatches = document.swatches;
         swatchNames = swatches.map(function(item) { return item.name });
@@ -49,7 +50,7 @@ var onRun = function(context) {
         layer.style.fills.forEach(function(fill) {
             if (fill.fill == "Color") {
                 // For Sketch 69 color variables
-                if (sketch.version.sketch >= 69) {
+                if (compatibility.version >= 69) {
                     if (showConfirmDialog) {
                         if (responseCode == 1000) {
                             var mscolor = MSImmutableColor.colorWithSVGString(fill.color).newMutableCounterpart();

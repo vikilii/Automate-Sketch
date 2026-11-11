@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var copyGrid = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -10,7 +11,7 @@ var copyGrid = function(context) {
     if (selection.count() > 0) {
         // Get grid setting of first layer
         var layer = selection.firstObject();
-        if (layer.class() == "MSArtboardGroup" || layer.class() == "MSSymbolMaster") {
+        if (compatibility.isArtboard(layer) || layer.class() == "MSSymbolMaster") {
             if (layer.grid()) {
                 copyGridToPasteboard(context, layer);
             } else {
@@ -23,7 +24,7 @@ var copyGrid = function(context) {
         }
     } else {
         // Get grid setting of page
-        if (page.grid() && page.artboards().count() == 0) {
+        if (page.grid() && compatibility.artboards(page).count() == 0) {
             copyGridToPasteboard(context, page);
         } else {
             document.showMessage("No grid setting in \"" + page.name() + "\".");
@@ -50,13 +51,13 @@ var pasteGrid = function(context) {
                 // Set grid for artboards
                 var loopSelection = selection.objectEnumerator();
                 while (layer = loopSelection.nextObject()) {
-                    if (layer.class() == "MSArtboardGroup" || layer.class() == "MSSymbolMaster") {
+                    if (compatibility.isArtboard(layer) || layer.class() == "MSSymbolMaster") {
                         applyGridToLayer(gridSetting, layer);
                     }
                 }
             } else {
                 // Set grid for page
-                if (page.artboards().count() == 0) {
+                if (compatibility.artboards(page).count() == 0) {
                     applyGridToLayer(gridSetting, page);
                 }
             }

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -51,8 +52,8 @@ var onRun = function(context) {
             var contentDrawView = document.sketchObject.contentDrawView();
             var midX = Math.round((contentDrawView.frame().size.width/2 - contentDrawView.horizontalRuler().baseLine())/contentDrawView.zoomValue() - layer.frame.width / 2);
             var midY = Math.round((contentDrawView.frame().size.height/2 - contentDrawView.verticalRuler().baseLine())/contentDrawView.zoomValue() - layer.frame.height / 2);
-            layer.sketchObject.absoluteRect().setRulerX(midX);
-            layer.sketchObject.absoluteRect().setRulerY(midY);
+            compatibility.absoluteRect(layer.sketchObject).setRulerX(midX);
+            compatibility.absoluteRect(layer.sketchObject).setRulerY(midY);
         } else {
             var selectedLayer = document.selectedLayers.layers[0];
             if (["Artboard", "Group", "SymbolMaster"].includes(selectedLayer.type)) {

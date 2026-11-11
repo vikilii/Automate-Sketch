@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -25,7 +26,7 @@ var onRun = function(context) {
         return;
     }
 
-    if (sketch.version.sketch >= 53) {
+    if (compatibility.version >= 53) {
         var assetCollection = document.documentData().assets();
         var newAssetCollection = newDocument.documentData().assets();
 
@@ -33,7 +34,7 @@ var onRun = function(context) {
         var countGradient = 0;
         var countImage = 0;
 
-        if (sketch.version.sketch >= 69) {
+        if (compatibility.version >= 69) {
             var swatches = newDocument.documentData().sharedSwatches().objectsSortedByName();
             document.documentData().sharedSwatches().addSharedObjects(swatches);
             countColor = swatches.count();
@@ -60,7 +61,7 @@ var onRun = function(context) {
             }
         });
 
-        document.reloadInspector();
+        compatibility.refreshInspector(document);
 
         document.showMessage(
             "Imported " + countColor + " colors, " +
@@ -108,7 +109,7 @@ var onRun = function(context) {
             }
         }
 
-        document.reloadInspector();
+        compatibility.refreshInspector(document);
 
         document.showMessage(
             "Imported " + newColors.count() + " colors, " +

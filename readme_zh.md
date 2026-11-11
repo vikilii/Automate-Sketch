@@ -3,15 +3,16 @@
 
 # Automate Sketch
 
-上百个功能让您的工作更高效，推荐与 [Sketch Runner](http://sketchrunner.com/) 一起使用。
+面向 **Sketch 2026.3.1** 的兼容修复版。修复范围、行为变化和测试结果见 [兼容性说明](COMPATIBILITY-2026.3.1.md)。
 
 如果你在使用 Sketch 中遇到繁琐问题可以在 [**此处**](https://github.com/Ashung/Automate-Sketch/issues) 提需求，通过页面下方的支付宝或微信扫码打赏者可获得相关技术支持。
 
 ## 安装方法
 
-- 推荐在 [Sketch Runner](http://sketchrunner.com/) 的安装插件中搜索 "Automate"。
-- 下载并解压 [master.zip](https://github.com/Ashung/Automate-Sketch/archive/master.zip)，然后双击 "automate-sketch.sketchplugin" 文件。
-- 兼容旧版 Sketch 插件从[此处下载](http://ashung.github.io/Automate-Sketch/)。前两组数字为 Sketch 版本，后一组数字为插件发布日期。
+- 下载 [Automate-Sketch-2026.3.1.zip](https://github.com/vikilii/Automate-Sketch/releases/download/v2026.3.1/Automate-Sketch-2026.3.1.zip)，解压后双击其中的 `automate-sketch.sketchplugin` 安装。
+- 也可直接双击当前项目里的同名插件包，无需安装 Sketch Runner。
+- 如果旧插件已经加载，请重启 Sketch 或执行重新加载插件。本版关闭了原项目的自动更新地址，避免旧发布版覆盖修复。
+- 本版最低目标版本为 Sketch 2026.3.1；旧版 Sketch 请继续使用对应的历史发布版。
 
 ## 所有功能
 
@@ -31,7 +32,7 @@
 | Unlock All Layers                                            | **解锁当页所有图层**                                         |
 | Show All Layers                                              | **显示所有图层** 显示选中图层或当前页面内的所有图层。        |
 | Toggle Layer Constrain Proportions                           | **图层比例限制开关** 锁定或解锁选中图层的比例约束。          |
-| Toggle Select Group’s Content on Click                       | **点击时选择组内容开关**                                     |
+| Toggle Group / Graphic Container                            | **切换群组 / Graphic 容器**                                     |
 | Select All Layers In Selection By Type                       | **基于类型选择选中对象内所有图层** 根据类型（组、文本、形状、位图、组件、切片、可导出图层、隐藏图层）选择图层。 |
 | Select Layers By Name                                        | **基于名称选择图层**                                         |
 | Select All Child Layers                                      | **选择选中对象内所有子图层**                                 |

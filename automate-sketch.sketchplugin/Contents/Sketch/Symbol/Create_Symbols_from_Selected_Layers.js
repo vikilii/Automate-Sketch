@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -23,7 +24,7 @@ var onRun = function(context) {
     if (currentPage != symbolPage) {
         var Dialog = require("../modules/Dialog").dialog;
         var ui = require("../modules/Dialog").ui;
-    
+
         var dialog = new Dialog(
             "Create Symbols from Selected Layers"
         );
@@ -36,8 +37,8 @@ var onRun = function(context) {
         if (responseCode == 1000) {
             if (sendToSymbolPage.state() == NSOnState) {
                 targetPage = documentData.symbolsPageOrCreateIfNecessary();
-                if (sketch.version.sketch < 54) {
-                    document.pageTreeLayoutDidChange();
+                if (compatibility.version < 54) {
+
                 }
             } else {
                 targetPage = currentPage;
@@ -59,11 +60,11 @@ var onRun = function(context) {
             }
 
             var frame = layer.frame().rect();
-            var position = targetPage.originForNewArtboardWithSize(frame.size);
+            var position = compatibility.originForNewArtboard(targetPage, frame.size);
 
             var symbolMaster;
-            if (layer.class() == "MSArtboardGroup") {
-                symbolMaster = MSSymbolMaster.convertArtboardToSymbol(layer);
+            if (compatibility.isArtboard(layer)) {
+                symbolMaster = require("sketch/dom").SymbolMaster.fromFrame(require("sketch/dom").fromNative(layer)).sketchObject;
                 symbolMaster.moveToLayer_beforeLayer(targetPage, nil);
             } else {
                 symbolMaster = MSSymbolMaster.alloc().initWithFrame(frame);

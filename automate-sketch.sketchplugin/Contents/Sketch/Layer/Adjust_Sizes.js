@@ -1,5 +1,6 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require("sketch");
-var version = sketch.version.sketch;
+var version = compatibility.version;
 
 var smallIncreaseWidthFromRight = function(context) {
     runActionForSelection(context, function(layer) {
@@ -113,7 +114,7 @@ function runActionForSelection(context, action) {
     while (layer = loopSelection.nextObject()) {
         action(layer);
     }
-    document.reloadInspector();
+    compatibility.refreshInspector(document);
 }
 
 function adjustWidthFromRight(layer, val) {

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -5,7 +6,7 @@ var onRun = function(context) {
 
     var Dialog = require("../modules/Dialog").dialog;
     var sketch = require("sketch");
-    var version = sketch.version.sketch;
+    var version = compatibility.version;
 
     var document = context.document;
     var selection = context.selection;
@@ -19,17 +20,19 @@ var onRun = function(context) {
             return;
         }
     }
-    var image;
-    if (version >= 82) {
-        image = layer.image().image();
-    } else {
-        image = layer.NSImage();
+    var image = NSImage.alloc().initWithData(sketch.fromNative(layer).image.nsdata);
+    if (!image || image.size().width < 3 || image.size().height < 3) {
+        document.showMessage("Nine-slice requires an image at least 3 × 3 pixels.");
+        return;
     }
+    var pixels = NSBitmapImageRep.imageRepWithData(sketch.fromNative(layer).image.nsdata);
+    if (pixels) image.setSize(NSMakeSize(pixels.pixelsWide(),pixels.pixelsHigh()));
     var imageWidth = image.size().width;
     var imageHeight = image.size().height;
     var layerWidth = layer.frame().width();
     var layerHeight = layer.frame().height();
     var layerScale = layerWidth / imageWidth;
+    var layerScaleY = layerHeight / imageHeight;
 
     // Dialog
     var dialog = new Dialog(
@@ -123,72 +126,30 @@ var onRun = function(context) {
             top = slideBarTop.slider.intValue(),
             bottom = slideBarBottom.slider.intValue();
 
+        if (!(left > 0 && right > left && right < imageWidth && top > 0 && bottom > top && bottom < imageHeight)) {
+            document.showMessage("Keep all nine regions at least one pixel wide and high.");
+            return;
+        }
         var group = MSLayerGroup.alloc().initWithFrame(layer.frame().rect());
 
-        var part1Image = crop(image, 0, 0, left, top);
-        var part1Rect = CGRectMake(0, 0, Math.round(left * layerScale), Math.round(top * layerScale));
-        var part1Layer = MSBitmapLayer.alloc().initWithFrame_image(part1Rect, part1Image);
-        group.addLayer(part1Layer);
-        part1Layer.setName("1");
-        part1Layer.setResizingConstraint(9);
-
-        var part2Image = crop(image, left, 0, right - left, top);
-        var part2Rect = CGRectMake(Math.round(left * layerScale), 0, Math.round((right - left) * layerScale), Math.round(top * layerScale));
-        var part2Layer = MSBitmapLayer.alloc().initWithFrame_image(part2Rect, part2Image);
-        group.addLayer(part2Layer);
-        part2Layer.setName("2");
-        part2Layer.setResizingConstraint(10);
-
-        var part3Image = crop(image, right, 0, imageWidth - right, top);
-        var part3Rect = CGRectMake(Math.round(right * layerScale), 0, Math.round((imageWidth - right) * layerScale), Math.round(top * layerScale));
-        var part3Layer = MSBitmapLayer.alloc().initWithFrame_image(part3Rect, part3Image);
-        group.addLayer(part3Layer);
-        part3Layer.setName("3");
-        part3Layer.setResizingConstraint(12);
-
-        var part4Image = crop(image, 0, top, left, bottom - top);
-        var part4Rect = CGRectMake(0, Math.round(top * layerScale), Math.round(left * layerScale), Math.round((bottom - top) * layerScale));
-        var part4Layer = MSBitmapLayer.alloc().initWithFrame_image(part4Rect, part4Image);
-        group.addLayer(part4Layer);
-        part4Layer.setName("4");
-        part4Layer.setResizingConstraint(17);
-
-        var part5Image = crop(image, left, top, right - left, bottom - top);
-        var part5Rect = CGRectMake(Math.round(left * layerScale), Math.round(top * layerScale), Math.round((right - left) * layerScale), Math.round((bottom - top) * layerScale));
-        var part5Layer = MSBitmapLayer.alloc().initWithFrame_image(part5Rect, part5Image);
-        group.addLayer(part5Layer);
-        part5Layer.setName("5");
-        part5Layer.setResizingConstraint(18);
-
-        var part6Image = crop(image, right, top, imageWidth - right, bottom - top);
-        var part6Rect = CGRectMake(Math.round(right * layerScale), Math.round(top * layerScale), Math.round((imageWidth - right) * layerScale), Math.round((bottom - top) * layerScale));
-        var part6Layer = MSBitmapLayer.alloc().initWithFrame_image(part6Rect, part6Image);
-        group.addLayer(part6Layer);
-        part6Layer.setName("6");
-        part6Layer.setResizingConstraint(20);
-
-        var part7Image = crop(image, 0, bottom, left, imageHeight - bottom);
-        var part7Rect = CGRectMake(0, Math.round(bottom * layerScale), Math.round(left * layerScale), Math.round((imageHeight - bottom) * layerScale));
-        var part7Layer = MSBitmapLayer.alloc().initWithFrame_image(part7Rect, part7Image);
-        group.addLayer(part7Layer);
-        part7Layer.setName("7");
-        part7Layer.setResizingConstraint(33);
-
-        var part8Image = crop(image, left, bottom, right - left, imageHeight - bottom);
-        var part8Rect = CGRectMake(Math.round(left * layerScale), Math.round(bottom * layerScale), Math.round((right - left) * layerScale), Math.round((imageHeight - bottom) * layerScale));
-        var part8Layer = MSBitmapLayer.alloc().initWithFrame_image(part8Rect, part8Image);
-        group.addLayer(part8Layer);
-        part8Layer.setName("8");
-        part8Layer.setResizingConstraint(34);
-
-        var part9Image = crop(image, right, bottom, imageWidth - right, imageHeight - bottom);
-        var part9Rect = CGRectMake(Math.round(right * layerScale), Math.round(bottom * layerScale), Math.round((imageWidth - right) * layerScale), Math.round((imageHeight - bottom) * layerScale));
-        var part9Layer = MSBitmapLayer.alloc().initWithFrame_image(part9Rect, part9Image);
-        group.addLayer(part9Layer);
-        part9Layer.setName("9");
-        part9Layer.setResizingConstraint(36);
+        var xs=[0,left,right,imageWidth],ys=[0,top,bottom,imageHeight];
+        var constraints=[9,10,12,17,18,20,33,34,36];
+        for(var row=0;row<3;row++) {
+            for(var column=0;column<3;column++) {
+                var x=xs[column]*layerScale,y=ys[row]*layerScaleY;
+                var width=(xs[column+1]-xs[column])*layerScale;
+                var height=(ys[row+1]-ys[row])*layerScaleY;
+                var partImage=crop(image,xs[column],ys[row],xs[column+1]-xs[column],ys[row+1]-ys[row]);
+                var part=new sketch.Image({parent:sketch.fromNative(group),name:String(row*3+column+1),frame:{x:x,y:y,width:width,height:height},image:partImage.data()});
+                part.sketchObject.setResizingConstraint(constraints[row*3+column]);
+            }
+        }
 
         layer.parentGroup().addLayer(group);
+        var wrapped=sketch.fromNative(group),source=sketch.fromNative(layer);
+        wrapped.name=source.name+" (9-slice)";
+        wrapped.index=source.index+1;
+        wrapped.transform=source.transform;
 
         group.select_byExtendingSelection(true, false);
 

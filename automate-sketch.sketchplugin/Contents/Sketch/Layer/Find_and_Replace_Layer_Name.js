@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -68,13 +69,13 @@ var onRun = function(context) {
         var currentPage = context.document.currentPage();
         var layers = NSMutableArray.alloc().init();
         if (layersFromView.indexOfSelectedItem() == 0) {
-            layers.addObjectsFromArray(currentPage.children());
+            layers.addObjectsFromArray(compatibility.descendants(currentPage));
             layers.removeObject(currentPage);
         } else if (layersFromView.indexOfSelectedItem() == 1) {
             layers.addObjectsFromArray(context.selection);
         } else if (layersFromView.indexOfSelectedItem() == 2) {
             context.selection.forEach(function(item) {
-                var _layer = item.children();
+                var _layer = compatibility.descendants(item);
                 _layer.removeObject(item);
                 layers.addObjectsFromArray(_layer);
             });

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -14,7 +15,7 @@ var onRun = function(context) {
     var redColor = NSColor.colorWithRed_green_blue_alpha(0.8, 0.1, 0.1, 1);
     var noColor = NSColor.colorWithRed_green_blue_alpha(0, 0, 0, 0);
 
-    if (sketch.version.sketch < 51) {
+    if (compatibility.version < 51) {
         toast("😮 You have to update to Sketch 51+ to use this feature.");
         return;
     }
@@ -50,7 +51,7 @@ var onRun = function(context) {
     allLocalStyle = allLocalStyle.sortedArrayUsingDescriptors([sortDescriptor]);
 
     var assetLibraryController = AppController.sharedInstance().librariesController();
-    var availableLibraries = assetLibraryController.availableLibraries();
+    var availableLibraries = compatibility.libraries();
     availableLibraries = availableLibraries.sortedArrayUsingDescriptors([sortDescriptor]);
     if (availableLibraries.count() == 0) {
         toast("You have no available libraries.");
@@ -281,18 +282,14 @@ var onRun = function(context) {
         var page;
         while (page = loopPages.nextObject()) {
             var predicateSymbolInstance = NSPredicate.predicateWithFormat("className == %@", "MSSymbolInstance");
-            var symbolInstancesInPage = page.children().filteredArrayUsingPredicate(predicateSymbolInstance);
+            var symbolInstancesInPage = compatibility.descendants(page).filteredArrayUsingPredicate(predicateSymbolInstance);
             var loopSymbolInstancesInPage = symbolInstancesInPage.objectEnumerator();
             var instance;
             while (instance = loopSymbolInstancesInPage.nextObject()) {
-                MSAvailableOverride.flattenAvailableOverrides(instance.availableOverrides()).forEach(function(override) {
-                    if (override.hasOverride() && override.overridePoint().isStyleOverride()) {
-                        if (Object.keys(localStyleIDToForeignStyleMapping).includes(String(override.overrideValue()))) {
-                            instance.setValue_forOverridePoint(
-                                localStyleIDToForeignStyleMapping[override.overrideValue()].localShareID(),
-                                override.overridePoint()
-                            );
-                        }
+                sketch.fromNative(instance).overrides.forEach(function(override) {
+                    if (!override.isDefault && (override.property === "layerStyle" || override.property === "textStyle")) {
+                        var replacement = localStyleIDToForeignStyleMapping[override.value];
+                        if (replacement) override.value = String(replacement.localShareID());
                     }
                 });
             }
@@ -303,7 +300,7 @@ var onRun = function(context) {
             var sharedStyle = styleToLibraryDict["" + item.objectID()];
             if (sharedStyle) {
                 item.allLayersInstances().forEach(function(layer) {
-                    if (sketch.version.sketch >= 52) {
+                    if (compatibility.version >= 52) {
                         var localStyleID = layer.sharedStyleID();
                         if (resetStyleView.state() == NSOffState) {
                             layer.setSharedStyleID(localStyleIDToForeignStyleMapping[localStyleID].localShareID());

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -8,7 +9,7 @@ var onRun = function(context) {
     var ui = require("../modules/Dialog").ui;
     var system = require("../modules/System");
 
-    if (sketch.version.sketch < 54) {
+    if (compatibility.version < 54) {
         sketch.UI.message("Switch language is only run on Sketch 54+.");
         return;
     }
@@ -23,7 +24,9 @@ var onRun = function(context) {
     var userDefaults = NSUserDefaults.standardUserDefaults();
     var countryCode = String(NSLocale.currentLocale().countryCode());
     var systemLanguage = String(NSLocale.currentLocale().collatorIdentifier()).replace("-" + countryCode, "");
-    var sketchLanguage = String(userDefaults.objectForKey("AppleLanguages").firstObject()).replace("-" + countryCode, "");
+    var languages=userDefaults.objectForKey("AppleLanguages") || NSLocale.preferredLanguages();
+    var sketchLanguage=(languages && languages.count() ? String(languages.firstObject()) : "en").replace("-" + countryCode, "");
+    if (!sketchSupportLanguages.length) {sketch.UI.message("No application localizations found.");return;}
 
     var sketchLanguageIndex = 0;
     var languageTitles = [];

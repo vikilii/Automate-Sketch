@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require('sketch')
 
 var removeTransparencyLayersHandler = function(context) {
@@ -75,19 +76,19 @@ function selectTransparencyLayers(layer) {
     if (layer.isKindOfClass(MSStyledLayer)) {
         if (layerIsTransparency(layer)) {
             // Fix Sketch 45
-            if (sketch.version.sketch < 45) {
+            if (compatibility.version < 45) {
                 layer.select_byExpandingSelection(true, true);
             } else {
                 layer.select_byExtendingSelection(true, true);
             }
         } else {
-            var loopChildren = layer.children().objectEnumerator();
+            var loopChildren = compatibility.descendants(layer).objectEnumerator();
             var childLayer;
             while (childLayer = loopChildren.nextObject()) {
                 if (childLayer.isKindOfClass(MSStyledLayer)) {
                     if (layerIsTransparency(childLayer)) {
                         // Fix Sketch 45
-                        if (sketch.version.sketch < 45) {
+                        if (compatibility.version < 45) {
                             childLayer.select_byExpandingSelection(true, true);
                         } else {
                             childLayer.select_byExtendingSelection(true, true);
@@ -105,7 +106,7 @@ function removeTransparencyLayers(layer, callback) {
     var count = 0;
 
     if (layer.containsLayers() && layerIsGroup(layer)) {
-        var loop = layer.children().objectEnumerator();
+        var loop = compatibility.descendants(layer).objectEnumerator();
         var childLayer;
         while (childLayer = loop.nextObject()) {
             if (childLayer.isKindOfClass(MSStyledLayer)) {
@@ -124,8 +125,8 @@ function layerIsGroup(layer) {
     if (
         layer.class() == "MSPage" ||
         layer.class() == "MSSymbolMaster" ||
-        layer.class() == "MSArtboardGroup" ||
-        layer.class() == "MSLayerGroup"
+        compatibility.isArtboard(layer) ||
+        compatibility.isGroup(layer)
     ) {
         return true;
     } else {
@@ -268,3 +269,5 @@ function checkingInnerShadows(layer) {
     }
     return true;
 }
+
+module.exports.layerIsTransparency = layerIsTransparency;

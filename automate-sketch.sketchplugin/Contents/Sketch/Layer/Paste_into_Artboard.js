@@ -1,9 +1,10 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
     var ga = require("../modules/Google_Analytics");
     ga("Layer");
     
     var sketch = require('sketch');
-    var version = sketch.version.sketch;
+    var version = compatibility.version;
     var document = sketch.getSelectedDocument();
     var Dialog = require("../modules/Dialog").dialog;
     var ui = require("../modules/Dialog").ui;
@@ -21,7 +22,7 @@ var onRun = function(context) {
     }
 
     var artboards = document.selectedLayers.layers.filter(function(layer) {
-        return layer.type == "Artboard";
+        return compatibility.isArtboard(layer);
     });
 
     if (artboards.length == 0) {
@@ -72,30 +73,16 @@ var onRun = function(context) {
 
         var position = matrixFormat.cells().indexOfObject(matrixFormat.selectedCell());
         artboards.forEach(function(artboard) {
-            var pasteboardLayers = pasteboard.getPasteboardLayers();
-            if (version >= 50) {
-                pasteboardLayers.insertInGroup_atPosition_afterLayer_viewport_fitToParent(
-                    artboard.sketchObject,
-                    CGPointMake(0, 0),
-                    null,
-                    document.sketchObject.contentDrawView().viewPort(),
-                    false
-                );
-            } else {
-                pasteboardLayers.insertInGroup_atPosition_afterLayer(
-                    artboard.sketchObject,
-                    CGPointMake(0, 0),
-                    null
-                );
-            }
+            var pasteboardLayers = pasteboard.getPasteboardLayers(document);
+            pasteboard.insertLayers(pasteboardLayers, artboard.sketchObject, CGPointMake(0,0), null);
 
             var group;
             if (version >= 84) {
-                group = MSLayerGroup.groupWithLayers(pasteboardLayers.layers());
+                group = compatibility.groupWithLayers(pasteboardLayers.layers());
             } else if (version >= 83) {
-                group = MSLayerGroup.groupWithLayers(pasteboardLayers.layers().layers());
+                group = compatibility.groupWithLayers(pasteboardLayers.layers().layers());
             } else if (version >= 52) {
-                group = MSLayerGroup.groupWithLayers(pasteboardLayers.layers());
+                group = compatibility.groupWithLayers(pasteboardLayers.layers());
             } else {
                 group = MSLayerGroup.groupFromLayers(pasteboardLayers.layers());
             }

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -9,7 +10,7 @@ var onRun = function(context) {
     var selection = document.selectedLayers.layers;
 
     var selectedArtboards = selection.filter(function(layer) {
-        return layer.type == "Artboard";
+        return compatibility.isArtboard(layer);
     });
 
     if (selectedArtboards.length == 0) {

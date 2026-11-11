@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -9,7 +10,7 @@ var onRun = function(context) {
     var sketch = require("sketch");
     var document = context.document;
 
-    if (sketch.version.sketch < 48) {
+    if (compatibility.version < 48) {
         document.showMessage("😮 You have to update to Sketch 48+ to use this feature.");
         return;
     }
@@ -91,8 +92,7 @@ var onRun = function(context) {
                 var targetLibraryPath = sender.superview().subviews().objectAtIndex(0).stringValue();
                 var targetLibraryURL = NSURL.fileURLWithPath(targetLibraryPath);
                 NSApp.stopModal();
-                var welcomeWindow = MSWelcomeWindowController.alloc().init();
-                welcomeWindow.openDocumentAtURL(targetLibraryURL);
+                NSDocumentController.sharedDocumentController().openDocumentWithContentsOfURL_display_error(targetLibraryURL,true,null);
             });
         } else {
             openButtonView.setCOSJSTargetFunction(function(sender) {
@@ -183,11 +183,9 @@ var onRun = function(context) {
 function librariesWithConflictID() {
 
     var assetLibraryController = AppController.sharedInstance().librariesController();
-    var libraries = assetLibraryController.libraries();
+    var libraries = compatibility.allLibraries();
 
-    if (libraries.count() == 0) {
-        return nil;
-    }
+    if (libraries.count() < 2) return NSArray.array();
 
     // Sort by library ID
     var librariesCopy = libraries.mutableCopy();
@@ -250,9 +248,6 @@ function changeDocumentID(document, documentPath) {
 
         newDocument.documentData().setObjectID(newID);
 
-        // Hack
-        newDocument.addBlankPage();
-        newDocument.documentData().removePage(document.pages().lastObject());
 
         var error2 = MOPointer.alloc().init();
         var writeToNewDocument = newDocument.writeToURL_ofType_forSaveOperation_originalContentsURL_error(

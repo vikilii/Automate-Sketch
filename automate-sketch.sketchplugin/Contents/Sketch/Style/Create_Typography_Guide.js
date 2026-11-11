@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
     var ga = require("../modules/Google_Analytics");
     ga("Style");
@@ -50,8 +51,8 @@ var onRun = function(context) {
         var page = document.sketchObject.currentPage();
 
         var point;
-        if (sketch.version.sketch >= 49) {
-            point = page.originForNewArtboardWithSize(CGSizeMake(100,100));
+        if (compatibility.version >= 49) {
+            point = compatibility.originForNewArtboard(page, CGSizeMake(100,100));
         } else {
             point = page.originForNewArtboard();
         }
@@ -97,7 +98,7 @@ var onRun = function(context) {
                 typography.setStringValue(previewText);
             }
             typography.setStyle(textStyle.style());
-            if (sketch.version.sketch >= 52) {
+            if (compatibility.version >= 52) {
                 typography.setSharedStyleID(textStyle.objectID());
             } else {
                 typography.style().setSharedObjectID(textStyle.objectID());
@@ -118,10 +119,10 @@ var onRun = function(context) {
             text.frame().setY(typography.frame().height() + spaceBetweenTypographyAndText);
             typographyGroup.insertLayer_beforeLayer(text, typography);
 
-            if (sketch.version.sketch >= 53) {
-                typographyGroup.fixGeometryWithOptions(1);
+            if (compatibility.version >= 53) {
+                compatibility.fitGroup(typographyGroup);
             } else {
-                typographyGroup.resizeToFitChildrenWithOption(1);
+                compatibility.fitGroup(typographyGroup);
             }
             typographyPositionY = typographyPositionY + spaceBetweenTypographies + typographyGroup.frame().height();
 

@@ -2,3 +2,8 @@ node_modules
 .DS_Store
 package-lock.json
 package.json
+# Local Sketch regression output and distributables
+tests/.artifacts/
+tests/runtime-*.json
+__pycache__/
+dist/

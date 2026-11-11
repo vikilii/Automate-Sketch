@@ -2,13 +2,15 @@
 
 Make your workflow more efficient.
 
+**Sketch 2026.3.1 compatibility build.** See [compatibility notes and validation](COMPATIBILITY-2026.3.1.md). This fork targets Sketch 2026.3.1; older and future Sketch versions have not been validated.
+
 [**中文说明**](readme_zh.md)
 
 ## Installation
 
-- Search "Automate Sketch" from [Sketch Runner](http://sketchrunner.com/).
-- Download [master.zip](https://github.com/Ashung/Automate-Sketch/archive/master.zip), unzip it, then double-click the "automate-sketch.sketchplugin".
-- [Download](http://ashung.github.io/Automate-Sketch/) for older version Sketch.
+- Download [Automate-Sketch-2026.3.1.zip](https://github.com/vikilii/Automate-Sketch/releases/download/v2026.3.1/Automate-Sketch-2026.3.1.zip), unzip it, and double-click `automate-sketch.sketchplugin`.
+- You can also install the plugin bundle directly from this checkout. Sketch Runner is optional.
+- Restart Sketch or reload plugins if an older copy was already loaded. This build disables the original upstream update feed so an older release cannot overwrite the repair.
 
 ## All Features
 
@@ -30,7 +32,7 @@ Make your workflow more efficient.
 | Unlock All Layers                                            | Unlock all layers.                                           |
 | Show All Layers                                              | Show all layers in current page or selected group, artboard. |
 | Toggle Layer Constrain Proportions                           | Lock or unlock constrain proportions for selected layers.    |
-| Toggle Select Group’s Content on Click                       | Toggle "select group’s content on click" option.             |
+| Toggle Group / Graphic Container                            | Switch between a regular group and a Graphic container.             |
 | Select All Layers In Selection By Type                       | Select all groups, text, shapes, bitmaps, symbol instances, slices, exportable layers, hidden layers. |
 | Select Layers By Name                                        | Select all layers match by layer name.                       |
 | Select All Child Layers                                      | Select all sub-layers.                                       |

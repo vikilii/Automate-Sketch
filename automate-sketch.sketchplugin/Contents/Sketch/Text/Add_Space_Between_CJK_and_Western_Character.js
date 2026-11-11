@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -17,7 +18,7 @@ var onRun = function(context) {
             }
         }
     } else {
-        var allLayers = doc.currentPage().children();
+        var allLayers = compatibility.descendants(doc.currentPage());
         for(var i = 0; i < allLayers.count(); i++) {
             if(allLayers[i].className() == "MSTextLayer") {
                 hasTextLayer = true;

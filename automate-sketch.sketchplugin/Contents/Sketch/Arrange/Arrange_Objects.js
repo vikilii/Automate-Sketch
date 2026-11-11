@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var help = require("../modules/Help");
 
 var onRun = function(context) {
@@ -53,11 +54,11 @@ var onRun = function(context) {
             arrangeLayers(layers, globalLeft, globalTop, gapX, gapY, globalTop, snapDistance);
 
             // Resize group to fit children
-            if (selection.firstObject().parentGroup().class() == "MSLayerGroup") {
-                if (sketch.version.sketch >= 53) {
-                    selection.firstObject().parentGroup().fixGeometryWithOptions(1);
+            if (compatibility.isGroup(selection.firstObject().parentGroup())) {
+                if (compatibility.version >= 53) {
+                    compatibility.fitGroup(selection.firstObject().parentGroup());
                 } else {
-                    selection.firstObject().parentGroup().resizeToFitChildrenWithOption(1);
+                    compatibility.fitGroup(selection.firstObject().parentGroup());
                 }
             }
 

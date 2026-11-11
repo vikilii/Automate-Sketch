@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -17,7 +18,7 @@ var onRun = function(context) {
         var loopPages = document.pages().objectEnumerator();
         var page;
         while (page = loopPages.nextObject()) {
-            instances.addObjectsFromArray(page.allSymbolInstancesInChildren().allObjects());
+            instances.addObjectsFromArray(compatibility.symbolInstances(page));
         }
         renameInstances(instances, "Rename All Instances", "Change the name for all symbol instances.");
     }

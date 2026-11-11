@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -78,13 +79,13 @@ var onRun = function(context) {
         var currentPage = context.document.currentPage();
         var layers = NSMutableArray.alloc().init();
         if (layersFromView.indexOfSelectedItem() == 0) {
-            layers.addObjectsFromArray(currentPage.children());
+            layers.addObjectsFromArray(compatibility.descendants(currentPage));
             layers.removeObject(currentPage);
         } else if (layersFromView.indexOfSelectedItem() == 1) {
             layers.addObjectsFromArray(context.selection);
         } else if (layersFromView.indexOfSelectedItem() == 2) {
             context.selection.forEach(function(item) {
-                var _layer = item.children();
+                var _layer = compatibility.descendants(item);
                 _layer.removeObject(item);
                 layers.addObjectsFromArray(_layer);
             });
@@ -114,7 +115,9 @@ var onRun = function(context) {
             predicate = NSPredicate.predicateWithFormat("flow != null");
         }
         if (layerTypeView.indexOfSelectedItem() > 0) {
-            layers = layers.filteredArrayUsingPredicate(predicate);
+            if (layerTypeView.indexOfSelectedItem() === 1 || layerTypeView.indexOfSelectedItem() === 7) {
+                layers = NSArray.arrayWithArray(util.toArray(layers).filter(layerTypeView.indexOfSelectedItem() === 1 ? compatibility.isArtboard : compatibility.isGroup));
+            } else { layers = layers.filteredArrayUsingPredicate(predicate); }
         }
 
         if (layers.count() == 0) {

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -16,7 +17,7 @@ var onRun = function(context) {
     var system = require("../modules/System");
     var preferences = require("../modules/Preferences");
     var util = require("util");
-    var version = sketch.version.sketch;
+    var version = compatibility.version;
     
     var dialog = new Dialog("Export Selected Layers", "Export selected layers and rename with number.");
 
@@ -74,13 +75,13 @@ var onRun = function(context) {
         // position X
         if (reorderView.indexOfSelectedItem() == 0) {
             layers = document.selectedLayers.layers.sort(function(a, b) {
-                return a.frame.x >= b.frame.x;
+                return a.frame.x - b.frame.x;
             });
         }
         // position Y
         else if (reorderView.indexOfSelectedItem() == 1) {
             layers = document.selectedLayers.layers.sort(function(a, b) {
-                return a.frame.y >= b.frame.y;
+                return a.frame.y - b.frame.y;
             });
         }
         // name
@@ -92,7 +93,7 @@ var onRun = function(context) {
             layers = util.toArray(sortedLayers).map(layer => sketch.fromNative(layer))
         }
 
-        // console.log(layers.map(x => x.name));
+        if (reorderView.indexOfSelectedItem() == 3) layers = document.selectedLayers.layers.slice();
 
         var format = String(formatView.titleOfSelectedItem()).toLowerCase();
         var size = String(sizeView.stringValue());
@@ -102,11 +103,11 @@ var onRun = function(context) {
         layers.forEach(function(layer, index) {
             var scale = 1;
             if (size.endsWith("x") || size.endsWith("X")) {
-                scale = parseInt(size, 10);
+                scale = parseFloat(size);
             } else if (size.endsWith("w") || size.endsWith("W")) {
-                scale = parseInt(size, 10) / layer.frame.width;
+                scale = parseFloat(size) / layer.frame.width;
             } else if (size.endsWith("h") || size.endsWith("H")) {
-                scale = parseInt(size, 10) / layer.frame.height;
+                scale = parseFloat(size) / layer.frame.height;
             }
 
             var ancestry = layer.sketchObject.ancestry();
@@ -125,7 +126,7 @@ var onRun = function(context) {
                 colorSpace = document.sketchObject.colorSpace();
             }
             var path = folder + "/" + prefix + (index + 1) + '.' + format;            
-            var exporter = MSExporter.exporterForRequest_colorSpace(exportRequest, colorSpace);
+            var exporter = compatibility.exporter(exportRequest, colorSpace);
             exporter.exportToFileURL(NSURL.fileURLWithPath(path));
         });
         

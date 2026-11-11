@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -10,7 +11,7 @@ var onRun = function(context) {
     var document = sketch.getSelectedDocument();
 
     var selectedArtboard = document.selectedLayers.layers.find(function(layer) {
-        return layer.type == "Artboard" || layer.type == "SymbolMaster";
+        return compatibility.isArtboard(layer) || layer.type == "SymbolMaster";
     });
 
     if (!selectedArtboard) {
@@ -44,8 +45,8 @@ var onRun = function(context) {
     }
 
     function addGuide(position, orientation) {
-        var horizontalRulerData = selectedArtboard.sketchObject.horizontalRulerData();
-        var verticalRulerData = selectedArtboard.sketchObject.verticalRulerData();
+        var horizontalRulerData = compatibility.rulerData(selectedArtboard.sketchObject, "horizontal");
+        var verticalRulerData = compatibility.rulerData(selectedArtboard.sketchObject, "vertical");
         var value;
         if (/^[0-9]+(\.[0-9]+)?$/.test(position)) {
             value = parseFloat(position);
@@ -55,9 +56,9 @@ var onRun = function(context) {
         }
        value = Math.round(value);
         if (orientation == 0) {
-            horizontalRulerData.addGuideWithValue(value);
+            compatibility.addGuide(horizontalRulerData, value);
         } else {
-            verticalRulerData.addGuideWithValue(value);
+            compatibility.addGuide(verticalRulerData, value);
         }
     }
 
@@ -65,7 +66,7 @@ var onRun = function(context) {
 
 function showRuler(document) {
     if (!document.isRulersVisible()) {
-        var toggleRulersAction = document.actionsController().actionForID("MSToggleRulersAction");
+        var toggleRulersAction = compatibility.action(document,"MSToggleRulersAction");
         if(toggleRulersAction.validate()) {
             toggleRulersAction.performAction(nil);
         }

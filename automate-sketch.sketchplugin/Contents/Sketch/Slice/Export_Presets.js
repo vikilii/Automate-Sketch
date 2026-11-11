@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require("sketch");
 
 var saveExportPresetsToFile = function(context) {
@@ -62,7 +63,6 @@ var loadExportPresetsFromFile = function(context) {
     ga("Slice");
 
     var util = require("util");
-    var path = require("path");
     var system = require("../modules/System");
 
     var exportPresets = MSExportPreset.allExportPresets();
@@ -76,7 +76,7 @@ var loadExportPresetsFromFile = function(context) {
 
     var fileType;
     var content = system.readStringFromFile(filePath);
-    var ext = path.extname(filePath);
+    var ext = "." + String(NSString.stringWithString(filePath).pathExtension());
     if (ext == ".json") {
         fileType = "json"
     }
@@ -110,7 +110,7 @@ var loadExportPresetsFromFile = function(context) {
     }
 
     if (fileType == "zip") {
-        if (sketch.version.sketch >= 54) {
+        if (compatibility.version >= 54) {
             var Buffer = require("buffer").Buffer;
             var fileBuffer = Buffer.from(NSData.dataWithContentsOfFile(filePath));
             if (!fileBuffer || fileBuffer.length < 4) {
@@ -132,12 +132,6 @@ var loadExportPresetsFromFile = function(context) {
             return;
         }
     }
-
-    // Refresh data
-    var panelController = MSPreferencesController.sharedController();
-    panelController.switchToPaneWithIdentifier(MSExportPresetsPreferencePane.identifier());
-    panelController.currentPreferencePane().tableView().reloadData();
-    panelController.window().close();
 
     sketch.UI.message("Export presets loaded.");
 

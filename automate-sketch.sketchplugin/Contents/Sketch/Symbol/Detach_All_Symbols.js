@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
     var ga = require("../modules/Google_Analytics");
     ga("Symbol");
@@ -8,7 +9,7 @@ var onRun = function(context) {
     var currentPage = document.selectedPage;
 
     var allSelectedLayersIsArtboard = selectedLayers.every(function(layer) {
-        return layer.type == "Artboard";
+        return compatibility.isArtboard(layer);
     });
     if (selectedLayers.length > 0 && allSelectedLayersIsArtboard) {
         var allInstances = [];

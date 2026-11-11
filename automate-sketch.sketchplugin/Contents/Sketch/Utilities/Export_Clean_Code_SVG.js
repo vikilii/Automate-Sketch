@@ -1,4 +1,5 @@
-@import "../Layer/Select_or_Remove_All_Transparency_Layers.js";
+var compatibility = require("../modules/Compatibility");
+var layerIsTransparency = require("../Layer/Select_or_Remove_All_Transparency_Layers").layerIsTransparency;
 
 var onRun = function(context) {
 
@@ -6,7 +7,7 @@ var onRun = function(context) {
     ga("Utilities");
 
     var sketch = require("sketch");
-    var version = sketch.version.sketch;
+    var version = compatibility.version;
     var type = require("../modules/Type");
     var svgConfigPath = context.plugin.urlForResourceNamed("svgo_config.json").path();
 
@@ -119,7 +120,7 @@ var onRun = function(context) {
     useSVGO.setState(preferences.get("exportSVGOptimise") == true ? NSOnState : NSOffState);
     dialog.addView(useSVGO);
 
-    dialog.addLabel("Choose a JSON for SVGO config. (Optional)");
+    dialog.addLabel("Choose an SVGO config (.json, .js, .mjs, .cjs). Optional.");
     var customSVGOConfigFileView = ui.view([0, 0, 300, 25]);
     var customSVGOConfigFileText = ui.textField("", [0, 0, 210, 25]);
     var customSVGOConfigFilePath = preferences.get("exportSVGConfigFilePath");
@@ -153,17 +154,19 @@ var onRun = function(context) {
     });
 
     customSVGOConfigFileButton.setCOSJSTargetFunction(function(sender) {
-        var filePath = system.chooseFile(["json"]);
+        var filePath = system.chooseFile(["json","js","mjs","cjs"]);
         if (filePath) {
             customSVGOConfigFileText.setStringValue(filePath);
             svgConfigPath = filePath;
         }
     });
 
+    if (customSVGOConfigFilePath && system.fileExists(customSVGOConfigFilePath)) svgConfigPath = customSVGOConfigFilePath;
+
     // Run
     var responseCode = dialog.run();
 
-    if (responseCode) {
+    if (responseCode == 1000 || responseCode == 1002) {
         preferences.set("exportSVGFileNameType", nameType.titleOfSelectedItem())
         preferences.set("exportSVGIgnoreBitmap", ignoreBitmap.state() == NSOnState ? true : false);
         preferences.set("exportSVGIgnoreText", ignoreText.state() == NSOnState ? true : false);
@@ -183,6 +186,7 @@ var onRun = function(context) {
 
     if (responseCode == 1000 || responseCode == 1002) {
 
+        var svgoMajor=1;
         if (useSVGO.state() == NSOnState) {
             var svgo = "";
             runCommand("/bin/bash", ["-l", "-c", "which svgo"], function(status, msg) {
@@ -195,6 +199,7 @@ var onRun = function(context) {
                 document.showMessage("You have to install SVGO.");
                 return;
             }
+            runCommand(svgo,["--version"],function(status,message){if(status) svgoMajor=parseInt(String(message),10)||1;});
         }
 
         var ignoreLayerNamesArray = [];
@@ -202,26 +207,13 @@ var onRun = function(context) {
             ignoreLayerNamesArray = ignoreLayerNames.stringValue().split(/\s*,\s*/);
         }
 
-        var savePanel;
         var savePath;
         if (responseCode == 1000) {
-            if (selection.count() == 1) {
-                var fileName = fixedLayerName(selection.firstObject().name(), nameType.indexOfSelectedItem() + 1);
-                savePanel = NSSavePanel.savePanel();
-                savePanel.setTitle("Save as SVG");
-                savePanel.setShowsTagField(false);
-                savePanel.setNameFieldStringValue(fileName);
-                savePanel.setCanCreateDirectories(true);
-            } else {
-                savePanel = NSOpenPanel.openPanel();
-                savePanel.setMessage("Export selected layers as SVG");
-                savePanel.setCanChooseDirectories(true);
-                savePanel.setCanChooseFiles(false);
-                savePanel.setCanCreateDirectories(true);
-            }
-            if (savePanel.runModal() == NSModalResponseOK) {
-                savePath = savePanel.URL().path();
-            }
+            savePath = selection.count() === 1
+                ? system.savePanel(fixedLayerName(String(selection.firstObject().name()),nameType.indexOfSelectedItem()+1) + ".svg")
+                : system.chooseFolder();
+            if (!savePath) return;
+            savePath = NSString.stringWithString(savePath);
         }
 
         var exportedSVGFiles = NSMutableArray.alloc().init();
@@ -229,18 +221,19 @@ var onRun = function(context) {
         var layer;
         while (layer = loopSelection.nextObject()) {
 
-            var layerCopy = layer.duplicate();
+            var layerCopy = sketch.fromNative(layer).duplicate().sketchObject;
+            try {
 
             if (ungroup.state() == NSOnState) {
-                var groupsInChild = layerCopy.children().filteredArrayUsingPredicate(NSPredicate.predicateWithFormat('className == "MSLayerGroup"'));
+                var groupsInChild = compatibility.descendants(layerCopy).filteredArrayUsingPredicate(NSPredicate.predicateWithFormat('className == "MSLayerGroup"'));
                 var loopGroups = groupsInChild.reverseObjectEnumerator();
                 var group;
                 while (group = loopGroups.nextObject()) {
-                    group.ungroup();
+                    if (compatibility.isGroup(group)) group.ungroup();
                 }
             }
 
-            var children = layerCopy.children();
+            var children = compatibility.descendants(layerCopy);
             var predicate = NSPredicate.predicateWithFormat('\
                 className == "MSShapeGroup" || \
                 className == "MSBitmapLayer" || \
@@ -254,7 +247,6 @@ var onRun = function(context) {
                 className == "MSStarShape" || \
                 className == "MSPolygonShape"'
             );
-            var predicate = NSPredicate.predicateWithFormat('className == "MSRectangleShape"')
             var children = children.filteredArrayUsingPredicate(predicate);
 
             var loopChildren = children.objectEnumerator();
@@ -294,7 +286,7 @@ var onRun = function(context) {
 
                 // Advanced Options
                 if (changeFillRule.state() == NSOnState && type.isShape(children)) {
-                    if (sketch.version.sketch >= 51) {
+                    if (compatibility.version >= 51) {
                         children.style().setWindingRule(0);
                     }
                     else {
@@ -320,17 +312,8 @@ var onRun = function(context) {
 
             }
 
-            var ancestry = layerCopy.ancestry();
-            var exportRequest = MSExportRequest.exportRequestsFromLayerAncestry(ancestry).firstObject();
-            exportRequest.setFormat("svg");
-            if (version >= 86) {
-                colorSpace = NSColorSpace.sRGBColorSpace().CGColorSpace();
-            } else {
-                colorSpace = NSColorSpace.sRGBColorSpace();
-            }
-            var exporter = MSExporter.exporterForRequest_colorSpace(exportRequest, colorSpace);
-            var svgData = exporter.data();
-            var svgCode = NSString.alloc().initWithData_encoding(svgData, NSUTF8StringEncoding);
+            var svgBuffer = sketch.export(sketch.fromNative(layerCopy),{formats:"svg",output:false});
+            var svgCode = svgBuffer.toString("utf8");
 
             svgCode = svgCode.replace(/\s+<!--.*-->/, "")
                 .replace(/\s+<title>.*<\/title>/, "")
@@ -339,21 +322,40 @@ var onRun = function(context) {
 
             if (useSVGO.state() == NSOnState) {
 
-                var config = require(svgConfigPath);
-                runCommand(
-                    "/bin/bash",
-                    ["-l", "-c", svgo + " --config='" + JSON.stringify(config) + "' -s '" + svgCode + "'"],
-                    function(status, msg) {
-                        if (status && msg != "") {
-                            svgCode = msg;
-                            svgCode = svgCode.replace(/\s*$/g, "");
+                var temporary = String(NSTemporaryDirectory()) + "automate-svg-" + NSUUID.UUID().UUIDString();
+                system.mkdir(temporary);
+                var input = temporary + "/input.svg", output = temporary + "/output.svg";
+                try {
+                    system.writeStringToFile(svgCode,input);
+                    var configFile=String(svgConfigPath);
+                    if(svgoMajor>=2 && /\.json$/i.test(configFile)) {
+                        var config;
+                        if(configFile===String(context.plugin.urlForResourceNamed("svgo_config.json").path())) {
+                            config={multipass:true,js2svg:{pretty:true},plugins:[{name:"preset-default",params:{overrides:svgoMajor<4 ? {removeViewBox:false} : {}}}]};
+                        } else {
+                            config=JSON.parse(system.readStringFromFile(configFile));
+                            config.plugins=(config.plugins || ["preset-default"]).map(function(plugin){
+                                if(typeof plugin!=="object" || plugin.name) return plugin;
+                                var name=Object.keys(plugin)[0],value=plugin[name];
+                                if(value===false) return null;
+                                if(name==="removeScriptElement" && svgoMajor>=4) name="removeScripts";
+                                return {name:name,params:typeof value==="object" ? value : {}};
+                            }).filter(Boolean);
+                            if(config.pretty) {config.js2svg={pretty:true};delete config.pretty;}
                         }
+                        configFile=temporary+"/svgo.config.mjs";
+                        system.writeStringToFile("export default "+JSON.stringify(config)+";",configFile);
                     }
-                );
+                    runCommand(svgo,["--config",configFile,"--input",input,"--output",output],function(status,message) {
+                        if (!status) throw new Error("SVGO: " + message);
+                    });
+                    svgCode = system.readStringFromFile(output);
+                    if (!svgCode) throw new Error("SVGO returned an empty SVG");
+                } finally { system.rm(temporary); }
 
             }
 
-            layerCopy.removeFromParent();
+
 
             if (responseCode == 1002 && selection.count() == 1) {
                 pasteboard.copy(svgCode);
@@ -378,6 +380,7 @@ var onRun = function(context) {
                 writeContentToFile(svgPath, svgCode);
                 exportedSVGFiles.addObject(NSURL.fileURLWithPath(svgPath));
             }
+            } finally { layerCopy.removeFromParent(); }
         }
 
         if (exportedSVGFiles.count() > 0) {

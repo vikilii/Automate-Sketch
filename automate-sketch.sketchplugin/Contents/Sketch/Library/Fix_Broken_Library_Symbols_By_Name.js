@@ -5,7 +5,7 @@ var onRun = function(context) {
     
     var Dialog = require("../modules/Dialog").dialog;
     var ui = require("../modules/Dialog").ui;
-    var preview = require("../modules/preview");
+    var preview = require("../modules/Preview");
     var sketch = require("sketch/dom");
     var toast = require("sketch/ui").message;
     var document = sketch.getSelectedDocument();

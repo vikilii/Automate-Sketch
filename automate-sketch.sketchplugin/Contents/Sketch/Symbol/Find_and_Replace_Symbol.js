@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -157,7 +158,7 @@ var onRun = function(context) {
                     if (sizeView.state() == NSOnState) {
                         newInstance.sketchObject.resetSizeToMaster();
                         if (newInstance.parent.type == "Group") {
-                            newInstance.parent.sketchObject.fixGeometryWithOptions(1);
+                            compatibility.fitGroup(newInstance.parent.sketchObject);
                         }
                     }
                 }
@@ -201,7 +202,7 @@ var onRun = function(context) {
             });
         }
 
-        document.sketchObject.reloadInspector();
+        compatibility.refreshInspector(document.sketchObject);
     }
 };
 

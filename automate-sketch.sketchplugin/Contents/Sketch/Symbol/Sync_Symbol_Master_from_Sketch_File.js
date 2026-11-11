@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -29,7 +30,7 @@ var onRun = function(context) {
     var newDocumentData = newDocument.documentData();
     var newDocumentSymbols = newDocumentData.localSymbols();
     if (newDocumentSymbols.count() == 0) {
-        document.showMessage('No symbol masters in "' + chooseFile.URL().path() + '".');
+        document.showMessage('No symbol masters in "' + chooseFile + '".');
         return;
     }
 
@@ -150,6 +151,7 @@ var onRun = function(context) {
     if (responseCode == 1000) {
 
         var newSymbolMastersWillAddToDocument = NSMutableArray.alloc().init();
+        var visitedSymbols = {};
         contentView.subviews().forEach(function(view, i) {
             var state = view.subviews().firstObject().state();
             if (state == NSOnState) {
@@ -158,7 +160,9 @@ var onRun = function(context) {
                 // Nested Symbol in new sketch file
                 iterateNestedSymbols(differentSymbols.objectAtIndex(i));
                 function iterateNestedSymbols(_symbolmaster) {
-                    _symbolmaster.allSymbolInstancesInChildren().allObjects().forEach(function(symbolInstance) {
+                    if (!_symbolmaster || visitedSymbols[String(_symbolmaster.symbolID())]) return;
+                    visitedSymbols[String(_symbolmaster.symbolID())] = true;
+                    compatibility.symbolInstances(_symbolmaster).forEach(function(symbolInstance) {
                         var nestedSymbolMaster = symbolInstance.symbolMaster();
                         if (
                             !newSymbolMastersWillAddToDocument.containsObject(nestedSymbolMaster) &&
@@ -188,7 +192,7 @@ var onRun = function(context) {
                 if (!page || page.class() != "MSPage") {
                     page = documentData.symbolsPageOrCreateIfNecessary();
                 }
-                var origin = page.originForNewArtboardWithSize(symbolMaster.rect().size);
+                var origin = compatibility.originForNewArtboard(page, symbolMaster.rect().size);
                 symbolMaster.frame().setX(origin.x);
                 symbolMaster.frame().setY(origin.y);
                 page.addLayer(symbolMaster);
@@ -204,10 +208,10 @@ var onRun = function(context) {
 };
 
 function symbolThumbView(context, symbol, x, y, imageWidth, imageHeight, label) {
-    var preview = require("../modules/preview");
+    var preview = require("../modules/Preview");
     var imageViewWrap = NSView.alloc().initWithFrame(NSMakeRect(x, y, imageWidth, imageHeight));
     var imageView = NSImageView.alloc().initWithFrame(NSMakeRect(0, 0, imageWidth, imageHeight));
-    var symbolPreviewImage = preview.symbol(symbol_2, [imageWidth * 2, imageHeight * 2]);
+    var symbolPreviewImage = preview.symbol(symbol, [imageWidth * 2, imageHeight * 2]);
 
     var backgroundImage = NSImage.alloc().initWithContentsOfURL(context.plugin.urlForResourceNamed("bg_alpha.png"));
     imageView.setWantsLayer(true);

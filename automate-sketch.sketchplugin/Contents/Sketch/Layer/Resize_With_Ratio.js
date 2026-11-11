@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -15,7 +16,7 @@ var onRun = function(context) {
     ];
 
     var sketch = require("sketch");
-    var version = sketch.version.sketch;
+    var version = compatibility.version;
     var Dialog = require("../modules/Dialog").dialog;
     var ui = require("../modules/Dialog").ui;
     var sketch = require("sketch");

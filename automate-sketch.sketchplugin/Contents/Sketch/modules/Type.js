@@ -1,4 +1,5 @@
-var version = require("sketch").version.sketch;
+var compatibility = require("./Compatibility");
+var version = compatibility.version;
 
 module.exports.isShape = function(layer) {
     if (version >= 52) {
@@ -32,11 +33,11 @@ module.exports.isText = function(layer) {
 };
 
 module.exports.isGroup = function(layer) {
-    return layer.class() == "MSLayerGroup";
+    return compatibility.isGroup(layer);
 };
 
 module.exports.isArtboard = function(layer) {
-    return layer.class() == "MSArtboardGroup";
+    return compatibility.isArtboard(layer);
 };
 
 module.exports.isSymbolMaster = function(layer) {

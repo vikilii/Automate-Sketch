@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -59,7 +60,7 @@ var onRun = function(context) {
                         // log(match[0] + ' >>>> range(' + match.index + ', ' + (match.index + match[0].length) + ')');
                         var range = NSMakeRange(match.index, match[0].length);
                         textLayer.setIsEditingText(true);
-                        textLayer.addAttribute_value_forRange(NSFontAttributeName, textFont, range);
+                        compatibility.setTextAttribute(textLayer, NSFontAttributeName, textFont, range);
                         textLayer.setIsEditingText(false);
                     }
                 }

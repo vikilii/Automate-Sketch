@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -12,7 +13,7 @@ var onRun = function(context) {
     if (selection.count() > 0) {
         var loopSelection = selection.objectEnumerator();
         while (layer = loopSelection.nextObject()) {
-            var loopChildren = layer.children().objectEnumerator();
+            var loopChildren = compatibility.descendants(layer).objectEnumerator();
             var child;
             while (child = loopChildren.nextObject()) {
                 if (child.exportOptions().exportFormats().count() > 0 && child.class() != "MSSliceLayer") {
@@ -22,7 +23,7 @@ var onRun = function(context) {
             }
         }
     } else {
-        var loopChildren = page.children().objectEnumerator();
+        var loopChildren = compatibility.descendants(page).objectEnumerator();
         var child;
         while (child = loopChildren.nextObject()) {
             if (child.exportOptions().exportFormats().count() > 0 && child.class() != "MSSliceLayer") {
@@ -42,6 +43,6 @@ var onRun = function(context) {
     }
     doc.showMessage(message);
 
-    doc.layerTreeLayoutDidChange();
+
 
 };

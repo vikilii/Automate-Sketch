@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -57,21 +58,21 @@ var onRun = function(context) {
             if (artboard) {
                 var aw = artboard.frame().width();
                 var ah = artboard.frame().height();
-                var xInArtboard = layer.sketchObject.absoluteRect().x() - artboard.absoluteRect().x();
-                var yInArtboard = layer.sketchObject.absoluteRect().y() - artboard.absoluteRect().y();
+                var xInArtboard = compatibility.absoluteRect(layer.sketchObject).x() - compatibility.absoluteRect(artboard).x();
+                var yInArtboard = compatibility.absoluteRect(layer.sketchObject).y() - compatibility.absoluteRect(artboard).y();
                 var x = left != undefined ? left : xInArtboard;
                 var y = top != undefined ? top : yInArtboard;
                 var width = aw - x - (right != undefined ? right : aw - xInArtboard - layer.frame.width);
                 var height = ah - y - (bottom != undefined ? bottom : ah - yInArtboard - layer.frame.height);
-                layer.sketchObject.absoluteRect().setX(artboard.absoluteRect().x() + x);
-                layer.sketchObject.absoluteRect().setY(artboard.absoluteRect().y() + y);
+                compatibility.absoluteRect(layer.sketchObject).setX(compatibility.absoluteRect(artboard).x() + x);
+                compatibility.absoluteRect(layer.sketchObject).setY(compatibility.absoluteRect(artboard).y() + y);
                 layer.sketchObject.frame().setWidth(width);
                 layer.sketchObject.frame().setHeight(height);
                 if (layer.type == "Text") {
-                    layer.sketchObject.setTextBehaviour_mayAdjustFrame(1, false);
+                    compatibility.setTextBehavior(layer.sketchObject, 1);
                 }
-                if (layer.sketchObject.parentGroup().className() == "MSLayerGroup") {
-                    layer.sketchObject.parentGroup().fixGeometryWithOptions(1);
+                if (compatibility.isGroup(layer.sketchObject.parentGroup())) {
+                    compatibility.fitGroup(layer.sketchObject.parentGroup());
                 }
             }
         });

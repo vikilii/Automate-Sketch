@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require('sketch')
 
 var onRun = function(context) {
@@ -6,7 +7,7 @@ var onRun = function(context) {
     ga("Layer");
 
     var sketch = require("sketch");
-    var version = sketch.version.sketch;
+    var version = compatibility.version;
 
     var doc = context.document;
     var page = doc.currentPage();
@@ -17,7 +18,7 @@ var onRun = function(context) {
         // Resort the array
         var layers = selection.mutableCopy();
         layers.sort(function(a, b) {
-            return page.children().indexOfObject(a) - page.children().indexOfObject(b);
+            return compatibility.descendants(page).indexOfObject(a) - compatibility.descendants(page).indexOfObject(b);
         });
 
         // Deselect all layers
@@ -54,7 +55,7 @@ var onRun = function(context) {
 };
 
 function selectLayer(layer) {
-    if (sketch.version.sketch < 45) {
+    if (compatibility.version < 45) {
         layer.select_byExpendingSelection(true, true);
         if (!layer.selectedInLayerList()) {
             deselectAllChildAndSelf(layer, true);
@@ -70,13 +71,13 @@ function selectLayer(layer) {
 }
 
 function deselectAllChildAndSelf(layer, self) {
-    var loop = layer.children().objectEnumerator();
+    var loop = compatibility.descendants(layer).objectEnumerator();
     var child;
     while (child = loop.nextObject()) {
         if (self == false && child == layer) {
             continue;
         }
-        if (sketch.version.sketch < 45) {
+        if (compatibility.version < 45) {
             child.select_byExpendingSelection(false, true);
         } else {
             child.select_byExtendingSelection(false, true);

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require('sketch')
 
 var onRun = function(context) {
@@ -23,14 +24,14 @@ var onRun = function(context) {
 };
 
 function removeRedundantGroups(layer) {
-    if (layer.class() == "MSLayerGroup") {
+    if (compatibility.isGroup(layer)) {
         // Ungroup Redundant Groups
         if (layer.layers().count() == 1) {
             var child = layer.layers().firstObject();
             if(groupIsSafeToUngroup(layer)) {
                 layer.ungroup();
             }
-            if (child.class() == "MSLayerGroup") {removeRedundantGroups(child);}
+            if (compatibility.isGroup(child)) {removeRedundantGroups(child);}
         } else {
             for (var i = 0; i < layer.layers().count(); i++) {
                 var childLayer = layer.layers().objectAtIndex(i);
@@ -42,7 +43,7 @@ function removeRedundantGroups(layer) {
             layer.removeFromParent();
         }
     } else {
-        if (layer.containedLayers() && layer.class() != "MSShapeGroup") {
+        if (typeof layer.layers === "function" && layer.class() != "MSShapeGroup") {
             for (var i = 0; i < layer.layers().count(); i++) {
                 var childLayer = layer.layers().objectAtIndex(i);
                 removeRedundantGroups(childLayer);
@@ -57,10 +58,10 @@ function groupIsSafeToUngroup(group) {
         noShadows = (group.style().hasEnabledShadow() == 0),
         noExportOptions = (group.exportOptions().exportFormats().count() == 0);
     // Sketch 44+ resizing constraint
-    if (sketch.version.sketch >= 44) {
+    if (compatibility.version >= 44) {
         var noResizingConstraint = (group.resizingConstraint() == 63);
         // Tint in ground
-        if (sketch.version.sketch >= 64) {
+        if (compatibility.version >= 64) {
             var noTint = (group.style().fills().count() == 0 || group.style().fills().firstObject().isEnabled() == false);
             return noOpacity && noBlending && noShadows && noResizingConstraint && noExportOptions && noTint;
         }

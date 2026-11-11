@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require('sketch')
 
 var onRun = function(context) {
@@ -17,7 +18,7 @@ var onRun = function(context) {
     var loopSelection = selection.objectEnumerator();
     var layer;
     while (layer = loopSelection.nextObject()) {
-        if (layer.class() == "MSSymbolMaster" || layer.class() == "MSArtboardGroup") {
+        if (layer.class() == "MSSymbolMaster" || compatibility.isArtboard(layer)) {
             selectedArtboards.addObject(layer);
         }
     }
@@ -27,7 +28,7 @@ var onRun = function(context) {
         return;
     }
 
-    var artboards = page.artboards().mutableCopy();
+    var artboards = compatibility.artboards(page).mutableCopy();
     artboards.removeObjectsInArray(selectedArtboards);
 
     var sortByName = NSSortDescriptor.sortDescriptorWithKey_ascending("name", true);
@@ -107,7 +108,7 @@ function selectLayers(context, layers) {
 }
 
 function selectLayer(layer, add) {
-    if (sketch.version.sketch < 45) {
+    if (compatibility.version < 45) {
         layer.select_byExpandingSelection(true, add);
     } else {
         layer.select_byExtendingSelection(true, add);

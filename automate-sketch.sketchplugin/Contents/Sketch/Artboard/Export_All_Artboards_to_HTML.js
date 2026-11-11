@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -8,7 +9,7 @@ var onRun = function(context) {
     var system = require("../modules/System");
     var doc = context.document;
 
-    if (doc.artboards().count() > 0) {
+    if (compatibility.artboards(doc).count() > 0) {
 
         // Dialog
         var dialog = new Dialog(
@@ -30,7 +31,7 @@ var onRun = function(context) {
         var cells = matrixFormat.cells();
             cells.objectAtIndex(0).setTitle("PNG, recommend for UI desigin.");
             cells.objectAtIndex(1).setTitle("SVG, recommend for icon design.");
-        dialog.setView(matrixFormat);
+        dialog.addView(matrixFormat);
 
         var responseCode = dialog.run();
         if (responseCode == 1000) {
@@ -65,7 +66,7 @@ var onRun = function(context) {
                     NSFileManager.defaultManager().removeItemAtPath_error_(assetsPath, nil);
                 }
 
-                var loopArtboards = doc.artboards().objectEnumerator();
+                var loopArtboards = compatibility.artboards(doc).objectEnumerator();
                 var artboard;
                 while (artboard = loopArtboards.nextObject()) {
 
@@ -74,7 +75,7 @@ var onRun = function(context) {
                         var name = artboard.name().replace(/[<>\\\|:""*\?]/g, "_").substring(0, 255);
 
                         var exportFormat = MSExportFormat.alloc().init();
-                        var exportRequest = MSExportRequest.exportRequestFromExportFormat_layer_inRect_useIDForName(
+                        var exportRequest = compatibility.exportRequest(
                             exportFormat, artboard, artboard.frame().rect(), false
                         );
 
@@ -84,10 +85,10 @@ var onRun = function(context) {
 
                         // Artboard background color
                         if (selectedRadioIndex == 0) {
-                            exportRequest.setBackgroundColor(artboard.backgroundColor());
+                            // The frame background is included by the exporter.
                         }
 
-                        doc.saveExportRequest_toFile(exportRequest, savePath + "/assets/" + name + "." + imageFormat);
+                        compatibility.saveExportRequest(doc, exportRequest, savePath + "/assets/" + name + "." + imageFormat);
 
                         // HTML
                         var imgWidth = artboard.frame().width();

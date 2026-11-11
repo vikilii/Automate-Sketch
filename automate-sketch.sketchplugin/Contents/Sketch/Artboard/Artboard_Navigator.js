@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require('sketch');
 
 var onRun = function(context) {
@@ -11,7 +12,7 @@ var onRun = function(context) {
     var document = context.document;
     var currentPage = document.currentPage();
     var allPages = getAllPagesHaveArtboards(document);
-    var allArtboards = document.documentData().allArtboards();
+    var allArtboards = compatibility.artboards(document.documentData());
 
     if (allArtboards.count() == 0) {
         document.showMessage("No artboards in current document.");
@@ -69,7 +70,7 @@ var onRun = function(context) {
 function loadData(context, scrollView, page) {
     var zoom = require("../modules/Zoom");
     var ui = require("../modules/Dialog").ui;
-    var artboards = page.artboards().reverseObjectEnumerator().allObjects().mutableCopy();
+    var artboards = compatibility.artboards(page).reverseObjectEnumerator().allObjects().mutableCopy();
     var sortDescriptor = NSSortDescriptor.sortDescriptorWithKey_ascending_selector(
         "name", true, "localizedStandardCompare:"
     );
@@ -130,7 +131,7 @@ function loadData(context, scrollView, page) {
 function getAllPagesHaveArtboards(document) {
     var pages = NSMutableArray.alloc().init();
     document.pages().forEach(function(page) {
-        if (page.artboards().count() > 0) {
+        if (compatibility.artboards(page).count() > 0) {
             pages.addObject(page);
         }
     });

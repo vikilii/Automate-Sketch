@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -38,7 +39,7 @@ var onRun = function(context) {
     selectedSymbols.forEach(function(symbol) {
 
         // Sketch 54 add allows overrides
-        if (sketch.version.sketch >= 54) {
+        if (compatibility.version >= 54) {
             symbol.sketchObject.setAllowsOverrides(true);
         }
 
@@ -47,8 +48,7 @@ var onRun = function(context) {
         });
 
         symbol.overrides.forEach(function(override) {
-            var point = override.sketchObject.overridePoint();
-            symbol.sketchObject.setOverridePoint_editable(point, isAllOverridesDisable);
+            override.editable = isAllOverridesDisable;
         });
 
         if (isAllOverridesDisable) {
@@ -59,7 +59,7 @@ var onRun = function(context) {
 
     });
 
-    document.sketchObject.reloadInspector();
+    compatibility.refreshInspector(document.sketchObject);
 
     var message = "";
     if (disableCount > 0) {

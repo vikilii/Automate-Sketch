@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -11,7 +12,7 @@ var onRun = function(context) {
     var selectedLayers = document.selectedLayers;
 
     var selectedArtboards = selectedLayers.layers.filter(function(layer) {
-        return layer.type == "Artboard" || layer.type == "SymbolMaster";
+        return compatibility.isArtboard(layer) || layer.type == "SymbolMaster";
     });
     if (selectedArtboards.length == 0) {
         sketch.UI.message("Please select at least 1 artboard or symbol master.");
@@ -53,14 +54,14 @@ var onRun = function(context) {
         } else {
             var Page = require("sketch/dom").Page;
             targetPage = new Page({
-                name: document._getMSDocumentData().nameForNewPage(),
+                name: "Page",
                 parent: document,
                 selected: false
             });
         }
 
         selectedArtboards.forEach(function(artboard) {
-            var artboardPosition = targetPage.sketchObject.originForNewArtboardWithSize(artboard.sketchObject.rect().size);
+            var artboardPosition = compatibility.originForNewArtboard(targetPage.sketchObject, artboard.sketchObject.rect().size);
             var positionX = artboardPosition.x;
             var positionY = artboardPosition.y;
             targetPage.layers.push(artboard);

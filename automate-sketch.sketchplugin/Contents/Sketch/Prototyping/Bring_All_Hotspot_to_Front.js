@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -9,7 +10,7 @@ var onRun = function(context) {
     while (page = loopPages.nextObject()) {
 
         var predicate = NSPredicate.predicateWithFormat("className == %@", "MSHotspotLayer");
-        var hotspotLayers = page.children().filteredArrayUsingPredicate(predicate);
+        var hotspotLayers = compatibility.descendants(page).filteredArrayUsingPredicate(predicate);
 
         var loopHotspotLayers = hotspotLayers.objectEnumerator();
         var hotspotLayer;

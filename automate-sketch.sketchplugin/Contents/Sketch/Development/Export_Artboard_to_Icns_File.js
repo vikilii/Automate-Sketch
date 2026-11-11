@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -19,12 +20,13 @@ var onRun = function(context) {
         return;
     }
 
-    if (selectedLayers[0].frame.width != 512 && selectedLayers[0].frame.height != 512) {
+    if (selectedLayers[0].frame.width != 512 || selectedLayers[0].frame.height != 512) {
         sketch.UI.message("Artboard size must 512x512px.");
         return;
     }
 
     var destFolder = system.chooseFolder();
+    if (!destFolder) return;
 
     var artboard = selectedLayers[0].sketchObject;
     var options = [
@@ -41,14 +43,14 @@ var onRun = function(context) {
     ];
     options.forEach(function(option) {
         var exportFormat = MSExportFormat.alloc().initWithScale_name_fileFormat(option.size / 512, "", "png");
-        var exportRequest = MSExportRequest.exportRequestFromExportFormat_layer_inRect_useIDForName(exportFormat, artboard, artboard.frame().rect(), false);
+        var exportRequest = compatibility.exportRequest(exportFormat, artboard, artboard.frame().rect(), false);
         var filePath = destFolder + "/icon.iconset/icon_" + option.name + ".png";
-        document.sketchObject.saveExportRequest_toFile(exportRequest, filePath);
+        compatibility.saveExportRequest(document.sketchObject, exportRequest, filePath);
     });
     
     runCommand(
-        "/bin/bash",
-        ["-l", "-c", '/usr/bin/iconutil -c icns "' + destFolder + '/icon.iconset"']
+        "/usr/bin/iconutil",
+        ["-c", "icns", String(destFolder) + "/icon.iconset"]
     );
 
 };

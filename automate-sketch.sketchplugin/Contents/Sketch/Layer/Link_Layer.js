@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var createLinkLayer = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -12,7 +13,7 @@ var createLinkLayer = function(context) {
             selection.count() == 1 &&
             (
                 selection.firstObject().className() != "MSLayerGroup" &&
-                selection.firstObject().className() != "MSArtboardGroup"
+                !compatibility.isArtboard(selection.firstObject())
             )
         )
     ) {
@@ -29,16 +30,15 @@ var createLinkLayer = function(context) {
         foreignSymbol = foreignSymbolFromGroup(context, group);
     }
 
-    // Insert symbol instance.
-    try {
-        var symbolRef = MSSymbolMasterReference.referenceForShareableObject(foreignSymbol.symbolMaster());
-        var insertAction = document.actionsController().actionForID("MSInsertSymbolAction");
-        var tempMenuItem = NSMenuItem.alloc().init();
-        tempMenuItem.setRepresentedObject([symbolRef]);
-        insertAction.doPerformAction(tempMenuItem);
-    } catch(error) {
-        document.showMessage("Error: " + error.message);
-    }
+    var sketch = require("sketch/dom");
+    var master = sketch.fromNative(foreignSymbol.symbolMaster());
+    var instance = master.createNewInstance();
+    var doc = sketch.fromNative(document);
+    instance.parent = doc.selectedPage;
+    var origin = compatibility.originForNewArtboard(doc.selectedPage, instance.frame);
+    instance.frame.x = origin.x;
+    instance.frame.y = origin.y;
+    doc.selectedLayers = [instance];
 
 };
 
@@ -61,11 +61,12 @@ var syncLinkLayers = function(context) {
 
             // Update foreign symbol
             var allInstances = foreignSymbol.symbolMaster().allInstances();
-            var loopAllInstances = allInstances.objectEnumerator();
-            var instance;
-            while (instance = loopAllInstances.nextObject()) {
+            if (allInstances.count()) {
                 var newForeignSymbol = foreignSymbolFromGroup(context, targetGroup);
-                instance.changeInstanceToSymbol(newForeignSymbol.symbolMaster());
+                var loopAllInstances = allInstances.objectEnumerator();
+                var instance;
+                while (instance = loopAllInstances.nextObject()) instance.changeInstanceToSymbol(newForeignSymbol.symbolMaster());
+                documentData.removeForeignSymbol(foreignSymbol);
             }
 
         } else {
@@ -89,6 +90,7 @@ function foreignSymbolFromGroup(context, group) {
     var rect = group.frame().rect();
     var symbolMaster = MSSymbolMaster.alloc().initWithFrame(rect);
     symbolMaster.setName("_linked" + "/" + group.name());
+    symbolMaster.setStyle(group.style().copy());
     group.layers().forEach(function(layer) {
         layer.copy().moveToLayer_beforeLayer(symbolMaster, nil);
         symbolMaster.layers().lastObject().frame().setX(layer.frame().x());

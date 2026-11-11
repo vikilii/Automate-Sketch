@@ -85,7 +85,7 @@ var onRun = function(context) {
             }
         });
 
-        AppController.sharedInstance().refreshDocumentWindowBadges();
+
 
         var message = "Sync " + count + " imported " + 
             typeView.titleOfSelectedItem().toLowerCase() + (count > 1 ? "s" : "") + " in library " +

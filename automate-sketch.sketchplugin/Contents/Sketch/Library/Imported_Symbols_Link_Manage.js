@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require("sketch");
 
 var onRun = function(context) {
@@ -10,7 +11,7 @@ var onRun = function(context) {
     var ui = require("../modules/Dialog").ui;
 
     var document = context.document;
-    if (sketch.version.sketch < 47) {
+    if (compatibility.version < 47) {
         document.showMessage("😮 You have to update to Sketch 47+ to use this feature.");
         return;
     }
@@ -23,7 +24,7 @@ var onRun = function(context) {
     }
 
     var assetLibraryController = AppController.sharedInstance().librariesController();
-    var availableLibraries = assetLibraryController.availableLibraries();
+    var availableLibraries = compatibility.libraries();
     var sortDescriptor = NSSortDescriptor.sortDescriptorWithKey_ascending_selector("name", true, "localizedStandardCompare:");
     availableLibraries = availableLibraries.sortedArrayUsingDescriptors([sortDescriptor]);
     if (availableLibraries.count() == 0) {
@@ -37,8 +38,8 @@ var onRun = function(context) {
     var loopAllImportedSymbols = allImportedSymbols.objectEnumerator();
     var importedSymbol;
     while (importedSymbol = loopAllImportedSymbols.nextObject()) {
-        if (sketch.version.sketch >= 49) {
-            var libraryForSymbol = assetLibraryController.libraryForShareableObject(importedSymbol.symbolMaster());
+        if (compatibility.version >= 49) {
+            var libraryForSymbol = libraryForImportedSymbol(importedSymbol);
         } else {
             var libraryForSymbol = assetLibraryController.libraryForSymbol(importedSymbol.symbolMaster());
         }
@@ -108,7 +109,7 @@ function loadData(scrollView, symbols) {
     var preview = require("../modules/Preview");
 
     var assetLibraryController = AppController.sharedInstance().librariesController();
-    var availableLibraries = assetLibraryController.availableLibraries();
+    var availableLibraries = compatibility.libraries();
 
     var contentView = ui.view([0, 0, 500, symbols.count() * 60 + 10]);
     contentView.setFlipped(true);
@@ -118,8 +119,8 @@ function loadData(scrollView, symbols) {
     var i = 0;
     while (importedSymbol = loopImportedSymbols.nextObject()) {
 
-        if (sketch.version.sketch >= 49) {
-            var libraryForSymbol = assetLibraryController.libraryForShareableObject(importedSymbol.symbolMaster());
+        if (compatibility.version >= 49) {
+            var libraryForSymbol = libraryForImportedSymbol(importedSymbol);
         } else {
             var libraryForSymbol = assetLibraryController.libraryForSymbol(importedSymbol.symbolMaster());
         }
@@ -196,8 +197,8 @@ function loadData(scrollView, symbols) {
             var tipView = sender.superview().subviews().objectAtIndex(1);
             var importedSymbolIndex = parseInt(sender.superview().subviews().objectAtIndex(0).stringValue());
             var importedSymbol = symbols.objectAtIndex(importedSymbolIndex);
-            if (sketch.version.sketch >= 49) {
-                var originalLibrary = assetLibraryController.libraryForShareableObject(importedSymbol.symbolMaster());
+            if (compatibility.version >= 49) {
+                var originalLibrary = libraryForImportedSymbol(importedSymbol);
             } else {
                 var originalLibrary = assetLibraryController.libraryForSymbol(importedSymbol.symbolMaster());
             }
@@ -251,4 +252,9 @@ function loadData(scrollView, symbols) {
     }
 
     scrollView.setDocumentView(contentView);
+}
+
+function libraryForImportedSymbol(symbol) {
+    var library = require("sketch/dom").fromNative(symbol.symbolMaster()).getLibrary();
+    return library ? library.sketchObject : null;
 }

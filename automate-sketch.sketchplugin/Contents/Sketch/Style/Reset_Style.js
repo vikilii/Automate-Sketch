@@ -35,7 +35,7 @@ var onRun = function(context) {
     if (identifier == "reset_all_layer_styles" || identifier == "reset_all_text_styles") {
         var sharedLayerStyles = (identifier == "reset_all_layer_styles") ? document.sharedLayerStyles : document.sharedTextStyles;
         sharedLayerStyles.forEach(function(sharedStyle) {
-            sharedStyle.sketchObject.resetReferencingInstances();
+            sharedStyle.getAllInstancesLayers().forEach(function(layer) { layer.style = sharedStyle.style; });
         });
     }
 

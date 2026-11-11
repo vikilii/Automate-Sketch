@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var colorKeywords = {
     "black": "#000000",
     "silver": "#c0c0c0",
@@ -286,10 +287,10 @@ var onRun = function(context) {
                 layer.changeTextColorTo(color.NSColorWithColorSpace(nil));
             }
 
-            doc.reloadInspector();
+            compatibility.refreshInspector(doc);
 
             // Fix Sketch 45
-            if (sketch.version.sketch < 45) {
+            if (compatibility.version < 45) {
                 layer.select_byExpandingSelection(true, true);
             } else {
                 layer.select_byExtendingSelection(true, true);

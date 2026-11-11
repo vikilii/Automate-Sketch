@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -94,7 +95,7 @@ function iterateDocument(doc, func) {
     var loopPages = pages.objectEnumerator();
     var page;
     while (page = loopPages.nextObject()) {
-        var children = page.children();
+        var children = compatibility.descendants(page);
         var loopChildren = children.objectEnumerator();
         var layer;
         while (layer = loopChildren.nextObject()) {

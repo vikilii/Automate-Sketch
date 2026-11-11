@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 
 var onRun = function(context) {
 
@@ -13,6 +14,7 @@ var onRun = function(context) {
 
     if (selection.count() != 1) {
         doc.showMessage("Please select 1 shape layer.");
+        return;
     }
 
     var layer = selection.firstObject();
@@ -51,7 +53,7 @@ var onRun = function(context) {
                 for (var j = 0, y = originY; j < vCount; j++, y += cellHeight) {
                     for (var i = 0, x = originX; i < hCount; i++, x += cellWidth) {
                         // log(i+","+j+" --> (x:" + x + ",y:" + y + ",w:" + cellWidth + ",h:" + cellHeight + ")");
-                        var cellLayer = layer.duplicate();
+                        var cellLayer = sketch.fromNative(layer).duplicate().sketchObject;
                         cellLayer.frame().setX(x);
                         cellLayer.frame().setY(y);
                         cellLayer.frame().setConstrainProportions(false);
@@ -59,7 +61,7 @@ var onRun = function(context) {
                         cellLayer.frame().setHeight(cellHeight);
 
                         // Fix Sketch 45
-                        if (sketch.version.sketch < 45) {
+                        if (compatibility.version < 45) {
                             cellLayer.select_byExpandingSelection(true, true);
                         } else {
                             cellLayer.select_byExtendingSelection(true, true);
@@ -76,6 +78,7 @@ var onRun = function(context) {
 
     } else {
         doc.showMessage("Please select 1 shape layer.");
+        return;
     }
 
 };

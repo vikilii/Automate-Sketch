@@ -1,52 +1,19 @@
-var onRun = function(context) {
-
-    var ga = require("../modules/Google_Analytics");
-    ga("Guide");
-
-    var sketch = require("sketch");
+var onRun = function() {
+    var sketch = require("sketch/dom");
+    var compatibility = require("../modules/Compatibility");
     var document = sketch.getSelectedDocument();
-    var selectedLayers = document.selectedLayers.layers;
-    var util = require("util");
-
-    if (selectedLayers.length == 0) {
-        sketch.UI.message("Please select 1 layer.");
-        return;
-    }
-
-    showRuler(document.sketchObject);
-
-    selectedLayers.forEach(function(layer) {
-        var rect = layer.sketchObject.frameForTransforms();
-        var x = Math.floor(rect.origin.x),
-            y = Math.floor(rect.origin.y),
-            w = Math.ceil(rect.size.width),
-            h = Math.ceil(rect.size.height);
-        var parent = layer.parent.sketchObject;
-
-        var horizontalRulerData = parent.horizontalRulerData();
-        var verticalRulerData = parent.verticalRulerData();
-
-        if (!horizontalRulerData.guides().containsObject(x)) {
-            horizontalRulerData.addGuideWithValue(x);
-        }
-        if (!horizontalRulerData.guides().containsObject(x + w)) {
-            horizontalRulerData.addGuideWithValue(x + w);
-        }
-        if (!verticalRulerData.guides().containsObject(y)) {
-            verticalRulerData.addGuideWithValue(y);
-        }
-        if (!verticalRulerData.guides().containsObject(y + h)) {
-            verticalRulerData.addGuideWithValue(y + h);
-        }
-
+    document.selectedLayers.layers.forEach(function(layer) {
+        var target = layer.getParentArtboard() || layer.getParentPage();
+        var rect = layer.frame.changeBasis({from:layer.parent,to:target});
+        var horizontal = compatibility.rulerData(target,"horizontal");
+        var vertical = compatibility.rulerData(target,"vertical");
+        compatibility.addGuide(horizontal,Math.floor(rect.x));
+        compatibility.addGuide(horizontal,Math.ceil(rect.x+rect.width));
+        compatibility.addGuide(vertical,Math.floor(rect.y));
+        compatibility.addGuide(vertical,Math.ceil(rect.y+rect.height));
     });
-};
-
-function showRuler(document) {
-    if (!document.isRulersVisible()) {
-        var toggleRulersAction = document.actionsController().actionForID("MSToggleRulersAction");
-        if(toggleRulersAction.validate()) {
-            toggleRulersAction.performAction(nil);
-        }
+    if (!document.sketchObject.isRulersVisible()) {
+        var action = compatibility.action(document.sketchObject,"MSToggleRulersAction");
+        if (action && action.validate()) compatibility.performAction(document,"MSToggleRulersAction");
     }
-}
+};

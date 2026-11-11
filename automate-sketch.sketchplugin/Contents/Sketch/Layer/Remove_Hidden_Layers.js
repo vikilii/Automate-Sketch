@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -41,7 +42,7 @@ function removeHiddenLayers(parent, callback) {
     var count = 0;
 
     if (parent.containsLayers()) {
-        var loop = parent.children().objectEnumerator();
+        var loop = compatibility.descendants(parent).objectEnumerator();
         var layer;
         while (layer = loop.nextObject()) {
             if (!layer.isVisible()) {

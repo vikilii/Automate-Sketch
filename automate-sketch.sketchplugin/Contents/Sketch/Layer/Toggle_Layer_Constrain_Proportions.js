@@ -1,10 +1,11 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
     ga("Layer");
 
     var sketch = require("sketch");
-    var version = sketch.version.sketch;
+    var version = compatibility.version;
     var document = context.document;
     var selection = context.selection;
 

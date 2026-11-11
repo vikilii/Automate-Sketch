@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -13,13 +14,13 @@ var onRun = function(context) {
     if (selectedLayers.length == 0) {
         var page = document.selectedPage.sketchObject;
         clearGuides(page);
-        var artboards = util.toArray(page.artboards());
+        var artboards = util.toArray(compatibility.artboards(page));
         artboards.forEach(function(artboard) {
             clearGuides(artboard);
         });
     } else {
         selectedLayers.forEach(function(layer) {
-            if (layer.type == "Artboard" || layer.type == "SymbolMaster") {
+            if (compatibility.isArtboard(layer) || layer.type == "SymbolMaster") {
                 clearGuides(layer.sketchObject);
             } else {
                 clearGuides(layer.sketchObject.parentArtboard());
@@ -29,13 +30,13 @@ var onRun = function(context) {
 };
 
 function clearGuides(target) {
-    target.horizontalRulerData().removeAllGuides();
-    target.verticalRulerData().removeAllGuides();
+    compatibility.rulerData(target, "horizontal").removeAllGuides();
+    compatibility.rulerData(target, "vertical").removeAllGuides();
 }
 
 function showRuler(document) {
     if (!document.isRulersVisible()) {
-        var toggleRulersAction = document.actionsController().actionForID("MSToggleRulersAction");
+        var toggleRulersAction = compatibility.action(document,"MSToggleRulersAction");
         if(toggleRulersAction.validate()) {
             toggleRulersAction.performAction(nil);
         }

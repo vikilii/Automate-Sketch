@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -12,7 +13,7 @@ var onRun = function(context) {
     });
 
     function traverse(layer) {
-        layer.children().forEach(function(child) {
+        compatibility.descendants(layer).forEach(function(child) {
             var shapeTypes = ["MSShapeGroup", "MSRectangleShape", "MSOvalShape", "MSShapePathLayer", "MSTriangleShape", "MSStarShape", "MSPolygonShape"];
             if (shapeTypes.includes(String(child.className())) && child.parentGroup().className() != "MSShapeGroup") {
                 child.style().setWindingRule(0);

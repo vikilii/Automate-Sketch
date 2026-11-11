@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
     var ga = require("../modules/Google_Analytics");
     ga("Library");
@@ -13,6 +14,7 @@ var onRun = function(context) {
     var enabledLibraries = libraries.filter(function(library) {
         return library.enabled == true;
     });
+    if (!enabledLibraries.length) { require("sketch/ui").message("You have no available libraries."); return; }
     var enabledLibraryNames = enabledLibraries.map(function(library) {
         return library.name;
     });
@@ -38,39 +40,19 @@ var onRun = function(context) {
     });
 
     var responseCode = dialog.run();
-    if (responseCode == 1000) {
+    if (responseCode == 1000 && artboards.length) {
 
         document.selectedLayers.clear();
 
-        // Convert artboard to symbol master.
-        var selectedArtboard = artboards[artboardView.indexOfSelectedItem()].duplicate();
-        var master = SymbolMaster.fromArtboard(selectedArtboard);
-        var symbolReferences = selectedLibrary.getImportableSymbolReferencesForDocument(document);
-        var symbolReference = symbolReferences.find(function(item) {
-            return item.id == master.symbolId;
-        });
-
-        // Import as library symbol
-        var importedSymbol = symbolReference.import();
-        var newInstance = importedSymbol.createNewInstance();
-        var originForNewArtboard = currentPage.sketchObject.originForNewArtboardWithSize(CGSizeMake(newInstance.frame.width, newInstance.frame.height));
-        currentPage.layers.push(newInstance);
-
-        // Convert to local symbol
-        var newSymbolMaster = newInstance.master;
-        newSymbolMaster.unlinkFromLibrary();
-        newInstance.remove();
-
-        // Covert to artboard
-        var newArtboard = newSymbolMaster.toArtboard();
-        if (currentPage.id != newArtboard.sketchObject.parentPage().objectID()) {
-            currentPage.layers.push(newArtboard);
-        }
-        newArtboard.frame.x = originForNewArtboard.x;
-        newArtboard.frame.y = originForNewArtboard.y;
-        newArtboard.selected = true;
-
-        selectedArtboard.remove();
+        var source = artboards[artboardView.indexOfSelectedItem()];
+        if (!source) return;
+        // Copy into the target document without converting or editing the library.
+        var newArtboard = sketch.fromNative(source.sketchObject.copy());
+        newArtboard.parent = currentPage;
+        var origin = compatibility.originForNewArtboard(currentPage.sketchObject,newArtboard.frame);
+        newArtboard.frame.x = origin.x;
+        newArtboard.frame.y = origin.y;
+        document.selectedLayers = [newArtboard];
 
         zoom.toSelection();
     }
@@ -80,8 +62,8 @@ function getArtboardsFromLibrary(library) {
     var sketch = require("sketch/dom");
     var util = require("util");
     var libDocument = library.getDocument();
-    return util.toArray(libDocument.sketchObject.allArtboards()).filter(function(artboard) {
-        return artboard.className() == "MSArtboardGroup";
+    return util.toArray(compatibility.artboards(libDocument.sketchObject)).filter(function(artboard) {
+        return compatibility.isArtboard(artboard);
     }).map(function(artboard) {
         return sketch.fromNative(artboard);
     });

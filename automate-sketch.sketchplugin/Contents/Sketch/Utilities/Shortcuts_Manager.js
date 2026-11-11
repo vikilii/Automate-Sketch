@@ -21,9 +21,9 @@ var onRun = function(context) {
         shortcuts = NSDictionary.alloc().init();
     }
 
-    var commands = __command.pluginBundle().commands();
     var manifest = require("../manifest.json");
-    var sketchLanguage = String(userDefaults.objectForKey("AppleLanguages").firstObject());
+    var languages=userDefaults.objectForKey("AppleLanguages");
+    var sketchLanguage=languages && languages.count() ? String(languages.firstObject()) : "en";
     var pluginMenu = /^zh/.test(sketchLanguage) ? "插件" :  "Plugins";
     var pluginName = manifest.menu.title;
     var commandViews = [];
@@ -39,9 +39,9 @@ var onRun = function(context) {
                 }
             }
             if (item != "-" && typeof item == "string") {
-                var command = commands.valueForKey(item);
+                var command = manifest.commands.find(function(c){return c.identifier===item;});
                 var itemView = ui.view([500, 40]);
-                var itemLabel = groupTitle + "->" + command.name();
+                var itemLabel = groupTitle + "->" + command.name;
                 var labelView = ui.button(itemLabel, [10, 10, 400, 20]);
                 labelView.setBordered("NO");
                 labelView.sizeToFit();
@@ -87,8 +87,9 @@ var onRun = function(context) {
             if (value != "") {
                 shortcutsCopy.setValue_forKey(value, key);
             }
-            userDefaults.setObject_forKey(shortcutsCopy, "NSUserKeyEquivalents");
+            if (String(value) === "") shortcutsCopy.removeObjectForKey(key);
         });
+        userDefaults.setObject_forKey(shortcutsCopy,"NSUserKeyEquivalents");
         userDefaults.synchronize();
     }
 };

@@ -23,7 +23,7 @@ var onRun = function(context) {
         }).map(function(override) {
             return document.getSymbolMasterWithID(override.value);
         }).filter(function(symbol) {
-            return symbol.getLibrary() ? true : false;
+            return symbol && symbol.getLibrary() ? true : false;
         });
         symbols.forEach(function(symbol) {
             if (!librarySymbolsIds.includes(symbol.id)) {
@@ -40,13 +40,13 @@ var onRun = function(context) {
 
     var count = 0;
     librarySymbols.forEach(function(layer) {
-        var success = layer.master.syncWithLibrary();
+        var success = (layer.type === "SymbolInstance" ? layer.master : layer).syncWithLibrary();
         if (success) {
             count ++;
         }
     });
 
-    AppController.sharedInstance().refreshDocumentWindowBadges();
+
 
     sketch.UI.message("Sync " + count + " library symbol override" + (count > 1 ? "s" : "") + ".");
 

@@ -1,10 +1,11 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
     ga("Style");
 
     var sketch = require("sketch");
-    var appVersion = sketch.version.sketch;
+    var appVersion = compatibility.version;
     var preferences = require("../modules/Preferences");
     var help = require("../modules/Help");
     var Dialog = require("../modules/Dialog").dialog;
@@ -61,7 +62,7 @@ var onRun = function(context) {
 
         var point;
         if (appVersion >= 49) {
-            point = page.originForNewArtboardWithSize(CGSizeMake(100,100));
+            point = compatibility.originForNewArtboard(page, CGSizeMake(100,100));
         } else {
             point = page.originForNewArtboard();
         }
@@ -186,9 +187,9 @@ var onRun = function(context) {
             paletteGroup.insertLayer_beforeLayer(text, palette);
 
             if (appVersion >= 53) {
-                paletteGroup.fixGeometryWithOptions(1);
+                compatibility.fitGroup(paletteGroup);
             } else {
-                paletteGroup.resizeToFitChildrenWithOption(1);
+                compatibility.fitGroup(paletteGroup);
             }
 
             paletteGroupLayers.push(paletteGroup);

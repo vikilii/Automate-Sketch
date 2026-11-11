@@ -1,37 +1,15 @@
-var onRun = function(context) {
-    var ga = require("../modules/Google_Analytics");
-    ga("Development");
-
-    var sketch = require("sketch");
-    var document = context.document;
-
-    coscript.pushAsCurrentCOScript();
-    coscript.setShouldKeepAround(true);
-
-    var button = BCMagnifierButton.alloc().initWithFrame(NSZeroRect);
-    button.setCOSJSTargetFunction(function(obj) {
-        var pickColor;
-        if (sketch.version.sketch >= 52) {
-            pickColor = obj.color();
-        } else {
-            pickColor = obj.chosenColor();
-        }
-        var color;
-        if (sketch.version.sketch >= 52) {
-            color = pickColor.msColor();
-        } else {
-            color = MSColor.colorWithRed_green_blue_alpha(pickColor.red(), pickColor.green(), pickColor.blue(), 1);
-        }
-        var hexValue = "#" + color.immutableModelObject().hexValue();
-
-        var pboard = NSPasteboard.generalPasteboard();
-        pboard.clearContents();
-        pboard.setString_forType_(hexValue, NSStringPboardType);
-
-        document.showMessage("Color code \"" + hexValue + "\" copied.");
-
-        coscript.setShouldKeepAround(false);
-
+var onRun = function() {
+    var fiber=require("sketch/async").createFiber();
+    var sampler=NSColorSampler.alloc().init();
+    var pasteboard=require("../modules/Pasteboard"),UI=require("sketch/ui");
+    sampler.showSamplerWithSelectionHandler(function(color){
+        try {
+            if(!color) return;
+            color=color.colorUsingColorSpace(NSColorSpace.sRGBColorSpace());
+            function hex(component) {return ("0"+Math.round(Math.max(0,Math.min(1,component))*255).toString(16)).slice(-2);}
+            var value="#"+hex(color.redComponent())+hex(color.greenComponent())+hex(color.blueComponent());
+            pasteboard.copy(value);
+            UI.message("Color code " + value + " copied.");
+        } finally {fiber.cleanup();}
     });
-    button.performClick(null);
 };

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -9,7 +10,7 @@ var onRun = function(context) {
     var selection = context.selection;
 
     var predicate;
-    if (sketch.version.sketch >= 52) {
+    if (compatibility.version >= 52) {
         predicate = NSPredicate.predicateWithFormat("sharedStyle.objectID != nil");
     } else {
         predicate = NSPredicate.predicateWithFormat("style.sharedObjectID != nil");
@@ -31,7 +32,7 @@ var onRun = function(context) {
         // Foreign shared style
         else {
             var sharedStyleId;
-            if (sketch.version.sketch >= 52) {
+            if (compatibility.version >= 52) {
                 sharedStyleId = layer.sharedStyle().objectID();
             } else {
                 sharedStyleId = layer.style().sharedObjectID();

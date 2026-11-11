@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -33,11 +34,11 @@ var onRun = function(context) {
 
             layer.setScale(1);
 
-            if (layer.parentGroup().class() == "MSLayerGroup") {
-                if (sketch.version.sketch >= 53) {
-                    layer.parentGroup().fixGeometryWithOptions(1);
+            if (compatibility.isGroup(layer.parentGroup())) {
+                if (compatibility.version >= 53) {
+                    compatibility.fitGroup(layer.parentGroup());
                 } else {
-                    layer.parentGroup().resizeToFitChildrenWithOption(1);
+                    compatibility.fitGroup(layer.parentGroup());
                 }
             }
 

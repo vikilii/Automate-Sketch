@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -17,22 +18,22 @@ var onRun = function(context) {
 
     selectedTextLayers.forEach(function(layer) {
 
-        var scale = layer.attributeForKey(NSExpansionAttributeName) ? layer.attributeForKey(NSExpansionAttributeName) : 0;
+        var scale = compatibility.textAttribute(layer, NSExpansionAttributeName) ? compatibility.textAttribute(layer, NSExpansionAttributeName) : 0;
 
         if (pluginIdentifier == "increase_horizontally_scale") {
             scale = scale + stepSize;
-            layer.addAttribute_value(NSExpansionAttributeName, scale);
+            compatibility.setTextAttribute(layer, NSExpansionAttributeName, scale);
         }
 
         if (pluginIdentifier == "decrease_horizontally_scale") {
             scale = scale - stepSize;
-            layer.addAttribute_value(NSExpansionAttributeName, scale);
+            compatibility.setTextAttribute(layer, NSExpansionAttributeName, scale);
         }
 
         if (pluginIdentifier == "reset_horizontally_scale") {
-            layer.addAttribute_value(NSExpansionAttributeName, 0);
+            compatibility.setTextAttribute(layer, NSExpansionAttributeName, 0);
         }
 
     });
 
-});
+};

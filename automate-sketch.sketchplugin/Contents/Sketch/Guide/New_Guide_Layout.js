@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -10,7 +11,7 @@ var onRun = function(context) {
     var document = sketch.getSelectedDocument();
 
     var selectedArtboard = document.selectedLayers.layers.find(function(layer) {
-        return layer.type == "Artboard" || layer.type == "SymbolMaster";
+        return compatibility.isArtboard(layer) || layer.type == "SymbolMaster";
     });
 
     if (!selectedArtboard) {
@@ -100,8 +101,8 @@ var onRun = function(context) {
     var nativeArtboard = selectedArtboard.sketchObject;
 
     var originalGuides = [
-        nativeArtboard.horizontalRulerData().guides(),
-        nativeArtboard.verticalRulerData().guides()
+        compatibility.rulerData(nativeArtboard, "horizontal").guides(),
+        compatibility.rulerData(nativeArtboard, "vertical").guides()
     ];
 
     showRuler(document.sketchObject);
@@ -139,8 +140,8 @@ var onRun = function(context) {
     if (responseCode == 1001) {
         removeGuides(nativeArtboard);
 
-        nativeArtboard.horizontalRulerData().setGuides(originalGuides[0]);
-        nativeArtboard.verticalRulerData().setGuides(originalGuides[1]);
+        compatibility.rulerData(nativeArtboard, "horizontal").setGuides(originalGuides[0]);
+        compatibility.rulerData(nativeArtboard, "vertical").setGuides(originalGuides[1]);
     }
 
     function drawGuides() {
@@ -208,21 +209,21 @@ function getGuideValues(total, count, width, gutter, margin, margin1, margin2, c
 function addGuides(artboard, orientation, values) {
     var rulerData;
     if (orientation == 0) {
-        rulerData = artboard.horizontalRulerData();
+        rulerData = compatibility.rulerData(artboard, "horizontal");
     } else {
-        rulerData = artboard.verticalRulerData();
+        rulerData = compatibility.rulerData(artboard, "vertical");
     }
     rulerData.setGuides(values);
 }
 
 function removeGuides(artboard) {
-    artboard.horizontalRulerData().removeAllGuides();
-    artboard.verticalRulerData().removeAllGuides();
+    compatibility.rulerData(artboard, "horizontal").removeAllGuides();
+    compatibility.rulerData(artboard, "vertical").removeAllGuides();
 }
 
 function showRuler(document) {
     if (!document.isRulersVisible()) {
-        var toggleRulersAction = document.actionsController().actionForID("MSToggleRulersAction");
+        var toggleRulersAction = compatibility.action(document,"MSToggleRulersAction");
         if(toggleRulersAction.validate()) {
             toggleRulersAction.performAction(nil);
         }

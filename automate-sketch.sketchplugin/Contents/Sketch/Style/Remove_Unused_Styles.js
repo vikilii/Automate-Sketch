@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var sketch = require("sketch");;
 
 var onRun = function(context) {
@@ -47,25 +48,25 @@ function createDialog(context, type) {
     while (page = loopPages.nextObject()) {
         var predicate;
         if (type == 0) {
-            if (sketch.version.sketch >= 52) {
+            if (compatibility.version >= 52) {
                 predicate = NSPredicate.predicateWithFormat('className != "MSTextLayer" && sharedStyle.objectID != nil');
             } else {
                 predicate = NSPredicate.predicateWithFormat('className != "MSTextLayer" && style.sharedObjectID != nil')
             }
         }
         if (type == 1) {
-            if (sketch.version.sketch >= 52) {
+            if (compatibility.version >= 52) {
                 predicate = NSPredicate.predicateWithFormat('className == "MSTextLayer" && sharedStyle.objectID != nil');
             } else {
                 predicate = NSPredicate.predicateWithFormat('className == "MSTextLayer" && style.sharedObjectID != nil')
             }
         }
-        var layers = page.children().filteredArrayUsingPredicate(predicate);
+        var layers = compatibility.descendants(page).filteredArrayUsingPredicate(predicate);
         var loopLayers = layers.objectEnumerator();
         var layer;
         while (layer = loopLayers.nextObject()) {
             var style;
-            if (sketch.version.sketch >= 52) {
+            if (compatibility.version >= 52) {
                 style = styles.sharedObjectWithID(layer.sharedStyleID());
             } else {
                 style = styles.sharedObjectWithID(layer.style().sharedObjectID());
@@ -75,13 +76,13 @@ function createDialog(context, type) {
 
         // Style in override
         var predicateSymbolInstance = NSPredicate.predicateWithFormat('className == "MSSymbolInstance"');
-        var symbolInstances = page.children().filteredArrayUsingPredicate(predicateSymbolInstance);
+        var symbolInstances = compatibility.descendants(page).filteredArrayUsingPredicate(predicateSymbolInstance);
         var loopInstances = symbolInstances.objectEnumerator();
         var instance;
         while (instance = loopInstances.nextObject()) {
-            MSAvailableOverride.flattenAvailableOverrides(instance.availableOverrides()).forEach(function(override) {
-                if (override.overridePoint().isStyleOverride()) {
-                    var style = styles.sharedObjectWithID(override.currentValue());
+            sketch.fromNative(instance).overrides.forEach(function(override) {
+                if (override.property === "layerStyle" || override.property === "textStyle") {
+                    var style = styles.sharedObjectWithID(override.value);
                     stylesCopy.removeObject(style);
                 }
             });
@@ -173,7 +174,7 @@ function createDialog(context, type) {
 function createDataView(items, type, selectAll, checkedStatus) {
 
     var ui = require("../modules/Dialog").ui;
-    var preview = require("../modules/preview");
+    var preview = require("../modules/Preview");
 
     var itemHeight = 40;
 

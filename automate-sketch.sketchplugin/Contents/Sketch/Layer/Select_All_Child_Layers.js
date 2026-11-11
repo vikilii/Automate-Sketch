@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
     var ga = require("../modules/Google_Analytics");
     ga("Layer");
@@ -21,15 +22,15 @@ var onRun = function(context) {
         while (layer = loop.nextObject()) {
             if (
                 (layer.class() == "MSShapeGroup" && layer.layers().count() > 1) ||
-                layer.class() == "MSLayerGroup" ||
-                layer.class() == "MSArtboardGroup" ||
+                compatibility.isGroup(layer) ||
+                compatibility.isArtboard(layer) ||
                 layer.class() == "MSSymbolMaster"
             ) {
                 var loopChild = layer.layers().objectEnumerator();
                 var child;
                 while (child = loopChild.nextObject()) {
                     // Fix Sketch 45
-                    if (sketch.version.sketch < 45) {
+                    if (compatibility.version < 45) {
                         child.select_byExpendingSelection(true, true);
                     } else {
                         child.select_byExtendingSelection(true, true);

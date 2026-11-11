@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -18,10 +19,11 @@ var onRun = function(context) {
 
     selectedTextLayers.forEach(function(layer) {
         var msLayer = layer.sketchObject;
-        var paragraphStyle = msLayer.paragraphStyle();
+        var currentStyle = compatibility.textAttribute(msLayer, NSParagraphStyleAttributeName);
+        var paragraphStyle = currentStyle ? currentStyle.mutableCopy() : NSMutableParagraphStyle.alloc().init();
         switch (String(identifier)) {
             case "truncate_text_not":
-                paragraphStyle.setLineBreakMode(null);
+                paragraphStyle.setLineBreakMode(NSLineBreakByWordWrapping);
                 break;
             case "truncate_text_at_start":
                 paragraphStyle.setLineBreakMode(NSLineBreakByTruncatingHead);
@@ -33,10 +35,10 @@ var onRun = function(context) {
                 paragraphStyle.setLineBreakMode(NSLineBreakByTruncatingTail);
                 break;
             default:
-                paragraphStyle.setLineBreakMode(null);
+                paragraphStyle.setLineBreakMode(NSLineBreakByWordWrapping);
         }
         paragraphStyle.setAllowsDefaultTighteningForTruncation(false);
         paragraphStyle.setTighteningFactorForTruncation(0);
-        msLayer.addAttribute_value(NSParagraphStyleAttributeName, paragraphStyle);
+        compatibility.setTextAttribute(msLayer, NSParagraphStyleAttributeName, paragraphStyle);
     });
 };

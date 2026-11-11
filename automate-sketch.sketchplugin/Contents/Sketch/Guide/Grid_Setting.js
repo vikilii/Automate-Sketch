@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -9,7 +10,7 @@ var onRun = function(context) {
     var document = context.document;
     var selection = context.selection;
     var predicate = NSPredicate.predicateWithFormat("className IN %@", ["MSArtboardGroup", "MSSymbolMaster"]);
-    var selectedArtboards = selection.filteredArrayUsingPredicate(predicate);
+    var selectedArtboards = NSArray.arrayWithArray(require("util").toArray(selection).filter(function(layer) { return compatibility.isArtboard(layer) || String(layer.class()) === "MSSymbolMaster"; }));
 
     if (selectedArtboards.count() == 0) {
         document.showMessage("Please select an artboard or symbol master.");

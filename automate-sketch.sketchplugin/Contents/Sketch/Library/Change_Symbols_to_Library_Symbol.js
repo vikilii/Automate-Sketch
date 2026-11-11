@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -14,7 +15,7 @@ var onRun = function(context) {
     var redColor = NSColor.colorWithRed_green_blue_alpha(0.8, 0.1, 0.1, 1);
     var noColor = NSColor.colorWithRed_green_blue_alpha(0, 0, 0, 0);
 
-    if (sketch.version.sketch < 47) {
+    if (compatibility.version < 47) {
         toast("😮 You have to update to Sketch 47+ to use this feature.");
         return;
     }
@@ -26,7 +27,7 @@ var onRun = function(context) {
     localSymbols = localSymbols.sortedArrayUsingDescriptors([sortDescriptor]);
 
     var assetLibraryController = AppController.sharedInstance().librariesController();
-    var availableLibraries = assetLibraryController.availableLibraries();
+    var availableLibraries = compatibility.libraries();
     availableLibraries = availableLibraries.sortedArrayUsingDescriptors([sortDescriptor]);
 
     if (availableLibraries.count() == 0) {
@@ -238,7 +239,7 @@ var onRun = function(context) {
 
                 // Import symbol
                 var importedSymbol;
-                if (sketch.version.sketch >= 50) {
+                if (compatibility.version >= 50) {
                     var shareableObjectReference = MSShareableObjectReference.referenceForShareableObject_inLibrary(
                         remoteSymbol, selectedLibrary
                     );
@@ -282,7 +283,7 @@ var onRun = function(context) {
             while (instance = loopInstancesInCurrentDocument.nextObject()) {
                 instance.updateOverridesWithObjectIDMap(symbolIDMap);
             }
-            document.reloadInspector();
+            compatibility.refreshInspector(document);
         }
 
         var message;
@@ -304,7 +305,7 @@ function instancesInDocument(document) {
     var loopPages = document.pages().objectEnumerator();
     var page;
     while (page = loopPages.nextObject()) {
-        var instancesInPage = page.children().filteredArrayUsingPredicate(predicate);
+        var instancesInPage = compatibility.descendants(page).filteredArrayUsingPredicate(predicate);
         allInstances.addObjectsFromArray(instancesInPage);
     }
     return allInstances;

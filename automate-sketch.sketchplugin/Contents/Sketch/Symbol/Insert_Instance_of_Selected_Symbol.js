@@ -16,16 +16,10 @@ var onRun = function(context) {
         return;
     }
 
-    // Insert symbol instance.
-    try {
-        var symbolMasterNative = selectedSymbolMaster.sketchObject;
-        var symbolReference = MSSymbolMasterReference.referenceForShareableObject(symbolMasterNative);
-        var action = document.sketchObject.actionsController().actionForID("MSInsertSymbolAction");
-        var menuItem = NSMenuItem.alloc().init();
-        menuItem.setRepresentedObject([symbolReference]);
-        action.doPerformAction(menuItem);
-    } catch(error) {
-        UI.message("Error: " + error.message);
-    }
-
+    var instance = selectedSymbolMaster.createNewInstance();
+    instance.parent = document.selectedPage;
+    var origin = require("../modules/Compatibility").originForNewArtboard(document.selectedPage, instance.frame);
+    instance.frame.x = origin.x;
+    instance.frame.y = origin.y;
+    document.selectedLayers = [instance];
 };

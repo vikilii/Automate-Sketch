@@ -1,4 +1,6 @@
-@import "Fast_Slice.js";
+var compatibility = require("../modules/Compatibility");
+var formatLayerName = require("./Fast_Slice").formatLayerName;
+var cropLayerName = require("./Fast_Slice").cropLayerName;
 
 var onRun = function(context) {
 
@@ -9,7 +11,7 @@ var onRun = function(context) {
     var preferences = require("../modules/Preferences");
     var Dialog = require("../modules/Dialog").dialog;
     var ui = require("../modules/Dialog").ui;
-    var version = sketch.version.sketch;
+    var version = compatibility.version;
 
     var document = context.document;
     var selection = context.selection;
@@ -109,11 +111,11 @@ var onRun = function(context) {
                 preferences.get("sliceLayerOrder") == "1"
             ) {
                 if (
-                    layer.class() == "MSLayerGroup" ||
-                    layer.class() == "MSArtboardGroup" ||
+                    compatibility.isGroup(layer) ||
+                    compatibility.isArtboard(layer) ||
                     layer.class() == "MSSymbolMaster"
                 ) {
-                    if (layer.class() == "MSLayerGroup") {
+                    if (compatibility.isGroup(layer)) {
                         slice.exportOptions().setLayerOptions(2);
                     }
                     if (preferences.get("sliceLayerOrder") == "1") {
@@ -125,26 +127,26 @@ var onRun = function(context) {
                     if (preferences.get("sliceLayerOrder") == "0") {
                         var newGroup;
                         if (version >= 84) {
-                            newGroup = MSLayerGroup.groupWithLayers([slice, layer]);
+                            newGroup = compatibility.groupWithLayers([slice, layer]);
                         } else if (version >= 83) {
                             var layerArray = MSLayerArray.arrayWithLayers([slice, layer]);
-                            newGroup = MSLayerGroup.groupWithLayers(layerArray.layers());
+                            newGroup = compatibility.groupWithLayers(layerArray.layers());
                         } else {
                             var layerArray = MSLayerArray.arrayWithLayers([slice, layer]);
-                            newGroup = MSLayerGroup.groupWithLayers(layerArray);
+                            newGroup = compatibility.groupWithLayers(layerArray);
                         }
                         newGroup.setName(layer.name());
                         slice.exportOptions().setLayerOptions(2);
                     } else if (preferences.get("sliceLayerOrder") == "1") {
                         var newGroup;
                         if (version >= 84) {
-                            newGroup = MSLayerGroup.groupWithLayers([layer, slice]);
+                            newGroup = compatibility.groupWithLayers([layer, slice]);
                         } else if (version >= 83) {
                             var layerArray = MSLayerArray.arrayWithLayers([layer, slice]);
-                            newGroup = MSLayerGroup.groupWithLayers(layerArray.layers());
+                            newGroup = compatibility.groupWithLayers(layerArray.layers());
                         } else {
                             var layerArray = MSLayerArray.arrayWithLayers([layer, slice]);
-                            newGroup = MSLayerGroup.groupWithLayers(layerArray);
+                            newGroup = compatibility.groupWithLayers(layerArray);
                         }
                         newGroup.setName(layer.name());
                         slice.exportOptions().setLayerOptions(2);
@@ -184,7 +186,7 @@ var onRun = function(context) {
                 slice.setName(layerName);
             }
 
-            if (slice.parentGroup().class() == "MSLayerGroup") {
+            if (compatibility.isGroup(slice.parentGroup())) {
                 slice.exportOptions().setLayerOptions(2);
             }
 
@@ -193,7 +195,7 @@ var onRun = function(context) {
 
         document.currentPage().changeSelectionBySelectingLayers(allSlices);
 
-        document.reloadInspector();
+        compatibility.refreshInspector(document);
 
     }
 

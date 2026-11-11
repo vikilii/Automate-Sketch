@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
 
     var ga = require("../modules/Google_Analytics");
@@ -10,11 +11,11 @@ var onRun = function(context) {
 
     document.pages().forEach(function(page) {
 
-        page.artboards().forEach(function(artboard) {
-            artboard.children().forEach(function(child) {
+        compatibility.artboards(page).forEach(function(artboard) {
+            compatibility.descendants(artboard).forEach(function(child) {
                 if (
                     child.class() == "MSSliceLayer" ||
-                    child.class() == "MSLayerGroup" ||
+                    compatibility.isGroup(child) ||
                     child.class() == "MSShapeGroup" ||
                     child.class() == "MSRectangleShape" ||
                     child.class() == "MSOvalShape" ||

@@ -1,3 +1,4 @@
+var compatibility = require("../modules/Compatibility");
 var onRun = function(context) {
     var ga = require("../modules/Google_Analytics");
     ga("Layer");
@@ -10,7 +11,7 @@ var onRun = function(context) {
     var count = 0;
     if (selectedLayers.length == 0) {
         // Show all layers in current page.
-        var allChildren = util.toArray(document.selectedPage.sketchObject.children()); //);
+        var allChildren = util.toArray(compatibility.descendants(document.selectedPage.sketchObject)); //);
         allChildren.forEach(function(layer) {
             if (!layer.isVisible()) {
                 layer.setIsVisible(true);
@@ -27,7 +28,7 @@ var onRun = function(context) {
         var allChildren = [];
         selectedLayers.forEach(function(layer) {
             allChildren = allChildren.concat(
-                util.toArray(layer.sketchObject.children())
+                util.toArray(compatibility.descendants(layer.sketchObject))
             );
         });
         allChildren.forEach(function(layer) {
